@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "YeuCauRT";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+    String accname = Session["id"].ToString();
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    MXHvaQLKOL.Models.AccKOL kol = db.AccKOLs.Where(x => x.AccName == accname).FirstOrDefault();
+    List<MXHvaQLKOL.Models.RutTienKOL> l_ruttien = db.RutTienKOLs.Where(x => x.AccName == accname).OrderByDescending(x => x.ThoiGian).ToList();
+}
+<div style="background-color:whitesmoke; width:100%;">
+    <div style="width:100%; display:flow;">
+        <div style="width:100%; display:flex; justify-content:center;text-align:center; padding-top: 20px;">
+            <h2>YÊU CẦU RÚT TIỀN KOL</h2>
+        </div>
+        <div style="width:100%; display:flex; justify-content:center;text-align:center;">
+            <h3>Số dư: <strong>@kol.SoDu</strong> VNĐ</h3>
+        </div>
+    </div>
+    <div style="width:100%; display:flex; justify-content:center;text-align:center; padding:50px;">
+        <form method="post" action="~/KOL/YeuCauRT" style="width: 70%; display: flow; border: 1px solid black; background-color: white; padding-right: 50px;">
+            <div style="width:100%; display:flex; justify-content: center;font-size:30px; ">
+                Thông tin yêu cầu
+            </div>
+            <div style="width:100%; display:flex; justify-content: right; padding:10px; ">
+                Số tài khoản: <input type="text" id="stk" name="stk" style="width:70%; margin-left:20px;" />
+            </div>
+            <div style="width:100%; display:flex; justify-content: right; padding:10px;">
+                Tên chủ thẻ: <input type="text" id="tct" name="tct" style="width:70%; margin-left:20px;" />
+            </div>
+            <div style="width:100%; display:flex; justify-content: right; padding:10px;">
+                Ngân hàng: <input type="text" id="nh" name="nh" style="width:70%; margin-left:20px;" />
+            </div>
+            <div style="width:100%; display:flex; justify-content: right; padding:10px;">
+                Số tiền: <input type="text" id="st" name="st" style="width:70%; margin-left:20px;" />
+            </div>
+            <div style="width:100%; display:flex; justify-content: center;font-size:15px; ">
+                <input onclick="alert('Thành công!');" type="submit" value="Gửi yêu cầu" />
+            </div>
+            <div style="width:100%; height:15px;"></div>
+        </form>
+    </div>
+    <div style="width:100%; height:10px;"></div>
+    <div style="width:100%; font-size:30px; display:flex; justify-content:center; text-align:center;">
+        Các yêu cầu đã tạo
+    </div>
+    <div style="width:100%; justify-content:center; display:flex; ">
+        <div style="width:80%;">
+            <table style="width:100%; border:1px solid black;">
+                <tr style=" border:1px solid black;">
+                    <th style="text-align: center; border: 1px solid black;">Mã</th>
+                    <th style="text-align: center; border: 1px solid black;">Số tài khoản</th>
+                    <th style="text-align: center; border: 1px solid black;">Ngân hàng</th>
+                    <th style="text-align: center; border: 1px solid black;">Tên chủ thẻ</th>
+                    <th style="text-align: center; border: 1px solid black;">Số tiền</th>
+                    <th style="text-align: center; border: 1px solid black;">Thời gian</th>
+                    <th style="text-align: center; border: 1px solid black;">Tình trạng</th>
+                </tr>
+                @foreach (var c in l_ruttien)
+                {
+                    <tr style=" border:1px solid black;">
+                        <td style="text-align: center; border: 1px solid black;">@c.ma</td>
+                        <td style="text-align: center; border: 1px solid black;">@c.SoTK</td>
+                        <td style="text-align: center; border: 1px solid black;">@c.NganHang</td>
+                        <td style="text-align: center; border: 1px solid black; ">@c.TenChuThe</td>
+                        <td style="text-align: center; border: 1px solid black;">@c.SoTien VNĐ</td>
+                        <td style="text-align: center; border: 1px solid black;">@c.ThoiGian.Value.Day/@c.ThoiGian.Value.Month/@c.ThoiGian.Value.Year</td>
+                        @if (c.TinhTrang == 1)
+                        {
+                            <td style="text-align: center; border: 1px solid black;">Đã duyệt</td>
+                        }
+                        else
+                        {
+                            <td style="text-align: center; border: 1px solid black;">Chờ duyệt (<a href="~/KOL/XoaYC?id=@c.ma" >Xóa</a>)</td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+

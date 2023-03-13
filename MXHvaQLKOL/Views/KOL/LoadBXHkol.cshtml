@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccKOL>
+@{
+    ViewBag.Title = "LoadBXHkol";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+    int dem = 0;
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+}
+<link href="~/Context/css/bxhKOL.css" rel="stylesheet" />
+<div id="khungchua" style="background-color:white">
+    <div id="khungtieude"><h1>BẢNG XẾP HẠNG</h1></div>
+    <div style="width:100%; display:flex; justify-content:center; padding: 20px;">
+        <button onclick=" 
+                        document.getElementById('chualinhvuc').style.display = 'flex';
+                        document.getElementById('chualinhvuc2').style.display = 'none';
+                        " style="margin-right: 15px; border-radius: 0.3em; padding: 0.4em; background-color: #fff2b2;border: 1.5px solid #ffb700 " class="nut">Xếp theo lượt follow</button>
+        <button onclick="
+                        document.getElementById('chualinhvuc').style.display = 'none';
+                        document.getElementById('chualinhvuc2').style.display = 'block';
+    " style="margin-right: 15px; border-radius: 0.3em; padding: 0.4em; background-color: #fff2b2; border: 1.5px solid #ffb700 " class="nut">Xếp theo số hợp đồng</button>
+    </div>
+    <div id="chualinhvuc" style="justify-content: space-evenly;">
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=All" style="color:white">Bảng tổng</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=AN" style="color:white">Âm nhạc</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=AT" style="color:white">Ẩm thực</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=MP" style="color:white">Mỹ phẩm</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=TM" style="color:white">Thương mại</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=TT" style="color:white">Thể thao</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em;"><a href="~/KOL/LoadBXHkol?linhvuc=TTr" style="color:white">Thời trang</a></button>
+    </div>
+    <div id="chualinhvuc2" >
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=All&thoigian=shd" style="color:white">Bảng tổng</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=AN&thoigian=shd" style="color:white">Âm nhạc</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=AT&thoigian=shd" style="color:white">Ẩm thực</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=MP&thoigian=shd" style="color:white">Mỹ phẩm</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=TM&thoigian=shd" style="color:white">Thương mại</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=TT&thoigian=shd" style="color:white">Thể thao</a></button>
+        <button class="linhvuc" style="border: none; background-color: #002B4E; padding: 0.4em; border-radius: 0.3em; "><a href="~/KOL/LoadBXHkol?linhvuc=TTr&thoigian=shd" style="color:white">Thời trang</a></button>
+    </div>
+    <div id="khungnoidung" style="width:100%;padding:1%">
+        <table style="width:100%;">
+            <tr style="background-color: #002B4E;color:white">
+                <th style="width:15%" >Hạng</th>
+                <th style="width:20%">Avatar</th>
+                <th style="width:25%">Tên người dùng</th>
+                <th>Lượt follow</th>
+                <th>Số hợp đồng</th>
+                <th></th>
+            </tr>
+            @foreach (var c in Model)
+            {
+                dem++;
+                <tr>
+                    <td style="text-align:center;">
+                        @if (dem == 1)
+                        {
+                            <img class="anhhang" src="https://i.imgur.com/suOhc6w.png" />
+                        }
+                        else if (dem == 2)
+                        {
+                            <img class="anhhang" src="https://i.imgur.com/3d3MTt8.png" />
+                        }
+                        else if (dem == 3)
+                        {
+                            <img class="anhhang" src="https://i.imgur.com/UO8tv1R.png" />
+                        }
+                        else
+                        {
+                            <span>@dem</span>
+                        }
+                    </td>
+                    <td style="display:flex; justify-content:center; justify-items:center;">
+                        @if (c.Avatar == null)
+                        {
+                            <img class="avatar" src="https://i.imgur.com/bRJdUtb.jpg" />
+                        }
+                        else
+                        {
+                            String srcavt = bbi.ByteToString(c.Avatar);
+                            <img class="avatar" src="@srcavt" />
+                        }
+                    </td>
+                    <td>@c.UserName</td>
+                    <td style="text-align:center;">@c.Follows.Count</td>
+                    <td style="text-align:center;">@c.HopDongs.Count</td>
+                    <td style="text-align:center;"><a href="~/KOL/KOLxemHoSoKOL?idkol=@c.AccName">Xem chi tiết</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<script src="~/Context/js/bxhKOL.js"></script>

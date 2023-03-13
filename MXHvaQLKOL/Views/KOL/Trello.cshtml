@@ -1,0 +1,331 @@
+﻿
+@{
+    ViewBag.Title = "Trello2";
+    Layout = "~/Views/Layout/_LayoutTrello.cshtml";
+}
+@using MXHvaQLKOL.Models
+@{
+    String Accname = "nthien.truong.qk206@gmail.com";//Session["id"].ToString();
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    AccKOL kol = db.AccKOLs.Where(x => x.AccName == Accname).FirstOrDefault();
+    List<ThoiGianBieu> tgb0 = db.ThoiGianBieux.Where(x => x.TrangThai == 0).ToList();
+    String dkhd = "0";
+    if (Session["loadlopphu"] != null && Session["loadlopphu"].ToString() == "1")
+    { dkhd = "1"; }
+
+}
+<div id="noidung">
+    <div style="margin-top:10px;">
+        <ul class="menu2" style="width:100%;">
+            <li><input id="sr2" style="width:100%;" type="text" placeholder="Search " /></li>
+            <li><a>Tìm kiếm</a></li>
+        </ul>
+    </div>
+
+    <div id="c1" class="cot2">
+        <div class="daucot">
+            <div id="mau" style="background-color: #9b5de5;"></div>
+            <div class="daudong">TO DO </div>
+            <p class="sl" id="sl1"></p>
+            <div class="pd">
+                <i class="bi bi-three-dots" style="font-size: 20px;"></i>
+                <i class="bi bi-plus" style="font-size: 20px;"></i>
+            </div>
+        </div>
+        <div style="display:none;" class="ip-task" id="ip1">
+            <form method="post" action="Trello">
+                <button class="cl_ip" id="cl1"><i class="bi bi-x-lg"></i></button>
+                <input type="text" placeholder="Nội dung...." class="nd" name="workname" />
+                <i class="bi bi-flag-fill"></i>
+                <i class="bi bi-paperclip"></i>
+                <i class="bi bi-alarm"></i>
+                <button type="submit" class="btn-add1">ADD</button>
+            </form>
+        </div>
+        <button class="newtask" id="nt1">
+            <i class="bi bi-plus"></i> NEW TASK
+        </button>
+        @foreach (var item in tgb0)
+        {
+            <div style="display:none;">
+                @{
+
+
+                    List<minitask> mini = db.minitasks.Where(x => x.mavc == item.id).ToList();
+                    int i = mini.Where(x => x.trangthai == 1).Count();
+                    string phantram = i + "/" + mini.Count();
+                    string ngaycon = "";
+                    DateTime dt = new DateTime(2001, 06, 20);
+                    Random random = new Random();
+                    int soid = random.Next(9999 - (10 - 1)) + 10;
+
+                }
+                @if (item.ThoiGian.Value.Day != dt.Day && item.ThoiGian.Value.Month != dt.Month && item.ThoiGian.Value.Year != dt.Year)
+                {
+                    ngaycon = (item.ThoiGian.Value.DayOfYear - DateTime.Now.DayOfYear) + "ngày";
+                    dt = item.ThoiGian.Value;
+                }
+            </div>
+            @*<input id="momini" type="text" value="1" />*@
+            <div id="@soid" class="minitask" draggable="true" ondragstart="drag(event)" onclick="napdata(@item.id)">
+                <!-- soid  -->
+                <input id="iddeload" value="@item.id" style="display:none;" />
+                <div style="display:none">
+                    <input id="ngay_@soid" value="@dt.Day/@dt.Month/@dt.Year" />
+                    <input id="mota_@soid" value="@item.Ghichu" />
+                </div>
+                <img class="anhtask"
+                     src="https://i.imgur.com/cxCx6Rv.jpg" style="display: block;">
+                <p id="tdp_@soid" class="tdp">@item.TieuDePhu</p>
+                <p id="td_@soid" style="border: none;">
+                    @item.WorkName<button class="delete" style="display: none;">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </p><i class="bi bi-list-ul"
+                       style="float:left; font-size:1.3em;margin-left: 1em;"></i><i class="bi bi-link-45deg"
+                                                                                    style="float:left;font-size:1.3em;margin-left: 1em;"></i><i class="bi bi-alarm"
+                                                                                                                                                style="float:left;font-size:1.3em;margin-left: 1em; margin-right: 1em;"></i><label id="nc_@soid" style="color: red;">
+                    còn: @ngaycon
+                </label>
+                <div id="tg_@soid" class="luungay" style="display: none;">@item.ThoiGian</div>
+                <div id="pt_@soid" class="luupt" style="display: none;">@phantram đasa</div>
+                <div id="lcl_@soid" class="luucl" style="display: none;">
+
+                    @phantram sadsadsa
+                </div>
+            </div>
+        }
+
+        <div style="display:none;">
+            <form method="post" action="loadlopphu">
+                <input type="text" name="macv" id="macvloadlp" />
+                <input type="text" name="hanhdong" id="hanhdonglp" value="0" />
+                <input type="submit" id="subloadlopphu" />
+            </form>
+        </div>
+        <div id="phantudiv1" style="padding-bottom: 32px;margin-top: 4em;" ondrop="drop(event)" ondragover="allowDrop(event)">
+        </div>
+
+    </div>
+    <div class="cot2" id="div2">
+        <div class="daucot">
+            <div id="mau" style="background-color: #00bbf9;"></div>
+            <div class="daudong">
+                IN WORK
+            </div>
+            <p class="sl" id="sl2"></p>
+            <div class="pd">
+                <i class="bi bi-three-dots" style="font-size: 20px;"></i>
+                <i class="bi bi-plus" style="font-size: 20px;"></i>
+            </div>
+        </div>
+
+        <div style="display:none;" class="ip-task" id="ip2">
+            <button class="cl_ip" id="cl2"><i class="bi bi-x-lg"></i></button>
+            <input type="text" placeholder="Nội dung...." class="nd" name="ndtask4">
+            <i class="bi bi-flag-fill"></i>
+            <i class="bi bi-paperclip"></i>
+            <i class="bi bi-alarm"></i>
+            <button class="btn-add2">ADD</button>
+        </div>
+        <button class="newtask" id="nt2">
+            <i class="bi bi-plus"></i> NEW TASK
+        </button>
+        <div id="phantudiv2" style="padding-bottom: 32px;margin-top: 4em;" ondrop="drop(event)" ondragover="allowDrop(event)">
+        </div>
+    </div>
+    <div id="c3" class="cot2">
+        <div class="daucot">
+            <div id="mau" style="background-color: #fee440;"></div>
+            <div class="daudong">
+                REVIEW
+
+            </div>
+            <p class="sl" id="sl3"></p>
+            <div class="pd">
+                <i class="bi bi-three-dots" style="font-size: 20px;"></i>
+                <i class="bi bi-plus" style="font-size: 20px;"></i>
+            </div>
+        </div>
+
+        <div style="display:none;" class="ip-task" id="ip3">
+            <button class="cl_ip" id="cl3"><i class="bi bi-x-lg"></i></button>
+            <input type="text" placeholder="Nội dung...." class="nd" name="ndtask4">
+            <i class="bi bi-flag-fill"></i>
+            <i class="bi bi-paperclip"></i>
+            <i class="bi bi-alarm"></i>
+            <button class="btn-add3">ADD</button>
+        </div>
+        <button class="newtask" id="nt3">
+            <i class="bi bi-plus"></i> NEW TASK
+        </button>
+        <div id="phantudiv3" style="padding-bottom: 32px;margin-top: 4em;" ondrop="drop(event)" ondragover="allowDrop(event)">
+        </div>
+    </div>
+    <div id="c4" class="cot2">
+        <div class="daucot">
+            <div id="mau" style="background-color: #38b000;"></div>
+            <div class="daudong">
+                DONE
+            </div>
+            <p class="sl" id="sl4"></p>
+            <div class="pd">
+                <i class="bi bi-three-dots" style="font-size: 20px;"></i>
+                <i class="bi bi-plus" style="font-size: 20px;"></i>
+            </div>
+        </div>
+
+        <div style="display:none;" class="ip-task" id="ip4">
+            <button class="cl_ip" id="cl4"><i class="bi bi-x-lg"></i></button>
+            <input type="text" placeholder="Nội dung...." class="nd" name="ndtask4">
+            <i class="bi bi-flag-fill"></i>
+            <i class="bi bi-paperclip"></i>
+            <i class="bi bi-alarm"></i>
+            <button class="btn-add4">ADD</button>
+        </div>
+        <button class="newtask" id="nt4">
+            <i class="bi bi-plus"></i> NEW TASK
+        </button>
+        <div id="phantudiv4" style="padding-bottom: 32px;margin-top: 4em;" ondrop="drop(event)" ondragover="allowDrop(event)">
+        </div>
+
+    </div>
+</div>
+@if (dkhd == "1")
+{
+    <input id="formloadlp" value="1" />
+}
+else
+{
+    <input id="formloadlp" value="0" />
+}
+
+@if (dkhd.Equals("1") == true)
+{
+    int manene = Convert.ToInt32(Session["macvload"].ToString());
+    ThoiGianBieu tg = db.ThoiGianBieux.Where(x => x.id == manene).FirstOrDefault();
+    List<minitask> lmmt = db.minitasks.Where(x => x.mavc == manene).ToList();
+    int dem = 0;
+    <div id="lopphu" style=" top: 0;">
+        <div class="mini">
+            <div id="anhbia">
+                <button id="menuanh"><i class="bi bi-image" style="margin-right:0.5em ;"></i>Cover</button>
+                <img id="anhmini" src="https://i.imgur.com/cxCx6Rv.jpg" />
+            </div>
+            <button id="close"><i class="bi bi-x-lg"></i></button>
+            <div style="width: 70%;height: 80%;float:left" id="div_6">
+                <div id="div_tieude">
+                    <p id="tieude"><i class="bi bi-bookmarks"></i></p>
+                    <button id="btn-suatd"><i class="bi bi-pencil"></i></button>
+                </div>
+                <div id="div_suatieude">
+                    <input type="text" placeholder="Tiêu đề" id="ip_tieude" name="ip_tieude" />
+                    <button id="suaxong"><i class="bi bi-check-circle" style="font-size: 1.3em;"></i></button>
+                    <div id="div_suatieude">
+                        <input type="text" placeholder="Tiêu đề" id="ip_tieude" name="ip_tieude" />
+                        <button id="suaxong"><i class="bi bi-check-circle" style="font-size: 1.3em;"></i></button>
+                    </div>
+                </div>
+                <div id="tieudephu">
+                    <br /><p style="margin-left: 2em;float: left;"><i class="bi bi-bookmark-star" style="margin-right: 0.5em;font-size:1.3em"></i>TIÊU ĐỀ PHỤ</p>
+                    <p class="tdphu"></p>
+                    <input type="text" name="ip_tdphu" id="ip_tdphu" placeholder="Nhập tiêu đề phụ..." />
+                    <button id="xong_tdphu"><i class="bi bi-check2-all" style="font-size: 1.2em;"></i></button>
+                </div>
+                <div id="ndmota">
+                    <br /><p style="margin-left: 2em;"><i class="bi bi-file-earmark-text" style="margin-right: 0.5em;font-size:1.3em"></i>MÔ TẢ</p>
+                    <p class="mota"></p>
+                </div>
+                <div id="chinhsua">
+                    <input id="ip_id_mota" type="text" placeholder="Nội dung...." class="ip_mota" name="ndmota" />
+                    <button id="xong"><i class="bi bi-check-circle-fill"></i></button>
+                </div>
+                <div>
+                    <p id="p_hoanthanh"><i class="bi bi-calendar-week" style="margin-right: 0.5em;font-size:1.3em"></i>NGÀY HOÀN THÀNH:</p>
+                    <p id="ngay">nhập ngày</p>
+                    <div id="nhapngay">
+                        <input type="date" id="ip_ngay" name="ip_ngay" placeholder="nhập" />
+                        <button id="xongngay"><i class="bi bi-check2-circle"></i></button>
+                    </div>
+                </div>
+                <div id="checklist">
+                    <div>
+                        <i class="bi bi-list-check" style="margin-right: 0.5em;font-size:1.3em"></i>
+                        CHECK LIST
+                        <button id="xoamuc">Xóa mục</button>
+                        <button id="xongmuc">Xong</button>
+                        <br />
+                    </div>
+
+                    <p id="phantram">0</p><i class="bi bi-percent" style="float: left;"></i>
+                    <div id="thanh">
+                        <div id="tiendo" style="width:0%"></div>
+                    </div>
+                    <div id="congviec">
+
+                        @foreach (var c in lmmt)
+                        {
+
+                            <div class="dexoa">
+                                <button class="xoa_muc" style="display:none" id="">Xóa</button>
+                                @if (c.trangthai == 1)
+                                {
+                                    dem++;
+                                    <input type="checkbox" class="checkcv" id="" style="float: left; margin-right: 1em;" checked>
+                                }
+                                else
+                                {
+                                    <input type="checkbox" class="checkcv" id="" style="float: left; margin-right: 1em;">
+                                }
+                                <p>@c.Noidung</p>
+                            </div>
+
+                        }
+                        <input value="@lmmt.Count" type="text" id="solist" style="display:none;"/>
+                        <input value="@dem" type="text" id="socheck" style="display:none;"/>
+                    </div>
+                    <div id="div_cl">
+                        <input type="text" id="ip_list" placeholder="nhập công việc" name="ip_list" /> <br />
+                        <button id="add_cv">Add</button> <button id="ok">Lưu</button> <button id="huy">Hủy</button>
+                    </div>
+                </div>
+            </div>
+            <div id="gr_nut">
+                <button id="btn1">Move</button>
+                <div id="div-move">
+                    <select id="move" name="trangthaihd">
+                        <option value="1">TO DO</option>
+                        <option value="2">IN WORK</option>
+                        <option value="3">REVIEW</option>
+                        <option value="4">DONE</option>
+                    </select>
+                    <button id="btn-move"><i class="bi bi-arrow-left-right" style="font-size:1.5em ;"></i></button>
+                </div>
+                <button id="btn7">Tiêu đề phụ</button>
+                <button id="btn2">Sửa mô tả</button>
+                <button id="btn6">Ngày hoàn thành</button>
+                <button id="btn4">Tạo checklist</button>
+                <button id="btn3">Xóa task</button>
+                <button id="btn5">Xóa checklist</button>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="popup-giua-man-hinh">
+    <div class="popUpBannerBox">
+        <div class="popUpBannerInner">
+            <div class="popUpBannerContent">
+                <div id="pp_xoa">
+                    <div id="p_hoi">Bạn chắc chắn muốn xóa công việc này ?</div>
+                    <div>
+                        <button id="co">Có</button>
+                        <button id="khong">Không</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Context/js/TrelloKOL.js"></script>
+

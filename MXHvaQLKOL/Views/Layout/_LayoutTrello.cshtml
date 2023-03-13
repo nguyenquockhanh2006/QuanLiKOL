@@ -1,0 +1,106 @@
+﻿
+@{
+    Layout = null;
+}
+
+@using MXHvaQLKOL.Models
+@{
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    List<ThoiGianBieu> tgb0 = db.ThoiGianBieux.Where(x => x.TrangThai == 0).ToList();
+    String Accname = "nthien.truong.qk206@gmail.com";//Session["id"].ToString();
+    AccKOL kol = db.AccKOLs.Where(x => x.AccName == Accname).FirstOrDefault();
+}
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Quản lý cá nhân</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="~/Context/css/TrelloKOL.css" rel="stylesheet" />
+
+</head>
+<body style="background-color: #e9ecef;">
+    <div class="header" id="header">
+        <ul class="main-menu">
+            <li><a href="">Về trang chủ  </a></li>
+            <li><a href="">Tải lại trang    </a></li>
+            <li><a href="">Các ảnh đã tải lên     </a></li>
+            <li><a href="">Quản lí bài viết        </a></li>
+            <li><a href="">Hồ sơ cá nhân  </a></li>
+            <li><a href="">Hợp đồng     </a></li>
+        </ul>
+        <i class="bi bi-search"></i>
+        <input id="sr" type="text" placeholder="Search Products, Orders and Clients" />
+        <i class="bi bi-person-circle"></i>
+        <label id="lb1"> Clayton Santos</label>
+        <i class="bi bi-bell-fill"></i>
+        <button id="ic-close"><i class="bi bi-x-circle-fill"></i></button>
+    </div>
+    <div id="ic">
+        <ul class="ic-menu">
+            <button id="icmenu"> <i class="bi bi-list"></i> </button>
+            <li><i class="bi bi-compass" style="font-size: 20px;"></i></li>
+            <li><i class="bi bi-bar-chart-line-fill" style="font-size: 20px;"></i></li>
+        </ul>
+    </div>
+    <div id="thongtin">
+        <div id="khunghinh">
+            <img id="avt" src="https://i.imgur.com/vtK7rwX.jpg" />
+        </div>
+        <p id="gt">Hello @kol.UserName     </p>
+        <p id="mail">@kol.Gmail </p>
+        <div>
+            <div class="item">
+                <div class="item1">
+                    <i class="bi bi-dash-square"></i>
+                    <p>Trởi lại trang chủ</p>
+                </div>
+                <div class="item1">
+                    <i class="bi bi-list-task"></i>
+                    <p>Công việc</p>
+                </div>
+                <div class="item1">
+                    <i class="bi bi-envelope"></i>
+                    <p>Email</p>
+                </div>
+                <div class="item1">
+                    <i class="bi bi-calendar"></i>
+                    <p>Bài đăng</p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="item2">
+                    <i class="bi bi-journal-check"></i>
+                    <p>Notes</p>
+                </div>
+                <div class="item2">
+                    <i class="bi bi-cloud-fill"></i>
+                    <p>Ảnh đã đăng</p>
+                </div>
+                <div class="item2">
+                    <i class="bi bi-people-fill"></i>
+                    <p>Đang follow</p>
+                </div>
+                <div class="item2">
+                    <i class="bi bi-gear"></i>
+                    <p>Chỉnh sửa hồ sơ</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @RenderBody()
+    
+</body>
+</html>
+
+

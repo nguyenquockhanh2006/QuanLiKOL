@@ -1,0 +1,222 @@
+﻿@using MXHvaQLKOL.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_LayoutKH.cshtml";
+    //Session["id"] = "KhachHangTest1";
+    String cachload = Session["load"].ToString();
+    String accname = Session["id"].ToString();
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    List<BaiDangKOL> bdkol = new List<BaiDangKOL>();
+
+    List<LVKH> lvkh = db.LVKHs.Where(x => x.accname == accname).ToList();
+
+    if (cachload == "mot")
+    {
+        List<Follow> lfl = db.Follows.Where(x => x.AccFl == accname).ToList();
+        foreach(var c in lfl)
+        {
+            List<BaiDangKOL> lbdkoltemp = db.BaiDangKOLs.Where(x => x.AccName == c.AccDuocFl).ToList();
+            if(lbdkoltemp.Count > 0)
+            {
+                foreach(var a in lbdkoltemp)
+                {
+                    bdkol.Add(a);
+                }
+            }
+        }
+    }
+    else
+    {
+        List<BaiDangKOL> lbdkoltemp = db.BaiDangKOLs.ToList();
+        bdkol = lbdkoltemp;
+    }
+
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    List<BaiDangAdmin> l_bdad = db.BaiDangAdmins.ToList();
+    int dem = 0;
+
+}
+<link href="~/Context/css/trangchukhach.css" rel="stylesheet" />
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" defer>
+</script>
+<script src="~/Context/js/hddaki.js" defer></script>
+<script type="text/javascript">
+    function chooseFile(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                document.getElementById('srcanhbv').value = dataUrl;
+                document.getElementById('anhdangne').src = dataUrl;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+</script>
+<div style="display:none;">
+    @{
+        int nam = DateTime.Now.Year;
+        List<HopDong> lhd = db.HopDongs.Where(x => x.NgayKi.Value.Year == nam).ToList();
+        MXHvaQLKOL.Context.supportClass.BieuDoDuongSL bdsl = new MXHvaQLKOL.Context.supportClass.BieuDoDuongSL(lhd);
+        <input type="text" id="thang1" value="@bdsl.T1" />
+        <input type="text" id="thang2" value="@bdsl.T2" />
+        <input type="text" id="thang3" value="@bdsl.T3" />
+        <input type="text" id="thang4" value="@bdsl.T4" />
+        <input type="text" id="thang5" value="@bdsl.T5" />
+        <input type="text" id="thang6" value="@bdsl.T6" />
+        <input type="text" id="thang7" value="@bdsl.T7" />
+        <input type="text" id="thang8" value="@bdsl.T8" />
+        <input type="text" id="thang9" value="@bdsl.T9" />
+        <input type="text" id="thang10" value="@bdsl.T10" />
+        <input type="text" id="thang11" value="@bdsl.T11" />
+        <input type="text" id="thang12" value="@bdsl.T12" />
+    }
+</div>
+<div style="width:100%;height:100%;display:flex; position:relative;">
+    <div id="dangbaihd" style="width: 100%; height: 100%; display: flex;z-index:10; position: absolute; background-color:rgba(0,0,0,0.2); display:none;">
+        <form method="post" action="~/KhachHang/DangBaiKhach" style="width:40%; height:50%; margin-top:10%; margin-left:30%; background-color:white;">
+            <div style="width: 100%; display: flex; justify-content: center; padding: 10px;">
+                Ảnh: <button onclick="document.getElementById('ipFile').click(); event.preventDefault();">Chọn ảnh</button> <input hidden type="file" id="ipFile" onchange="chooseFile(this);" /> <input hidden type="text" name="srcanhbv" id="srcanhbv" />
+            </div>
+            <div style="width: 100%; display: flex; justify-content: center; padding: 10px;">
+                <img id="anhdangne" style="width: 150px; height: 150px; " />
+            </div>
+            <div style="width: 100%; display: flex; justify-content: center; padding: 10px; ">
+                Lĩnh vực
+                <select name="linhvuc" id="cars" style="width:75%; margin-left:15px; ">
+                    <option value="AN">Âm nhạc</option>
+                    <option value="AT">Ẩm thực</option>
+                    <option value="MP">Mỹ phẩm</option>
+                    <option value="TM">Thương mại điện tử</option>
+                    <option value="TT">Thể thao</option>
+                    <option value="TTr">Thời trang</option>
+                </select>
+            </div>
+            <div style="width: 100%; display: flex; justify-content: center; padding: 10px;">
+                Nội dung: <input style="width:75%; margin-left:18px; " name="noidung" />
+            </div>
+            <div style="width:100%; display:flex; justify-content:center;">
+                <button style="width:130px; ">
+                    Xác nhận
+                </button>
+                <div style="width:30px;"></div>
+                <button style="width:130px; " onclick="document.getElementById('dangbaihd').style.display = 'none'; event.preventDefault();">
+                    Hủy
+                </button>
+            </div>
+        </form>
+    </div>
+    <div style="width: 35%; height: 670px; display: flow; justify-content: center; overflow: auto;">
+        <div style="width: 100%; height: auto; padding: 20px;">
+            <div style="width:100%; font-size:30px; font-weight:bold; text-align:center;">BẢNG GIÁ KOL</div>
+            <img src="https://i.imgur.com/i2IMgpZ.png" style="width:100%" />
+        </div>
+        <br />
+        <div style="width:100%; font-size:30px; font-weight:bold; text-align:center;">SỐ HỢP ĐỒNG KÍ KẾT ĐƯỢC TRONG NĂM @DateTime.Now.Year</div>
+        <div id="myChart" onload="drawChart();" style="width: 90%; height: auto; float: left; margin-left:5%"></div>
+        <div style="width:100%; font-size:30px; font-weight:bold; text-align:center; margin-top:20px;">THÔNG BÁO CỦA WEBSITE</div>
+        <div style="width:100%; height:600px; overflow:auto; padding:20px; display:flow;">
+            @foreach (var c in l_bdad)
+            {
+                <div style="width:100%; height: 400px; display:flex; justify-content:center;">
+                    <div style="width:80%; height:100%; display:flow;">
+                        @{
+                            String srcanhbvad = bbi.ByteToString(c.Anh);
+                        }
+                        <img style="width:100%; height:80%" src="@srcanhbvad" />
+                        <div style="width:100%; height:20%; overflow:auto;">
+                            <strong>@c.TieuDe</strong><hr />
+                            @c.NoiDung
+                        </div>
+                    </div>
+                </div>
+                <br />
+                dem++;
+                if (dem == 2)
+                {
+                    break;
+                }
+            }
+        </div>
+    </div>
+    <div style="width: 65%; height: 670px; ">
+        <hr />
+        <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center;">
+            Chế độ xem:
+            <button onclick="document.getElementById('loadcdx1').click();" style="margin-left:30px; margin-right:10px;width:120px;">Đang theo dõi</button><a id="loadcdx1" href="~/KhachHang/Index"></a>
+            <button onclick="document.getElementById('loadcdx2').click();" style="margin-left: 10px;    width: 120px;">dành cho bạn</button><a id="loadcdx2" href="~/KhachHang/Index?cachload=dsdsds"></a>
+        </div>
+        <hr />
+        <div style="width:100%; display:flex; justify-content:center;">
+            <button onclick="document.getElementById('dangbaihd').style.display = 'block';">Đăng bài</button>
+        </div>
+        <div style="width: 100%; height: 640px; overflow: auto; ">
+            <div id="baiviet">
+                @foreach (var c in bdkol)
+                {
+                    String acc = c.AccName;
+                    MXHvaQLKOL.Models.AccKOL kol = db.AccKOLs.Where(x => x.AccName == acc).FirstOrDefault();
+                    <div class="khungdang">
+                        <div class="khungttnd">
+                            @if (kol.Avatar != null)
+                            {
+                                String srcanhavt = bbi.ByteToString(kol.Avatar);
+                                <img class="anhavt" src="@srcanhavt" />
+                            }
+                            <div class="tennguoidang">@kol.UserName</div>
+                        </div>
+                        <div class="khungtt">
+                            <div class="khungnoidung">
+                                @c.Noidung
+                            </div>
+                            <div class="khunganh">
+                                @if (c.anh != null)
+                                {
+                                    String srcanh = bbi.ByteToString(c.anh);
+                                    <img height="350" width="350" style="width: 350px; height: 350px; margin-top: 20px; box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;" src="@srcanh" />
+                                }
+                            </div>
+                        </div>
+                        <div class="khungbutton">
+                            @{
+                                LuotThichBvKOL like = db.LuotThichBvKOLs.Where(x => x.MaBaiDang == c.MaBaiDang && x.AccLiked == accname).FirstOrDefault();
+                                Follow fl = db.Follows.Where(x => x.AccDuocFl == c.AccName && x.AccFl == accname).FirstOrDefault();
+                            }
+                            @if (like == null)
+                            {
+                                <button class="button-60" role="button" style="background-color:green; font-weight:bold; color:white;"><a style="color: white;" href="~/KhachHang/Likebvkol?id=@c.MaBaiDang">Like</a></button>
+                            }
+                            else
+                            {
+                                <button class="button-60" role="button" style="background-color: red; font-weight: bold; "><a style="color: white;" href="~/KhachHang/Likebvkol?id=@c.MaBaiDang">Unlike</a></button>
+                            }
+
+                            @if (fl == null)
+                            {
+                                <button class="button-60" role="button" style="background-color: deepskyblue; font-weight: bold; color: white;"><a style="color: white;" href="~/KhachHang/FollowTim?id=@c.AccName&trangload=Index">Theo dõi KOL</a></button>
+                            }
+                            else
+                            {
+                                <button class="button-60" role="button" style="background-color: red; font-weight: bold; color: white;"><a style="color: white;" href="~/KhachHang/FollowTim?id=@c.AccName&trangload=Index">Bỏ theo dõi</a></button>
+                            }
+                            <button class="button-60" role="button" style="font-weight: bold;">Book KOL</button>
+                        </div>
+
+                    </div><hr />
+                }
+                <div style="width:100%; height:70px;">
+
+                </div>
+            </div>
+        </div>
+        <div style="width:100%; height:50px;">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+

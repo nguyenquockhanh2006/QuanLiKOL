@@ -1,0 +1,38 @@
+﻿@using MXHvaQLKOL.Models;
+@{
+    ViewBag.Title = "LoadQLBV";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+}
+
+@{
+    //Session["id"] = "nthien.truong.qk206@gmail.com";
+    String accname = Session["id"].ToString();
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    AccKOL akol = db.AccKOLs.Where(x => x.AccName == accname).FirstOrDefault();
+    List<BaiDangKOL> l_bdKOL = akol.BaiDangKOLs.ToList();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+}
+<div style="width:100%; height: 100%; overflow:auto; padding: 20px;">
+    @foreach (var c in l_bdKOL)
+    {
+        String srcanh = bbi.ByteToString(c.anh);
+        <div style="width:31%; display:flow; height:55%; background-color:#fae8c5; margin:1%; float:left; padding:5px;">
+            <div style="width:100%; justify-content:center; justify-items:center; text-align:center;">
+                <svg onclick="document.getElementById('xoa_@c.MaBaiDang').click();" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                </svg>
+                <a id="xoa_@c.MaBaiDang" href="~/KOL/XoaBVKOL?id=@c.MaBaiDang"></a>
+            </div>
+            <div style="width:100%; font-size:18px; font-weight:bold; text-align:center; background-color:aliceblue;">
+                @c.ngaydang.Value.Day/@c.ngaydang.Value.Month/@c.ngaydang.Value.Year - @c.LuotThichBvKOLs.Count() Lượt thích
+            </div>
+            <div style="width:100%; height:65%; margin-top:3px; justify-content:center; justify-items:center; text-align:center;">
+                <img style="width:85%; height:100%;" src="@srcanh" />
+            </div>
+            <div style="width: 100%; height: 20%; background-color: aliceblue;overflow:auto; margin-top:5px; ">
+                @c.Noidung
+            </div>
+        </div>
+    }
+</div>
+

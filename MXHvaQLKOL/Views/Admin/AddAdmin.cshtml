@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "AddAdmin";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+}
+<h2> >>>Tạo tài khoản Admin</h2>
+<hr />
+<div style="width:100%; height:600px; display:flex; justify-content:center; justify-items:center; text-align:center; margin-top:20px; ">
+    <div style="width:60%; height:350px; border: 1px solid black; padding:10px; margin-top:70px;">
+        <form style="width:100%; height:100%; display:flow;" method="post" action="AddAdmin">
+            <input style="width:100%; margin:5px;" type="text" name="accname" placeholder="Tên tài khoản" />
+            <input style="width: 100%; margin: 5px;" type="text" name="pass" placeholder="Mật khẩu" />
+            <input style="width: 100%; margin: 5px;" type="text" name="usename" placeholder="Tên người dùng" />
+            <input style="width: 100%; margin: 5px;" type="text" name="name" placeholder="Tên khai sinh" />
+            <input style="width: 100%; margin: 5px;" type="text" name="birthday" placeholder="Ngày sinh (yyyy-MM-dd)" />
+            <input style="width: 100%; margin: 5px;" type="text" name="address" placeholder="Địa chỉ" />
+            <input style="width: 100%; margin: 5px;" type="text" name="phonenumber" placeholder="Số điện thoại" />
+            <div style="width: 100%; display: flex; justify-content: center; justify-items: center; text-align: center; ">
+                <input type="submit" value="Đăng kí" onclick="alert('Đăng kí thành công!')" />
+            </div>
+        </form>
+    </div>
+</div>
+

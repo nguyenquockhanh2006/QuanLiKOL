@@ -1,0 +1,329 @@
+﻿@{
+    ViewBag.Title = "LoadBXHkol";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+    //Session["id"] = "nthien.truong.qk206@gmail.com";
+    String accname = Session["id"].ToString();
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    MXHvaQLKOL.Models.AccKOL akol = db.AccKOLs.Where(x => x.AccName == accname).FirstOrDefault();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    List<MXHvaQLKOL.Models.AnhDang> lad = db.AnhDangs.Where(x => x.AccName == accname).ToList();
+    Session["hanhdong"] = "thaydoihoso";
+}
+<script src="~/Context/js/smtp.js" defer></script>
+<script type="text/javascript">
+    const getRandomIntInclusive = (min, max) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    function chooseFile(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                console.log(dataUrl);
+                document.getElementById('anhsrc2').value = dataUrl;
+                document.getElementById('img-preview').src = dataUrl;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+
+    function Laymadoimail() {
+        var gmai = document.getElementById('gmaildoi').value;
+        var maso = getRandomIntInclusive(111111, 999999);
+        document.getElementById('maXNhan').value = maso;
+        Email.send({
+            Host: "smtp.elasticemail.com",
+            Username: "nthien.truong.qk206@gmail.com",
+            Password: "76237C893DCC260AB2E6F655E20295C6FAF4",
+            To: gmai,
+            From: "nthien.truong.qk206@gmail.com",
+            Subject: "Đổi thông tin xác nhận tài khoản",
+            Body: "Mã xác nhận là: " + maso
+        }).then(
+            message => alert('Mã xác nhận đã được gửi đi, vui lòng kiểm tra và nhập chính xác')
+        );
+        event.preventDefault();
+    }
+    function XacNhanMa() {
+        var mahethong = document.getElementById('maXNhan').value;
+        var maduocnap = document.getElementById('changeGmail').value;
+        if (mahethong != maduocnap) {
+            alert('Mã xác nhận không chính xác');
+            event.preventDefault();
+        }
+    }
+    function chooseCMNDmt(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                console.log(dataUrl);
+                document.getElementById('srcCMMT').value = dataUrl;
+                document.getElementById('anhcmndmattruoc').src = dataUrl;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+    function chooseCMNDms(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                console.log(dataUrl);
+                document.getElementById('srcCMMS').value = dataUrl;
+                document.getElementById('anhcmndmatsau').src = dataUrl;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+</script>
+<div style="width:100%; height:auto; display:flow; justify-content:center; overflow:auto;">
+    <div style="width:100%; display:flex; justify-content:center; text-align:center; margin-top:15px;">
+        <form style="width:100%; display:flow; justify-content:center; text-align:center;" method="post" action="LuuAVT">
+            <div style="width:100%; height:100%;">
+                @if (akol.Avatar == null)
+                {
+                    <img style="width:250px; height:250px; border-radius:50%;" id="img-preview" src="https://i.imgur.com/ur59GwR.jpg" />
+                }
+                else
+                {
+                    String srcanhavt = bbi.ByteToString(akol.Avatar);
+                    <img style="width:250px; height:250px; border-radius:50%;" id="img-preview" src="@srcanhavt" />
+                }
+            </div>
+            <div style="width: 100%; display: flex; justify-content: center;">
+                <input style="display:none;" accept="image/*" type="file" id="file-input" name="file" onchange="chooseFile(this);" />
+                <input style="display: none;" type="text" name="anhsrc" id="anhsrc2" />
+                <label for="file-input" id="chon" onclick="document.getElementById('luuavt').style.display = 'block';"><i class="bi bi-box-arrow-up"></i>Chọn ảnh</label>
+            </div>
+            <div style="width:100%; height:100%; display:none;" id="luuavt">
+                <button id="luu">Lưu</button>
+            </div>
+        </form>
+    </div>
+    <hr />
+    <div style="width:100%; display:flex; justify-content:center;">
+        <button onclick="
+    document.getElementById('thongtin').style.display = 'block';
+    document.getElementById('anhdang').style.display = 'none';
+    document.getElementById('baiviet2').style.display = 'none';
+    " style="width: 150px; margin: 10px;">
+            Thông tin
+        </button>
+        <button onclick="
+    document.getElementById('thongtin').style.display = 'none';
+    document.getElementById('anhdang').style.display = 'block';
+    document.getElementById('baiviet2').style.display = 'none';
+    " style="width: 150px; margin: 10px;">
+            Ảnh đã đăng
+        </button>
+        <button onclick="
+    document.getElementById('thongtin').style.display = 'none';
+    document.getElementById('anhdang').style.display = 'none';
+    document.getElementById('baiviet2').style.display = 'block';
+    " style="width: 150px; margin: 10px;">
+            Bài viết
+        </button>
+    </div>
+    <hr />
+    @{
+        //
+    }
+    <div id="thongtin" style="display:block;">
+        <div style="width:100%; padding-left:4%; padding-right:4%;">
+            <div style="border:1px solid black; display:flex;">
+                <div style="width:50%; display:flow; padding:15px; ">
+                    <div style="width:100%; font-size:25px; font-weight:bold; text-align:center;">
+                        Thông tin cá nhân
+                    </div>
+                    <form style="width:100%;" method="post" action="Luu">
+                        <div style="width:100%; display:flex; justify-content:right; margin-right:10px; margin-top:15px;">
+                            <p style="width:30%; text-align:right; margin-right:10px;">Tên tài khoản:</p>
+                            <input style="width:70%;" name="ip_tentk" value="@akol.UserName" />
+                        </div>
+                        <div style="width: 100%; display: flex; justify-content: right; margin-right: 10px; margin-top: 15px;">
+                            <p style="width:30%; text-align:right; margin-right:10px;">Họ và tên:</p>
+                            <input style="width:70%;" name="ip_hoten" value="@akol.Name" />
+                        </div>
+                        <div style="width: 100%; display: flex; justify-content: right; margin-right: 10px; margin-top: 15px;">
+                            <p style="width:30%; text-align:right; margin-right:10px;">Ngày sinh:</p>
+                            <input style="width:70%;" name="ip_ngaysinh" type="date" formaction="dd/MM/yyyy" value="@akol.BirthDay" />
+                        </div>
+                        <div style="width: 100%; display: flex; justify-content: right; margin-right: 10px; margin-top: 15px;">
+                            <p style="width:30%; text-align:right; margin-right:10px;">Giới tính:</p>
+                            @if (akol.GioiTinh != null)
+                            {
+                                <input style="width:70%;" name="ip_gioitinh" value="@akol.GioiTinh" />
+                            }
+                            else
+                            {
+                                <input style="width:70%;" name="ip_gioitinh" />
+                            }
+                        </div>
+                        <div style="width: 100%; display: flex; justify-content: right; margin-right: 10px; margin-top: 15px;">
+                            <p style="width:30%; text-align:right; margin-right:10px;">Email:</p>
+                            <input style="width:70%;" name="ip_email" disabled value="@akol.Gmail" />
+                        </div>
+                        <div style="width: 100%; display: flex; justify-content: right; margin-right: 10px; margin-top: 15px;">
+                            <p style="width:30%; text-align:right; margin-right:10px;">Địa chỉ:</p>
+                            <input style="width:70%;" name="ip_diachi" value="@akol.Address" />
+                        </div>
+                        <div style="width: 100%; display: flex; justify-content: right; margin-right: 10px; margin-top: 15px;">
+                            <p style="width:30%; text-align:right; margin-right:10px;">Số điện thoại:</p>
+                            <input style="width:70%;" name="ip_sdt" value="@akol.PhoneNumber" />
+                        </div>
+                        <div style="width: 100%; display: flex; justify-content: center; margin-top: 15px;">
+                            <button type="submit" id="save">Lưu mới thông tin</button>
+                        </div>
+                    </form>
+                </div>
+                <div style="width: 50%; display: flow; padding: 15px; ">
+                    <div style="width:100%; font-size:25px; font-weight:bold; text-align:center;">
+                        Thông tin xác thực
+                    </div>
+                    <div style="width:100%;">
+                        <form style="width:100%; display:flow;" method="post" action="LuuGmail">
+                            <div style="width: 100%; display: flex; justify-content: right; margin-right: 10px; margin-top: 15px;">
+                                <p style="width:30%; text-align:right; margin-right:10px;">Gmail:</p>
+                                <input style="width:70%;" id="gmaildoi" name="gmail" value="@akol.Gmail" />
+                            </div>
+                            <input style="width:100%; " type="text" id="maXNhan" hidden />
+                            <button style="width: 100%; margin-top: 15px;" onclick="document.getElementById('nhapmaxn').style.display = 'block'; Laymadoimail();">Đổi gmail</button>
+                            <div id="nhapmaxn" style="width:100%; display:none;">
+                                <div style="width:100%; display:flow; justify-content:center; justify-items:center; text-align:center;">
+                                    <input style="width:50%; text-align:center; " type="text" id="changeGmail" placeholder="Nhập mã xác nhận" />
+                                    <div style="width:100%; display:flex; justify-content:center;">
+                                        <button onclick="XacNhanMa();">
+                                            Xác nhận
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <hr />
+                    <div style="width:100%; font-size:20px; font-weight:bold; text-align:center;">
+                        Xác thực FACE ID
+                    </div>
+                    <div style="width:100%; font-size:20px; font-weight:bold; text-align:center;">
+                        Tồn tại @db.FaceIds.Where(x => x.AccName == accname).Count() ảnh mô hình xác thực!
+                    </div>
+                    <div style="width:100%; display:flex; text-align:center; justify-content:center;justify-items:center;">
+                        <form method="post" action="thaydoi" style="display:none;"><input id="clickthaydoi" type="submit" /></form>
+                        <form method="post" action="cailai" style="display:none;"><input id="clickcailai" type="submit" /></form>
+                        <button style="float:right; width:150px; margin-right:10px;" onclick="document.getElementById('clickthaydoi').click();">Thêm</button>
+                        <button style="float: right; width: 150px; margin-left: 10px; " onclick="document.getElementById('clickcailai').click();">Cài lại FaceId</button>
+                    </div>
+                    <hr />
+                    <div style="width:100%; display:flow;">
+                        <div style="width:100%; font-size:20px; font-weight:bold; text-align:center;">
+                            CMND mặt trước
+                        </div>
+                        <div style="width:100%; display:flow; justify-content:center;justify-items:center;text-align:center; ">
+                            <form style="width:100%; display:flow; justify-content:center;justify-items:center;text-align:center; " class="suatt" method="post" action="cmndmt">
+                                @if (akol.CCCD == null)
+                                {
+                                    <div style="width:100%; justify-content:center; justify-items:center; text-align:center; display:flex;">
+                                        <img style="width: 60%; height: auto; float: left;" id="anhcmndmattruoc" src="https://i.imgur.com/ur59GwR.jpg" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    String srccccd = bbi.ByteToString(akol.CCCD);
+                                    <div style="width:100%; justify-content:center; justify-items:center; text-align:center; display:flex;">
+                                        <img style="width: 60%; height: auto; float: left;" id="anhcmndmattruoc" src="@srccccd" />
+                                    </div>
+                                }
+                                <input type="text" name="cmndmtsrd" id="srcCMMT" style="display:none;" />
+                                
+                                <input hidden accept="image/*" onchange="chooseCMNDmt(this);" class="btnbya" type="file" value="Thay đổi" style="float:right;margin-right:20px;" />
+                                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center; margin-top:15px;">
+                                    <div style="display:none;">
+                                        <input id="doicmndcccd" accept="image/*" onchange="chooseCMNDmt(this);" class="btnbya" type="file" value="Thay đổi" style="float:right;margin-right:20px;" />
+
+                                    </div>
+                                    <input  onclick="document.getElementById('doicmndcccd').click(); event.preventDefault();"  type="submit" value="Đổi" style="float: right; margin-right: 20px; width: 150px;" />
+                                    <input   type="submit" value="Lưu" style="float:right;margin-right:20px; width:150px;" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <hr />
+                    <div style="width:100%; display:flow;">
+                        <div style="width:100%; font-size:20px; font-weight:bold; text-align:center;">
+                            CMND mặt sau
+                        </div>
+                        <div >
+                            <form class="suatt" method="post" action="cmndms">
+                                @if (akol.CCCDback == null)
+                                {
+                                    <div style="width:100%; justify-items:center;justify-content:center; text-align:center; display:flex;">
+                                        <img style="width: 60%; height: auto; float: left;" id="anhcmndmatsau" src="https://i.imgur.com/ur59GwR.jpg" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    String cccdmssrc = bbi.ByteToString(akol.CCCDback);
+                                    <div style=" width: 100%; justify-items: center; justify-content: center; text-align: center; display: flex;">
+                                        <img style="width: 60%; height: auto; float: left;" id="anhcmndmatsau" src="@cccdmssrc" />
+                                    </div>
+                                }
+                                <input type="text" name="cmndmssrd" id="srcCMMS" style="display:none;" />
+                                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center;">
+                                    <input type="submit" onclick="document.getElementById('changecmndcccdms').click(); event.preventDefault();" value="Thay đổi" style="margin-right:10px; width:150px;" />
+                                    <input type="submit" value="Lưu" style="margin-left:10px; width:150px;" />
+                                    <input id="changecmndcccdms" hidden accept="image/*" onchange="chooseCMNDms(this);" class="btnbya" type="file" value="Thay đổi" style="float:right;margin-right:20px;" />
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @{
+        //
+        List<MXHvaQLKOL.Models.AnhDang> l_anhdang = db.AnhDangs.Where(x => x.AccName == accname).ToList();
+    }
+    <div id="anhdang" style="display:none;">
+        <div style="width:100%; padding-left:4%; padding-right:4%;">
+            <div style="width:100%; border:1px solid black; display: flow;">
+                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center;">
+                    <button>Thêm ảnh</button>
+                </div>
+                <div style="width:100%; margin:15px; overflow: auto; ">
+                    @foreach(var c in l_anhdang)
+                    {
+                        <div style="width:300px; display:flow; margin:30px; float:left;">
+                            <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center;">
+                                <button onclick="document.getElementById('xoa_@c.ma').click()" style="background-color:orangered; color:white;">
+                                    Xóa ảnh
+                                </button>
+                                <a id="xoa_@c.ma" href="~/KOL/XoaAnh?id=@c.ma"></a>
+                            </div>
+                            @{ 
+                                String srcanhdang = bbi.ByteToString(c.Anh);
+                            }
+                            <img style="width:300px; height:300px;"  src="@srcanhdang"/>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    @{
+        //
+    }
+    <div id="baiviet2" style="display:none;">
+        <div style="width:100%; padding-left:4%; padding-right:4%;">
+            <div style="border:1px solid black;">
+                bai viet
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,149 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #edf2fb;
+}
+
+#tren {
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#bao {
+    display: flex;
+    justify-content: center;
+    padding: 3%;
+    background-color: white;
+}
+
+#traitren {
+    width: auto;
+    height: auto;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#phaitren {
+    padding-left: 20px;
+    position: relative;
+    width: 25em;
+    height: 25em;
+    float: right;
+    z-index: 1;
+    border: 1px solid #adb5bd;
+    margin-left: 1%;
+}
+
+#videoElm {
+    position: relative;
+    width: 25em;
+    height: 25em;
+    float: left;
+    z-index: 1;
+}
+
+#giua {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 12em;
+    height: auto;
+    padding: 10px;
+    flex-direction: column;
+}
+
+#duoi {
+    display: flex;
+    height: auto;
+    width: 100%;
+    display: flex;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+#luuy {
+    border: 1px solid red;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.bi-exclamation-triangle-fill {
+    color: red;
+    font-size: 1.5em;
+}
+
+canvas {
+    width:100%;
+    height:100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 3;
+}
+
+.button-87 {
+    margin: 10px;
+    width: 10em;
+    height: 3em;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border-radius: 10px;
+    display: block;
+    border: 0px;
+    font-weight: 700;
+    box-shadow: 0px 0px 14px -7px #f09819;
+    background-image: linear-gradient(45deg, #FF512F 0%, #F09819 51%, #FF512F 100%);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+    .button-87:hover {
+        background-position: right center;
+        /* change the direction of the change here */
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .button-87:active {
+        transform: scale(0.95);
+    }
+
+#Tiu {
+    color: black;
+    align-items: center;
+    text-align: center;
+}
+
+#canvas1 {
+    width: 25em;
+    height: 25em;
+    float: right;
+    display: none;
+}

@@ -1,0 +1,12 @@
+﻿table, th, td {
+    border: 1px solid black;
+}
+tr:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+.dongdau {
+    background-color: #2c2929;
+    color:white;
+}
+

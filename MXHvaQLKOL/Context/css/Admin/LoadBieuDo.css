@@ -1,0 +1,42 @@
+﻿.trangdong{
+    padding:10px;
+}
+.bieudothang{
+    border:1px solid black;
+}
+.gocduoi{
+    width:100%;
+    display:plex;
+}
+.duoitrai {
+    width: 65%;
+    border: 1px solid black;
+    float:left;
+}
+
+.duoiphai {
+    width: 35%;
+    border: 1px solid black;
+    float: left;
+}
+.bangsolieu{
+
+}
+#solieutron{
+    width:100%;
+    display:flex;
+}
+#solieutrai{
+    width:50%;
+    float:left;
+}
+#solieuphai{
+    width:50%;
+    float:left;
+}
+th,tr,td{
+    border:1px solid black;
+}
+th{
+    background-color: lightgrey;
+}

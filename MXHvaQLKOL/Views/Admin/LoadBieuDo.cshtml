@@ -1,0 +1,126 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.HopDong>
+@using MXHvaQLKOL.Context.supportClass;
+@{
+    ViewBag.Title = "LoadBieuDo";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+}
+@{
+    VeBieuDo vbd = new VeBieuDo(Model.ToList());
+}
+<div style="display:none;">
+    <input id="thang1" value="@vbd.GetBDCT().Thang1" />
+    <input id="thang2" value="@vbd.GetBDCT().Thang2" />
+    <input id="thang3" value="@vbd.GetBDCT().Thang3" />
+    <input id="thang4" value="@vbd.GetBDCT().Thang4" />
+    <input id="thang5" value="@vbd.GetBDCT().Thang5" />
+    <input id="thang6" value="@vbd.GetBDCT().Thang6" />
+    <input id="thang7" value="@vbd.GetBDCT().Thang7" />
+    <input id="thang8" value="@vbd.GetBDCT().Thang8" />
+    <input id="thang9" value="@vbd.GetBDCT().Thang9" />
+    <input id="thang10" value="@vbd.GetBDCT().Thang10" />
+    <input id="thang11" value="@vbd.GetBDCT().Thang11" />
+    <input id="thang12" value="@vbd.GetBDCT().Thang12" />
+    <input id="thangmax" value="@vbd.GetBDCT().TimMax()" />
+
+    <input id="cAN" value="@vbd.GetBDCLv().LvAN" />
+    <input id="cAT" value="@vbd.GetBDCLv().LvAT" />
+    <input id="cMP" value="@vbd.GetBDCLv().LvMP" />
+    <input id="cTM" value="@vbd.GetBDCLv().LvTM" />
+    <input id="cTT" value="@vbd.GetBDCLv().LvTT" />
+    <input id="cTTr" value="@vbd.GetBDCLv().LvTTr" />
+    <input id="cmax" value="@vbd.GetBDCLv().TimMax()" />
+
+    <input id="tAN" value="@vbd.GetBDT().SoAN" />
+    <input id="tAT" value="@vbd.GetBDT().SoAT" />
+    <input id="tMP" value="@vbd.GetBDT().SoMP" />
+    <input id="tTM" value="@vbd.GetBDT().SoTM" />
+    <input id="tTT" value="@vbd.GetBDT().SoTT" />
+    <input id="tTTr" value="@vbd.GetBDT().SoTTr" />
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous" defer></script>
+<script src="https://www.gstatic.com/charts/loader.js" defer>
+</script>
+<script src="~/Context/js/Admin/BieuDoCotThang.js" defer></script>
+<script src="~/Context/js/Admin/BieuDoCotLV.js" defer></script>
+<script src="~/Context/js/Admin/BieuDoTron.js" defer></script>
+<link href="~/Context/css/Admin/LoadBieuDo.css" rel="stylesheet" />
+<div class="trangdong">
+    <div class="bieudothang">
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-chart-bar me-1"></i>
+                <span>Giá trị hợp đồng</span>
+            </div>
+            <div class="card-body"><canvas id="bieudovethang" width="100" height="50"></canvas></div>
+            <div class="card-footer small text-muted">Cập nhật lần cuối: @DateTime.Now.ToString("yyyy - MM - dd hh:mm: ss")</div>
+        </div>
+    </div>
+
+    <div class="gocduoi">
+        <div class="duoitrai">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    <span>Giá trị hợp đồng</span>
+                </div>
+                <div class="card-body"><canvas id="bieudolv" width="100" height="50"></canvas></div>
+                <div class="card-footer small text-muted">Cập nhật lần cuối: @DateTime.Now.ToString("yyyy - MM - dd hh:mm: ss")</div>
+            </div>
+            <div id="bangsolieu">
+
+            </div>
+        </div>
+        <div class="duoiphai">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>
+                    <span>Tỉ lệ hợp đồng các lĩnh vực</span>
+                </div>
+                <div class="card-body"><canvas id="myPieChart"></canvas></div>
+                <div class="card-footer small text-muted">Cập nhật lần cuối: @DateTime.Now.ToString("yyyy - MM - dd hh:mm: ss")</div>
+            </div>
+            <div  style="width:100%; display:flex;">
+                <div  style="width: 50%;">
+                    <table style="width:100%;">
+                        <tr style="width:100%;">
+                            <th style="width: 50%;">Lĩnh vực</th>
+                            <th style="width: 50%;">Số lượng</th>
+                        </tr>
+                        <tr style="width:100%;">
+                            <td style="width: 50%;">Âm nhạc</td>
+                            <td  style="width: 50%;" class="solieutrongbang" >@vbd.GetBDT().SoAN</td>
+                        </tr>
+                        <tr style="width:100%;">
+                            <td style="width: 50%;">Ẩm thực</td>
+                            <td style="width: 50%;" class="solieutrongbang" >@vbd.GetBDT().SoAT</td>
+                        </tr>
+                        <tr style="width:100%;">
+                            <td style="width: 50%;">Mỹ phẩm:</td>
+                            <td style="width: 50%;" class="solieutrongbang" >@vbd.GetBDT().SoMP</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="width:50%;">
+                    <table style="width:100%;">
+                        <tr style="width:100%;">
+                            <th style="width: 50%;">Lĩnh vực</th>
+                            <th style="width: 50%;">Số lượng</th>
+                        </tr>
+                        <tr style="width:100%;">
+                            <td style="width: 50%;">Thương mại</td>
+                            <td style="width: 50%;" class="solieutrongbang" >@vbd.GetBDT().SoTM</td>
+                        </tr >
+                        <tr style="width:100%;">
+                            <td style="width: 50%;">Thể thao</td>
+                            <td style="width: 50%;" class="solieutrongbang" >@vbd.GetBDT().SoTT</td>
+                        </tr>
+                        <tr style="width:100%;">
+                            <td style="width: 50%;">Thời trang:</td>
+                            <td style="width: 50%;" class="solieutrongbang" >@vbd.GetBDT().SoTTr</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

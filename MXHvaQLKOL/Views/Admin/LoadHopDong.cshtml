@@ -1,0 +1,130 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.HopDong>
+
+@{
+    ViewBag.Title = "LoadHopDong";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+}
+<link href="~/Context/css/Admin/LoadHD.css" rel="stylesheet" />
+<link href="~/Context/css/Admin/Bang.css" rel="stylesheet" />
+<script src="~/Context/js/Admin/LoadHD.js"></script>
+<h2 style=" text-align: center; font-weight: bold;">HỢP ĐỒNG</h2>
+
+<div id="khungtong">
+    <div id="soluong">
+        @Model.Count()
+    </div>
+</div>
+<table class="table" style="background-color: white;">
+    <tr style="background-color: darkgrey ">
+        <th>
+            Mã hợp đồng
+        </th>
+        <th>
+            Khách hàng
+        </th>
+        <th>
+            KOL
+        </th>
+        <th>
+            Admin xác nhận
+        </th>
+        <th>
+            Ngày kí
+        </th>
+        <th>
+            Ngày kết thúc
+        </th>
+        <th>
+            Trị giá
+        </th>
+        <th>
+            Trạng thái
+        </th>
+        <th>
+            Chi tiết
+        </th>
+        <th>
+        </th>
+
+    @foreach (var item in Model)
+    {
+        String acckhach = item.BenB;
+        String accKOL = item.BenA;
+        String accAdmin = item.BenC;
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaHopDong)
+            </td>
+            <td>
+                @db.AccCustomers.Where(x => x.AccName == acckhach).FirstOrDefault().UseName
+            </td>
+            <td>
+                @db.AccKOLs.Where(x => x.AccName == accKOL).FirstOrDefault().UserName
+            </td>
+            <td>
+                @if (db.AccAdmins.Where(x => x.AccName == accAdmin).Count() != 0)
+                {
+                    db.AccAdmins.Where(x => x.AccName == accAdmin).FirstOrDefault().UserName.ToString();
+                }
+            </td>
+            <td>
+                @item.NgayKi.Value.Day/ @item.NgayKi.Value.Month/ @item.NgayKi.Value.Year
+            </td>
+            <td>
+                @item.NgayKT.Value.Day/ @item.NgayKT.Value.Month/ @item.NgayKT.Value.Year
+            </td>
+            <td>
+                @item.TriGia
+            </td>
+            <td>
+                @if (item.TrangThai == 1)
+                {
+                    <span>Chờ KOL xác nhận</span>
+                }
+                else if (item.TrangThai == 2)
+                {
+                    <span>Chờ Admin xác nhận</span>
+                }
+                else if (item.TrangThai == 3)
+                {
+                    <span>Chờ khách thanh toán</span>
+                }
+                else if (item.TrangThai == 4)
+                {
+                    <span>Đang hiệu lực</span>
+                }
+                else
+                {
+                    <span>Đã hoàn thành</span>
+                }
+            </td>
+            <td>
+                <input hidden id="file_@item.MaHopDong" type="text" value="@item.NoiDung" />
+                <button onclick="
+                                var noidunghd = document.getElementById('file_@item.MaHopDong').value;
+                                var fileDownload = document.createElement('a');
+                                document.body.appendChild(fileDownload);
+                                fileDownload.href = noidunghd;
+                                fileDownload.download = 'HopDong.doc';
+                                fileDownload.click();
+                                document.body.removeChild(fileDownload);
+                                 ">
+                    File
+                </button>
+            </td>
+            <td>
+                @if (item.TrangThai == 2)
+                {
+                    <a href="~/Admin/DuyetAdmin?id=@item.MaHopDong">Duyệt</a>
+                }
+                @if (item.TrangThai == 4)
+                {
+                    @item.XacNhanHoanThanh
+                    <a href="~/Admin/DuyetAdminHT?id=@item.MaHopDong">(Duyệt)</a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

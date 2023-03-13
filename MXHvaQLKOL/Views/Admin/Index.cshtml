@@ -1,0 +1,239 @@
+﻿@using MXHvaQLKOL.Models
+@{
+    ViewBag.Title = "AdminHome";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    List<TaiKhoan> tk = new List<TaiKhoan>();
+
+    int all = db.TaiKhoans.Count();
+    int kh = db.TaiKhoans.Where(x => x.PQ == "KH").Count();
+    int kol = db.TaiKhoans.Where(x => x.PQ == "KOL").Count();
+    int xt = db.TaiKhoans.Where(x => x.TinhTrangHD == 0).Count();
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous" defer></script>
+<script src="~/Context/js/Admin/LoadBieuDoCot.js" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="~/Context/js/smtp.js" defer></script>
+<script src="~/Context/js/face-api.js"></script>
+<link href="~/Context/css/Admin/homeAdmin.css" rel="stylesheet" />
+<script>
+    function chooseFile(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                document.getElementById('anhsrc').value = dataUrl;
+                document.getElementById('anh').src = dataUrl;
+
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+
+    }
+    /*
+    var btnnuttraloi = document.getElementById('nuttraloi');
+    btnnuttraloi.onclick() = function Validate() {
+        var email = document.getElementById('email4van').value;
+        var noidung4van = document.getElementById('noidung4van').value;
+        var noidungtraloi = document.getElementById('noidungtraloi').innerHTML;
+        if ((email == '' || noidung4van == '') || noidungtraloi == '') {
+            alert('Nội dung không thể để trống!');
+        } else {
+            
+            Email.send({
+                Host: "smtp.elasticemail.com",
+                Username: "nthien.truong.qk206@gmail.com",
+                Password: "76237C893DCC260AB2E6F655E20295C6FAF4",
+                To: email,
+                From: "nthien.truong.qk206@gmail.com",
+                Subject: "Trả lời thắc mắc tại Website KOL",
+                Body: noidungtraloi
+            }).then(
+                message => alert('Mã xác nhận đã được gửi đi, vui lòng kiểm tra và nhập chính xác')
+            );
+        }
+    }
+    */
+    
+</script>
+<div id="trangdong">
+    <div class="tieudethongke">
+        Số liệu thống kê tài khoản:
+    </div>
+    <div class="thongke" style="background-color:white;">
+
+        <!-- -->
+        <div class="solieuthongke" style="background-color: #0099FF; color: white;">
+            <div class="typethongke">
+                Tổng tài khoản
+            </div>
+            <div class="solieuCT">
+                @all
+            </div>
+        </div>
+        <!-- -->
+        <div class="solieuthongke" style="background-color: #CC00FF; color: white;">
+            <div class="typethongke">
+                Tài khoản KOL
+            </div>
+            <div class="solieuCT">
+                @kol
+            </div>
+        </div>
+        <!-- -->
+        <div class="solieuthongke" style="background-color: #FFFF66 ;color:white;">
+            <div class="typethongke">
+                Tài khoản Khách
+            </div>
+            <div class="solieuCT">
+                @kh
+            </div>
+        </div>
+        <!-- -->
+        <div class="solieuthongke" style="background-color: #FF3333 ; color:white;">
+            <div class="typethongke">
+                Tài khoản chờ kích hoạt
+            </div>
+            <div class="solieuCT">
+                @xt
+            </div>
+        </div>
+        <!-- -->
+    </div>
+    <div class="tieudethongke">
+        Số liệu thống kê Hợp đồng:
+    </div>
+    <!-- -->
+    <div class="thongke" style="background-color:white;">
+        <!-- -->
+        <div class="solieuthongke" style="background-color: #0099FF; color: white;">
+            <div class="typethongke" >
+                Tổng hợp đồng
+            </div>
+            <div class="solieuCT">
+                @db.HopDongs.Count()
+            </div>
+        </div>
+        <!-- -->
+        <div class="solieuthongke" style="background-color: #FF0066; color: white; ">
+            <div class="typethongke" >
+                Hợp đồng chờ KOL
+            </div>
+            <div class="solieuCT">
+                @db.HopDongs.Where(x => x.TrangThai == 1).Count()
+            </div>
+        </div>
+        <!-- -->
+        <div class="solieuthongke" style="background-color: #FF0033; color: white; ">
+            <div class="typethongke">
+                Hợp đồng chờ Admin
+            </div>
+            <div class="solieuCT">
+                @db.HopDongs.Where(x => x.TrangThai == 2).Count()
+            </div>
+        </div>
+        <!-- -->
+        <div class="solieuthongke" style="background-color: #FF0000; color: white; ">
+            <div class="typethongke">
+                Hợp đồng chờ thanh toán
+            </div>
+            <div class="solieuCT">
+                @db.HopDongs.Where(x => x.TrangThai == 3).Count()
+            </div>
+        </div>
+        <!-- -->
+    </div>
+    <hr />
+    <div style="width: 100%; display: flex; background-color: white;" >
+        <div id="DangBai">
+            <div style="width:100%; font-weight:bold">Đăng bài viết: </div>
+            <form action="~/Admin/Index" method="post" class="frmdangad">
+                <div class="chude"><label class="tieude">Tiêu đề: </label> <input class="ipnhap" type="text" name="tieude" /></div>
+                <img id="image" style="display:none; "  src="https://i.imgur.com/bRJdUtb.jpg"/>
+                <input id="anhsrc" type="text" name="anhsrc" style="display:none;" value="https://i.imgur.com/bRJdUtb.jpg" />
+                <div class="chude"><label class="tieude">Nội dung:</label> <textarea class="ipnhap" rows="6" name="noidung"></textarea></div>
+                <div class="chude"><label class="tieude">Chọn ảnh: </label> <input id="inputanh" onchange="chooseFile(this)" class="ipnhap" type="file" name="tieude" accept="image/jpeg" /></div>
+                <div class="chude"><label class="tieude">Ảnh minh họa: </label> <input id="anh" class="ipnhapanh" type="image" name="anh" alt="Submit" style="width:200px; height:200px;" src="https://i.imgur.com/bRJdUtb.jpg" /></div>
+                <div class="chude" style="justify-content:center; justify-items:center;"><input class="tieude" onclick="event.preventDefault(); alert('Đã đặt lại giá trị!')" type="reset" value="Đặt lại"> <input id="DangAnh" class="tieude" type="submit" value="Đăng" /></div>
+            </form>
+        </div>
+        <div id="DangThongBao" >
+            <div style="width:100%; height:170px;scroll-behavior:auto;">
+                @{ 
+                    List<HoiDap> question = db.HoiDaps.ToList();
+                }
+                <div style="width:100%;"><strong>Gmail đạt câu hỏi:</strong> </div>
+                @foreach(var c in question)
+            {
+                <div style="margin-left:50px;">
+                    <span style="display:none;">@c.NoiDung</span>
+                    <span>@c.Gmail</span>
+                </div>
+            }
+            </div>
+            <div style="width:100%;">Trả lời câu hỏi: </div>
+            <div style="width:100%;">
+                <div style="display:none">
+                    @{
+
+                        List<HoiDap> hd = db.HoiDaps.Where(x=>x.TrangThai == 0).ToList();
+                        int emailhoi = 1001;
+                        int noidung = 2001;
+                        int soluong = 0;
+                        
+                        foreach (var item in hd)
+                        {
+                            <div>
+                                <input id="@emailhoi" value="@item.Gmail" />
+                                <input id="@noidung"  value="@item.NoiDung" />
+                            </div>
+                            emailhoi++;
+                            noidung++;
+                            soluong++;
+                        }
+                        <input id="so" value="@soluong" />
+                    }
+                </div>
+                <div class="chude"><label class="tieude">Email: </label> <input id="email4van" class="ipnhap" type="text" value="@hd.First().Gmail" disabled /></div>
+                <div class="chude"><label class="tieude">Nội dung:</label> <textarea id="noidung4van" style="height:100px;" class="ipnhap" rows="6" disabled>@hd.First().NoiDung</textarea></div>
+                <div style="width:100%; padding:20px;">
+                    <textarea id="noidungtraloi" rows="6" style="width:100%; height:100px;"></textarea>
+                    <button id="nuttraloi" style="float:right; ">Gửi câu trả lời!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- -->
+    <div>
+        <div id="dulieu" >
+            <div id="luuan" style="display:none;">
+                <input  type="text" id="0" value="15000" />
+                <input  type="text" id="1" value="10000" />
+                <input  type="text" id="2" value="30000" />
+                <input  type="text" id="3" value="35000" />
+                <input  type="text" id="4" value="60000" />
+                <input  type="text" id="5" value="90000" />
+                <input  type="text" id="6" value="40000" />
+                <input  type="text" id="7" value="30000" />
+                <input  type="text" id="8" value="35000" />
+                <input  type="text" id="9" value="60000" />
+                <input  type="text" id="10" value="90000" />
+                <input  type="text" id="11" value="0" />
+                <input  type="text" id="12" value="90000" />
+            </div>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                        <span>Giá tị hợp đồng qua các tháng trong năm theo Tháng</span>
+                </div>
+                <div class="card-body"><canvas id="myBarChart" width="100" height="50"></canvas></div>
+                <div class="card-footer small text-muted">Cập nhật lần cuối: @DateTime.Now.ToString("yyyy - MM - dd hh:mm: ss")</div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+

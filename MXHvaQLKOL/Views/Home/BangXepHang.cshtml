@@ -1,0 +1,163 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccKOL>
+@if (Session["id"] == null)
+{
+    Layout = "~/Views/Layout/_LayoutHome.cshtml";
+}
+else
+{
+    if (Session["PQ"].ToString() == "KOL")
+    {
+        Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+    }
+    else if (Session["PQ"].ToString() == "KH")
+    {
+        Layout = "~/Views/Layout/_LayoutKH.cshtml";
+    }
+    else if (Session["PQ"].ToString() == "AD")
+    {
+        Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    }
+}
+<!doctype html>
+<html>
+<head>
+    <title>Bảng xếp hạng</title>
+    <link href="~/Context/css/BXHHome.css" rel="stylesheet" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+</head>
+@using MXHvaQLKOL.Models
+
+<body>
+    @{
+            var arr = Model.ToArray();
+        MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+
+    }
+    <div id="popup">
+        <div id="gachdoc">.</div>
+        <div id="thongbao"><i class="bi bi-exclamation-triangle"></i>Bạn đăng nhập để xem được chi tiết nhé!!!</div>
+    </div>
+    
+    <div id="bodycontent">
+        <div id="container2">
+            <div id="topba">
+                <div id="top2">
+                    <div class="vuongmieng"><img src="https://i.imgur.com/az6aRNK.png" /></div>
+                    <div class="khunghinh">
+                        @if (arr[1].Avatar == null)
+                        {
+                            <img src="https://i.imgur.com/bRJdUtb.jpg" />
+                        }
+                        else
+                        {
+                            String srcimg = bbi.ByteToString(arr[1].Avatar);
+                            <img src="@srcimg" />
+                        }
+                    </div>
+                    <div class="ten">
+                        <div id="tem"><img src="https://i.imgur.com/3d3MTt8.png"></div>
+                        <p>@arr[1].UserName</p>
+                    </div>
+                </div>
+            </div>
+            <div id="topba">
+                <div id="top1">
+                    <div class="vuongmieng"><img src="https://i.imgur.com/bRZ6us7.png" /></div>
+                    <div class="khunghinh">
+                        @if (arr[0].Avatar == null)
+                        {
+                            <img src="https://i.imgur.com/bRJdUtb.jpg" />
+                        }
+                        else
+                        {
+                            String srcimg = bbi.ByteToString(arr[0].Avatar);
+                            <img src="@srcimg" />
+                        }
+                    </div>
+                    <div class="ten">
+                        <div id="tem"><img src="https://i.imgur.com/suOhc6w.png"></div>
+                        <p>@arr[0].UserName</p>
+                    </div>
+                </div>
+            </div>
+            <div id="topba">
+                <div id="top3">
+                    <div class="vuongmieng"><img src="https://i.imgur.com/az6aRNK.png" /></div>
+                    <div class="khunghinh">
+                        @if (arr[2].Avatar == null)
+                        {
+                            <img src="https://i.imgur.com/bRJdUtb.jpg" />
+                        }
+                        else
+                        {
+                            String srcimg = bbi.ByteToString(arr[2].Avatar);
+                            <img src="@srcimg" />
+                        }
+                    </div>
+                    <div class="ten">
+                        <div id="tem"><img src="https://i.imgur.com/UO8tv1R.png"></div>
+                        <p>@arr[2].UserName</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="linhvuc">
+        <div class="container">
+            
+            <form method="post" action="~/Home/BangXepHang">
+                <div id="lv1">
+                    <input type="text" id="malv" name="maLV" hidden />
+                    <div class="d1"><input onclick="document.getElementById('malv').value = 'All'" id="btn1" type="submit" value="Thời trang" /></div>
+                    <div class="d1"><input onclick="document.getElementById('malv').value = 'AN'" id="btn2" type="submit" value="Âm nhạc" /></div>
+                    <div class="d1"><input onclick="document.getElementById('malv').value = 'AT'" id="btn3" type="submit" value="Ẩm thực" /></div>
+                    <div class="d1"><input onclick="document.getElementById('malv').value = 'MP'" id="btn4" type="submit" value="Mỹ phẩm" /></div>
+                    <div class="d1"><input onclick="document.getElementById('malv').value = 'TM'" id="btn5" type="submit" value="Thương mại ĐT" /></div>
+                    <div class="d1"><input onclick="document.getElementById('malv').value = 'TT'" id="btn6" type="submit" value="Thể thao" /></div>
+                    <div class="d1"><input onclick="document.getElementById('malv').value = 'TTr'" id="btn7" type="submit" value="Thời trang" /></div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="bang">
+        <div class="container">
+            <div id="all">
+                @for (int i = 3; i < arr.Count(); i++)
+                {
+                    <div id="bang2">
+                        <div id="cothang">
+                            <div class="stt">
+                                @i+1
+                            </div>
+                        </div>
+                        <div class="thongtin">
+                            <div class="t1">@arr[i].UserName</div>
+                            @if (Session["PQ"] == null)
+                            {
+
+                                <button class="detail"><i class="bi bi-three-dots"></i></button>
+                            }
+                            else
+                            {
+                                // ~/KhachHang/KhachXemKOL?id=@arr[i].AccName
+                                <a href="~/KhachHang/KhachXemKOL?id=@arr[i].AccName"><i class="bi bi-three-dots"></i></a>
+                            }
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+    <script src="~/Context/js/BXHHome.js" defer></script>
+</body>
+</html>

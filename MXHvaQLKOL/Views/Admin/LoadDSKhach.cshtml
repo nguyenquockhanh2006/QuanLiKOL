@@ -1,0 +1,90 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccCustomer>
+
+@{
+    ViewBag.Title = "LoadDSKhach";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+}
+<link href="~/Context/css/Admin/Bang.css" rel="stylesheet" />
+<h2 style="text-align:center; width:100%;">DANH SÁCH KHÁCH</h2>
+<br />
+<div style="">
+    <form style="width:100%;" method="post" action="LoadDSKhach">
+        <input name="idkhach" style="width:100%" type="search" />
+        <div style="width:100%; display:flex; justify-content:center">
+            <input type="submit" value="Tìm kiếm" />
+        </div>
+    </form>
+</div>
+<br />
+<table class="table">
+    <tr style="background-color: #838282">
+        <th>
+            Tên đăng nhập
+        </th>
+        <th>
+            Tên tài khoản
+        </th>
+        <th>
+            Tên
+        </th>
+        <th>
+            Ngày sinh
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Gmail
+        </th>
+        <th>
+            Đã theo dõi
+        </th>
+        <th>
+            Số bài đăng
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UseName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @item.BirthDay.Value.Day/@item.BirthDay.Value.Month/@item.BirthDay.Value.Year
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gmail)
+            </td>
+            <td>
+                @item.Follows.Count
+            </td>
+            <td>
+                @item.BaiDangCus.Count
+            </td>
+            <td>
+                <a href="###">Xem chi tiết</a>
+            </td>
+
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,183 @@
+﻿@model MXHvaQLKOL.Models.AccKOL
+
+@{
+    ViewBag.Title = "HoSoKOLtheoid";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    //Session["id"] = "nthien.truong.qk206@gmail.com";
+    String accname = Session["id"].ToString();
+    //String accname = "KhachHangTest1";
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+
+    MXHvaQLKOL.Models.AccKOL akol = Model;
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    List<MXHvaQLKOL.Models.AnhDang> lad = db.AnhDangs.Where(x => x.AccName == Model.AccName).ToList();
+    MXHvaQLKOL.Models.Follow fl = db.Follows.Where(x => x.AccDuocFl == Model.AccName && x.AccFl == accname).FirstOrDefault();
+}
+<link href="~/Context/css/HoSoKOLid.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<script src="~/Context/js/HoSoKOLid.js" defer>
+</script>
+<script src="https://smtpjs.com/v3/smtp.js" defer></script>
+<div id="avt">
+    @if (akol.Avatar == null)
+    {
+        <img id="anhavt" src="https://i.imgur.com/oi2ioQW.jpg" />
+    }
+    else
+    {
+        String srcanhavt = bbi.ByteToString(akol.Avatar);
+        <img id="anhavt" src="@srcanhavt" />
+    }
+    <p style="font-weight: bold;font-size: 1.5em;">@akol.UserName</p>
+    <p style="font-size: 1.5em;">@akol.Name</p>
+    @if (Session["PQ"].ToString() == "KH")
+    {
+        <div style="width:100%; display:flex;justify-content:center;">
+            @if (fl != null)
+            {
+                <button style="background-color:forestgreen;"><a href="~/KOL/Fowllow?idkol=@akol.AccName">Đang theo dõi</a></button>
+            }
+            else
+            {
+                <button style="background-color:red;"><a href="~/KOL/Fowllow?idkol=@akol.AccName">Chưa theo dõi</a></button>
+            }
+            <button><a href="###">Tố cáo</a></button>
+        </div>
+    }
+        <a style="display:none;" id="luuavt" onclick="document.getElementById('submidformavt').click(); ">Lưu</a>
+        <form action="LuuAVT" method="post" style="display:none;">
+            <input type="file" accept="image/*" id="chooseavt" onchange="chooseFileAnh(this);" />
+            <input type="text" name="avatarsrc" id="srcavatar" />
+            <input type="submit" id="submidformavt" />
+        </form>
+    </div>
+<div id="tab" style="width:100%; display:flex;">
+    <div id="d1" class="d1_2">
+        <p>Thông tin</p>
+    </div>
+    <div id="d2">
+        <p>Ảnh đã đăng</p>
+    </div>
+</div>
+<div id="content">
+    <div id="chuanone" style="display:flex; height:fit-content;">
+        <div class="luuthongtin">
+            <div class="loaithongtin">
+                Thông tin tài khoản
+            </div>
+            <hr />
+            <div id="thongtin">
+                <div class="tt1">
+                    <p class="tt2">Tên tài khoản:</p>
+                    <p class="tt3" id="tentk">@akol.UserName</p>
+                </div>
+                <div class="tt1">
+                    <p class="tt2">Họ và tên:</p>
+                    <p class="tt3" id="hoten">@akol.Name</p>
+                </div>
+                <div class="tt1">
+                    <p class="tt2">Ngày sinh:</p>
+                    <p class="tt3" id="ngaysinh">@akol.BirthDay.Value.Day/@akol.BirthDay.Value.Month/@akol.BirthDay.Value.Year</p>
+                </div>
+                <div class="tt1">
+                    <p class="tt2">Giới tính:</p>
+                    <p class="tt3" id="gioitinh">@akol.GioiTinh</p>
+                </div>
+                <div class="tt1">
+                    <p class="tt2">Email:</p>
+                    <p class="tt3" id="email">@akol.Gmail</p>
+                    <input type="text" id="gmail2" value="@akol.Gmail" style="display:none;" />
+                </div>
+                <div class="tt1">
+                    <p class="tt2">Địa chỉ:</p>
+                    <p class="tt3" id="diachi">@akol.Address</p>
+                </div>
+                <div class="tt1">
+                    <p class="tt2">Số điện thoại:</p>
+                    <p class="tt3" id="sdt">@akol.PhoneNumber</p>
+                </div>
+            </div>
+        </div>
+        <div class="luuthongtin2">
+            <div class="loaithongtin">
+                Thông tin xác thực
+            </div>
+            <hr />
+            <div id="thongtin3">
+                <div class="tt1">
+                    <p class="tt2">Gmail:</p>
+                    <div class="tt3">
+                        <div id="gmailcu" class="thongtincu"><p class="tt3">@akol.Gmail</p></div>
+                        <div id="nhapma" style="display:none;">
+                            <form method="post" action="LuuGmail">
+                                <input style="width:100%;" id="macu" name="gmail" />
+                                <input type="submit" id="subgmail" style="display:none;" />
+                            </form>
+                            <div class="chuabtn"><button style="float:right;" onclick="Laymadoimail()">Xác nhận</button></div>
+                        </div>
+                        <div id="chuamail" class="chuacansua">
+                            <input type="text" style="width:100%;" id="upgmail" name="gmail" />
+                            <div id="xacnhangmail" style="display:none;">
+                                <input id="maxnmail" type="text" class="tt3" />
+                            </div>
+                            <div class="chuabtn"><button style="float:right;" onclick="XetLoad()">Xác nhận</button></div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                <div class="tt1">
+                    <p class="tt2">Xác thực hình ảnh:</p>
+                    <div class="tt3">
+                        <p id="thongtinanhcu" class="tt3">Đang có 4 ảnh làm mô hình cơ sở</p>
+                        <div id="ghimadoianh" style="display:none;">
+                            <input id="tdcl" type="text" style="display:none;" />
+                            <p style="width:100%;">Vui lòng nhập mã xác nhận đã được gửi đến gmail của bạn</p>
+                            <input style="width:100%;" id="ghimahinh" type="text" />
+                            <div style="width:100%;"><button style="float:right;" onclick="XacNhanLC()">Xác nhận</button></div>
+                        </div>
+                    </div>
+                    <form method="post" action="thaydoi" style="display:none;"><input id="clickthaydoi" type="submit" /></form>
+                    <form method="post" action="cailai" style="display:none;"><input id="clickcailai" type="submit" /></form>
+                </div>
+                <hr />
+                <div class="tt1">
+                    <p class="tt2">CMND mặt trước:</p>
+                    <div class="tt3">
+                        <form class="suatt" method="post" action="cmndmt">
+                            <img class="anhcmnd" id="anhcmndmattruoc" src="https://i.imgur.com/ur59GwR.jpg" />
+                        </form>
+                    </div>
+                </div>
+                <hr />
+                <div class="tt1">
+                    <p class="tt2">CMND mặt sau</p>
+                    <div class="tt3">
+                        <form class="suatt" method="post" action="cmndms">
+                            <img class="anhcmnd" id="anhcmndmatsau" src="https://i.imgur.com/ur59GwR.jpg" />
+                        </form>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+<div id="anh">
+    <div id="listanh">
+        @foreach (var c in lad)
+        {
+            String srctem = bbi.ByteToString(c.Anh);
+            <img src="@srctem" />
+        }
+    </div>
+</div>
+
+
+

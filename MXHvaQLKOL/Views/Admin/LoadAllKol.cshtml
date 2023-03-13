@@ -1,0 +1,103 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccKOL>
+@{
+    ViewBag.Title = "LoadAllKol";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+
+}
+
+<link href="~/Context/css/Admin/QuanLiKOL.css" rel="stylesheet" />
+<link href="~/Context/css/Admin/Bang.css" rel="stylesheet" />
+
+<div id="trangdong">
+    <div id="linhvuc" style="margin-bottom: 15px;">
+        <div id="tiude">
+            <form method="post" action="~/Admin/LoadAllKol" style="display:none;">
+                <input type="text" name="dieukien" id="dieukien"/>
+                <input type="submit" id="loadKOL"/>
+            </form>
+            <button class="button-86"  role="button"  onclick="document.getElementById('dieukien').value = 'AN'; document.getElementById('loadKOL').click();"> Âm nhạc </button>
+            <button class="button-86"  role="button"  onclick="document.getElementById('dieukien').value = 'AT'; document.getElementById('loadKOL').click();"> Ẩm thực </button>
+            <button class="button-86"  role="button"  onclick="document.getElementById('dieukien').value = 'MP'; document.getElementById('loadKOL').click();"> Mỹ phẩm </button>
+            <button class="button-86"  role="button"  onclick="document.getElementById('dieukien').value = 'TM'; document.getElementById('loadKOL').click();"> Thương mại điện tử </button>
+            <button class="button-86"  role="button"  onclick="document.getElementById('dieukien').value = 'TT'; document.getElementById('loadKOL').click();"> Thể thao </button>
+            <button class="button-86"  role="button"  onclick="document.getElementById('dieukien').value = 'TTr'; document.getElementById('loadKOL').click();"> Thời trang </button>
+        </div>
+    </div>
+    <div id="dulieu">
+        <table class="bang">
+            <tr class="dongdau">
+                <th>
+                    Avatar
+                </th>
+                <th>
+                    Tên đăng nhập
+                </th>
+                <th>
+                    Tên tài khoản
+                </th>
+                <th>
+                    Tên
+                </th>
+                <th>
+                    Giới tính
+                </th>
+                <th>
+                    Ngày sinh
+                </th>
+                <th>
+                    Số lượt Follow
+                </th>
+                <th>
+                    Giá thuê
+                </th>
+                <th>
+                    Xem trang cá nhân
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                MXHvaQLKOL.Context.supportClass.tinhtien tt = new MXHvaQLKOL.Context.supportClass.tinhtien(item);
+                <tr class="dongthu">
+                    <td style="height:80px; width:80px; text-align:center; padding:5px; ">
+                        <img height="70" width="70" src="https://i.imgur.com/bRJdUtb.jpg" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td style="text-align:center;">
+                        @Html.DisplayFor(modelItem => item.GioiTinh)
+                    </td>
+                    <td>
+                        @if (item.BirthDay != null)
+                        {
+                            <span> @item.BirthDay.Value.Day/@item.BirthDay.Value.Month/@item.BirthDay.Value.Year</span>
+}
+                    </td>
+                    <td style="text-align:center;">
+                        @{
+                            int a = item.Follows.Count;
+                        }
+                        @a
+                    </td>
+                    <td>
+                        @tt.Tien VNĐ
+                    </td>
+                    <td>
+                        <a href="~/KOL/HoSoKOLtheoid?idkol=@item.AccName">Xem chi tiết</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

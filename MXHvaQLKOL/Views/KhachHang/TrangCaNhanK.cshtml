@@ -1,0 +1,559 @@
+﻿
+@{
+    ViewBag.Title = "TrangCaNhanK";
+    Layout = "~/Views/Layout/_LayoutKH.cshtml";
+    Session["id"] = "KhachHangTest1";
+    String accname = Session["id"].ToString();
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    MXHvaQLKOL.Models.AccCustomer acccus = db.AccCustomers.Where(x => x.AccName == accname).FirstOrDefault();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bii = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    MXHvaQLKOL.Models.TaiKhoan tk = db.TaiKhoans.Where(x => x.AccName == accname).FirstOrDefault();
+    List<MXHvaQLKOL.Models.AnhKhach> l_anh = db.AnhKhaches.Where(x => x.AccName == accname).ToList();
+    List<MXHvaQLKOL.Models.BaiDangCu> l_bdc = db.BaiDangCus.Where(x => x.AccName == accname).ToList();
+    List<MXHvaQLKOL.Models.Follow> l_fl = db.Follows.Where(x => x.AccFl == accname).ToList();
+}
+<script type="text/javascript">
+    function chooseCMNDmt(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                console.log(dataUrl);
+                document.getElementById('srcanhcmnd').value = dataUrl;
+                document.getElementById('anhcmnd').src = dataUrl;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+
+    function Chooseavt(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                console.log(dataUrl);
+                document.getElementById('srcanhavt').value = dataUrl;
+                document.getElementById('anhavt').src = dataUrl;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+    function chooseCMNDms(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                console.log(dataUrl);
+                document.getElementById('srcanhcmndms').value = dataUrl;
+                document.getElementById('anhcmndms').src = dataUrl;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+    function ThemAnh(fileInput) {
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+                var dataUrl = e.srcElement.result;
+                console.log(dataUrl);
+                document.getElementById('srcanhthem').value = dataUrl;
+                document.getElementById('anhdangthem').src = dataUrl;
+            }
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+    function laylinhvuc() {
+        var kq = "";
+        var amnhac = document.getElementById('amnhac');
+        var amthuc = document.getElementById('amthuc');
+        var mypham = document.getElementById('mypham');
+        var thuongmmai = document.getElementById('thuongmai');
+        var thethao = document.getElementById('thethao');
+        var thoitrang = document.getElementById('thoitrang');
+        if (amnhac.checked)
+            kq += "/AN";
+        if (amthuc.checked)
+            kq += "/AT";
+        if (mypham.checked)
+            kq += "/MP";
+        if (thuongmmai.checked)
+            kq += "/TM";
+        if (thethao.checked)
+            kq += "/TT";
+        if (thoitrang.checked)
+            kq += "/TTr";
+        document.getElementById('ketqualv').value = kq;
+    }
+</script>
+<div style="width: 100%; padding-right: 10%; padding-left: 10%; background-color: #f2f2f2;">
+    <div style="width:100%;background-color:white;">
+        <div style="width:100%; display:flex; justify-content:center; padding-top:30px;">
+            @if (acccus.Avatar == null)
+            {
+                <img id="anhavt" style="width:300px; height:300px; border-radius:50%;" src="https://i.imgur.com/bRJdUtb.jpg" />
+            }
+            else
+            {
+                String srcanh = bii.ByteToString(acccus.Avatar);
+                <img id="anhavt" style="width:300px; height:300px; border-radius:50%;" src="@srcanh" />
+            }
+        </div>
+        <div style="width:100%; display:flex;text-align:center; justify-content:center; font-size:20px; font-weight:bold;">
+            <form style="display:none;" method="post" action="~/KhachHang/UpAvatarkh" id="buttonan">
+                <input hidden type="text" id="srcanhavt" name="srcanhavt" />
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M3.5 10a.5.5 0 0 1-.5-.5v-8a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 0 0 1h2A1.5 1.5 0 0 0 14 9.5v-8A1.5 1.5 0 0 0 12.5 0h-9A1.5 1.5 0 0 0 2 1.5v8A1.5 1.5 0 0 0 3.5 11h2a.5.5 0 0 0 0-1h-2z" />
+                        <path fill-rule="evenodd" d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z" />
+                    </svg> Lưu
+                </button>
+            </form>
+        </div>
+        <div style="width:100%; display:flex;text-align:center; justify-content:center; font-size:20px; font-weight:bold;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+            </svg> <a onclick="document.getElementById('chooseavt').click(); document.getElementById('buttonan').style.display = 'block';">Đổi avatar</a>
+            <input hidden type="file" id="chooseavt" onchange="Chooseavt(this);" />
+        </div>
+        <div style="width:100%; display:flex;text-align:center; justify-content:center; font-size:50px; font-weight:bold;">
+            @acccus.UseName
+        </div>
+        <div style="width:100%; display:flex;text-align:center; justify-content:center; font-size:35px; ">
+            @acccus.Name
+        </div>
+        <div style="width:100%; display:flex;text-align:center; justify-content:center;">
+            <button onclick="
+    document.getElementById('thongtin').style.display = 'block';
+    document.getElementById('anhdang').style.display = 'none';
+    document.getElementById('baidang').style.display = 'none';
+    document.getElementById('following').style.display = 'none';
+    document.getElementById('pass').style.display = 'none';
+                            " style=" width: 15%; font-size: 20px; font-weight: bold;">
+                Thông tin
+            </button>
+            <button onclick="
+    document.getElementById('thongtin').style.display = 'none';
+    document.getElementById('anhdang').style.display = 'block';
+    document.getElementById('baidang').style.display = 'none';
+    document.getElementById('following').style.display = 'none';
+    document.getElementById('pass').style.display = 'none';
+                            " style="width: 15%; font-size: 20px; font-weight: bold;">
+                Ảnh đã đăng
+            </button>
+            <button onclick="
+    document.getElementById('thongtin').style.display = 'none';
+    document.getElementById('anhdang').style.display = 'none';
+    document.getElementById('baidang').style.display = 'block';
+    document.getElementById('following').style.display = 'none';
+    document.getElementById('pass').style.display = 'none';
+                            " style="width: 15%; font-size: 20px; font-weight: bold;">
+                Bài đã đăng
+            </button>
+            <button onclick="
+    document.getElementById('thongtin').style.display = 'none';
+    document.getElementById('anhdang').style.display = 'none';
+    document.getElementById('baidang').style.display = 'none';
+    document.getElementById('following').style.display = 'block';
+    document.getElementById('pass').style.display = 'none';
+                            " style="width: 15%; font-size: 20px; font-weight: bold;">
+                Đang follow
+            </button>
+            <button onclick="
+    document.getElementById('thongtin').style.display = 'none';
+    document.getElementById('anhdang').style.display = 'none';
+    document.getElementById('baidang').style.display = 'none';
+    document.getElementById('following').style.display = 'none';
+    document.getElementById('pass').style.display = 'block';
+                            " style="width: 15%; font-size: 20px; font-weight: bold;">
+                Đổi mật khẩu
+            </button>
+        </div>
+        <hr />
+        <div style="width:100%; margin-top:20px;">
+            <div id="thongtin" style="width:100%; display:block; ">
+                <div style="width:100%; display:flex;">
+                    <div style="width:49%;">
+                        <div style="width:100%; text-align:center; font-size:25px; font-weight:bold; ">
+                            Thông tin cá nhân
+                        </div>
+                        <form style="width:100%; scroll-padding-left:5%;" method="post" ; action="~/KhachHang/LuuThayDoi">
+                            <div style="width:95%; display:flex; justify-content:right;">
+                                Tên người dùng:
+                                <input name="tennguoidung" type="text" style="width:80%; margin-left:1%;" value="@acccus.UseName" />
+                            </div>
+                            <hr />
+                            <div style="width:95%; display:flex; justify-content:right;">
+                                Tên :
+                                <input name="ten" type="text" style="width:80%; margin-left:1%;" value="@acccus.Name" />
+                            </div><hr />
+                            @if (acccus.BirthDay != null)
+                            {
+                                <div style="width:95%; display:flex; justify-content:right;">
+                                    Ngày sinh:
+                                    <input name="ngaysinh" type="text" style="width:80%; margin-left:1%;" value="@acccus.BirthDay.Value.Day/@acccus.BirthDay.Value.Month/@acccus.BirthDay.Value.Year" />
+                                </div><hr />
+                            }
+                            else
+                            {
+                                <div style="width:95%; display:flex; justify-content:right;">
+                                    Ngày sinh:
+                                    <input name="ngaysinh" type="text" style="width:80%; margin-left:1%;" value="" />
+                                </div><hr />
+                            }
+                            @if (acccus.Address != null)
+                            {
+                                <div style="width:95%; display:flex; justify-content:right;">
+                                    Địa chỉ:
+                                    <input name="diachi" type="text" style="width:80%; margin-left:1%;" value="@acccus.Address" />
+                                </div><hr />
+                            }
+                            else
+                            {
+                                <div style="width:95%; display:flex; justify-content:right;">
+                                    Địa chỉ:
+                                    <input name="diachi" type="text" style="width:80%; margin-left:1%;" value="" />
+                                </div><hr />
+                            }
+                            @if (acccus.PhoneNumber != null)
+                            {
+                                <div style="width:95%; display:flex; justify-content:right;">
+                                    Số điện thoại:
+                                    <input name="sdt" type="text" style="width:80%; margin-left:1%;" value="@acccus.PhoneNumber" />
+                                </div><hr />
+                            }
+                            else
+                            {
+                                <div style="width:95%; display:flex; justify-content:right;">
+                                    Số điện thoại:
+                                    <input name="sdt" type="text" style="width:80%; margin-left:1%;" value="" />
+                                </div><hr />
+                            }
+                            <div style="width:95%; display:flex; justify-content:center;">
+                                <input type="submit" value="Lưu" />
+                            </div>
+                        </form>
+                        <div style="width:100%;">
+                            <div style="width:100%; justify-content:center; justify-items:center; text-align:center; font-size:20px; ">
+                                Lĩnh vực quan tâm
+                            </div>
+                            <div style="width:100%; display:flex; justify-content:center; justify-items:center;text-align:center;">
+                                <form style="padding-left:80px;justify-content:left;justify-items:left; text-align:left ;width:70%; display:flow;" method="post" action="ThayDoiLV">
+                                    <input hidden type="text" id="ketqualv" name="ketqualv" />
+                                    @if (acccus.LVKHs.Where(x => x.malv == "AN").FirstOrDefault() != null)
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="AN" checked id="amnhac" />Âm nhạc
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="AN" id="amnhac" />Âm nhạc
+                                        </div>
+                                    }
+                                    @if (acccus.LVKHs.Where(x => x.malv == "AT").FirstOrDefault() != null)
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="AT" checked id="amthuc" />Ẩm thực
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="AT" id="amthuc" />Ẩm thực
+                                        </div>
+                                    }
+                                    @if (acccus.LVKHs.Where(x => x.malv == "MP").FirstOrDefault() != null)
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="MP" checked id="mypham" />Mỹ phẩm
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="MP" id="mypham" />Mỹ phẩm
+                                        </div>
+                                    }
+                                    @if (acccus.LVKHs.Where(x => x.malv == "TM").FirstOrDefault() != null)
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="TM" checked id="thuongmai" />Thương mại
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="TM" id="thuongmai" />Thương mại
+                                        </div>
+                                    }
+                                    @if (acccus.LVKHs.Where(x => x.malv == "TT").FirstOrDefault() != null)
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="TT" checked id="thethao" />Thể thao
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="TT" id="thethao" />Thể thao
+                                        </div>
+                                    }
+                                    @if (acccus.LVKHs.Where(x => x.malv == "TTr").FirstOrDefault() != null)
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="TTr" checked id="thoitrang" />Thời trang
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <input type="checkbox" value="TTr" id="thoitrang" />Thời trang
+                                        </div>
+                                    }
+                                    <input onclick="laylinhvuc();" type="submit" value="Lưu" />
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="width:2%;"></div>
+                    <div style="width:49%;">
+                        <div style="width:100%; text-align:center; font-size:25px; font-weight:bold; ">
+                            Thông tin xác thực
+                        </div>
+                        <div style="width:100%;">
+                            <div style="width:100%; display:block; " id="gmail">
+                                <div style="width: 100%; display:flex; justify-content:right;">
+                                    Gmail:
+                                    <input style="width: 80%; margin-left: 3px;" type="text" value="@acccus.Gmail" />
+                                    <button style="width:100px;"> Đổi</button>
+                                </div>
+                            </div>
+                            <div style="width:100%; display:none; " id="xacthuc">
+
+                                <div style="width: 100%; display:flex; justify-content:right;">
+                                    Mã xác nhận:
+                                    <input style="width:65%; margin-left:3px;" type="text" value="" />
+                                    <button style="width:100px;"> Xác thực</button>
+                                </div>
+                            </div>
+                        </div><hr />
+                        <div style="width:100%; display:flow;">
+                            <div style="width:100%;">
+                                CMND mặt trước:
+                            </div>
+                            <div style="width:100%; display:flex; justify-content:center;">
+                                @if (acccus.CCCD == null)
+                                {
+                                    <img id="anhcmnd" style="width:400px; height:200px;" src="https://i.imgur.com/gJrGFAM.png" />
+                                }
+                                else
+                                {
+                                    String srcanh = bii.ByteToString(acccus.CCCD);
+                                    <img id="anhcmnd" style="width:400px; height:200px;" src="@srcanh" />
+                                }
+                            </div>
+                            <div style="width:100%;">
+                                <form style="width:100%; display:flex;" method="post" action="~/KhachHang/LoadCMND">
+                                    <input hidden type="text" id="srcanhcmnd" name="srcanhcmnd" />
+                                    <input type="file" accept="image/*" onchange="chooseCMNDmt(this)" />
+                                    <input type="submit" value="Lưu" />
+                                </form>
+                            </div>
+                        </div><hr />
+                        <div style="width:100%; display:flow;">
+                            <div style="width:100%;">
+                                CMND mặt sau:
+                            </div>
+                            <div style="width: 100%; display: flex; justify-content: center;">
+                                @if (acccus.CCCDback == null)
+                                {
+                                    <img id="anhcmndms" style="width:400px; height:200px;" src="https://i.imgur.com/gJrGFAM.png" />
+                                }
+                                else
+                                {
+                                    String srcanh = bii.ByteToString(acccus.CCCDback);
+                                    <img id="anhcmndms" style="width:400px; height:200px;" src="@srcanh" />
+                                }
+                            </div>
+                            <div style="width:100%;">
+                                <form style="width:100%; display:flex;" method="post" action="~/KhachHang/LoadCMNDms">
+                                    <input hidden type="text" id="srcanhcmndms" name="srcanhcmnd" />
+                                    <input type="file" accept="image/*" onchange="chooseCMNDms(this)" />
+                                    <input type="submit" value="Lưu" />
+                                </form>
+                            </div>
+                        </div><hr />
+                    </div>
+                </div>
+            </div>
+            <div id="anhdang" style="width: 100%; display: none;">
+                <div style="width:100%;">
+                    <form style="width:100%;" method="post" action="~/KhachHang/DangAnh">
+                        <div style="width:100%; display:flex;justify-content:center;">
+                            <button onclick="
+                                                document.getElementById('linkanh').click();
+                                                document.getElementById('anhdangthem').style.display = 'block';
+                                                event.preventDefault();
+                                                ">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-plus" viewBox="0 0 16 16">
+                                    <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z" />
+                                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1z" />
+                                </svg> Thêm ảnh
+                            </button>
+                            <input type="file" id="linkanh" hidden onchange="ThemAnh(this);" />
+                            <input type="text" hidden id="srcanhthem" name="srcanhthem" />
+                        </div>
+                        <div style="width:100%; display:flex; justify-content:center;">
+                            <img id="anhdangthem" style="width:300px; height:300px; display:none;" />
+                        </div>
+                        <div style="width:100%; display:flex; justify-content:center;"><button onclick="document.getElementById('submitAddAnh').click();document.getElementById('anhdangthem').style.display = 'none';">Thêm</button></div>
+                        <input type="submit" hidden id="submitAddAnh" />
+                    </form>
+                </div>
+                <div style="width:100%; display:flex;">
+                    @foreach (var c in l_anh)
+                    {
+                        String srcanhdang = bii.ByteToString(c.Anh);
+                        <div style="width: 300px; height: 330px; margin: 20px; ">
+                            <div style="width:300px; height:30px; display:flex; justify-content:center; ">
+                                <svg onclick="document.getElementById('xoa_@c.ma').click(); alert('Đã xóa');" xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" fill="currentColor" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z" />
+                                </svg><a id="xoa_@c.ma" href="~/KhachHang/KhachXoaAnh?idanh=@c.ma"></a>
+                            </div>
+                            <div style="width:300px; height:300px;">
+                                <img style="width:300px; height:300px; " src="@srcanhdang" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            @{
+                List<MXHvaQLKOL.Models.BaiDangCu> l_bvtimkol = db.BaiDangCus.Where(x => x.AccName == accname).ToList();
+            }
+            <div id="baidang" style="width: 100%; display: none; padding:20px;">
+                @foreach (var c in l_bvtimkol)
+                {
+                    String srcanhbvtimkol = bii.ByteToString(c.anh);
+                    <div style="width:100%; display:flex;">
+                        <div style="width:40%; display:flow;">
+                            <div style="width: 100%; justify-content: center; justify-items: center; text-align: center; font-size: 20px;">
+                                @c.NoiDung
+                            </div>
+                            <div style="width: 100%; justify-content: center; justify-items: center; text-align: center; ">
+                                <img style="width:300px; height:250px;" src="@srcanhbvtimkol" />
+                            </div>
+                            <div style="width: 100%; justify-content: center; justify-items: center; text-align: center; font-size:20px; font-weight:bold;">
+                                @c.TTLinhVuc.TenLV
+                            </div>
+                        </div>
+                        <div style="width:60%; display:flow;">
+                            <div style="width:100%; font-size:20px; font-weight:bold; justify-content:center; justify-items:center; text-align:center;">
+                                @c.UngTuyenBvCus.Count() Lượt ứng tuyển
+                            </div>
+                            <div style="width:100%; height:250px; overflow:auto; border:2px solid black;">
+                                @{
+                                    List<MXHvaQLKOL.Models.UngTuyenBvCu> l_ungtuyen = c.UngTuyenBvCus.ToList();
+                                }
+                                @foreach (var ut in l_ungtuyen)
+                                {
+                                    String avtut = bii.ByteToString(ut.AccKOL.Avatar);
+                                    MXHvaQLKOL.Context.supportClass.tinhtien titi = new MXHvaQLKOL.Context.supportClass.tinhtien(ut.AccKOL);
+                                    <div style="width:90%; margin-left:5%; margin-right:5%; border:1px solid black; float: left;display:flex;">
+                                        <div style="width: 20%; height:60px; margin:5px;"><img style="width:50px; height:50px; border-radius:50%;" src="@avtut" /></div>
+                                        <div style="width:50% ;display:flow;">
+                                            <div style="width:70%;">
+                                                @ut.AccKOL.UserName
+                                            </div>
+                                            <div style="width:100%; font-weight:bold;">
+                                                Lượt follow: @ut.AccKOL.Follows.Count
+                                            </div>
+                                            <div style="width:100%; font-weight:bold;">
+                                                Số hợp đồng: @ut.AccKOL.HopDongs.Count
+                                            </div>
+                                            <div style="width:100%; font-weight:bold;">
+                                                Giá: @titi.Tien
+                                            </div>
+                                        </div>
+                                        <div style="width:30% ;display:flow;">
+                                            <button onclick="document.getElementById('book').click();" style="width:100%; height:100%;">BOOK</button>
+                                            <a id="book" href="~/KhachHang/LoadHDkhichonkol?id=@ut.AccName"></a>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                }
+            </div>
+            <div id="following" style="width: 100%; display: none; ">
+                <div style="width:100%; ">
+                    @foreach (var c in l_fl)
+                    {
+                        <div style="width:300px; height:370px; margin:20px; display:flow; float:left;">
+                            <div style="width:100%; height:300px;">
+                                @if (c.AccKOL.Avatar == null)
+                                {
+                                    <img style="width:100%; height:100%;" src="https://i.imgur.com/bRJdUtb.jpg" />
+                                }
+                                else
+                                {
+                                    String srcimg = bii.ByteToString(c.AccKOL.Avatar);
+                                    <img style="width:100%; height:100%;" src="@srcimg" />
+                                }
+                            </div>
+                            <div style="width:100%; display:flex; text-align:center; justify-content:center;padding:10px;">
+                                <button>Đang follow</button>
+                            </div>
+                            <div style="width: 100%; display: flex; text-align: center; justify-content: center;">
+                                @c.AccKOL.UserName
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div id="pass" style="width: 100%; display: none; ">
+                <div style="width: 100%; display: flex; justify-content:center; ">
+                    <div style="width:50%; height:280px; margin-top:100px; border:2px solid black;">
+                        <form style="width:100%; padding-left:10%; padding-right:10%; padding-top:3%;" method="post" action="~/KhachHang/DoiPassKhach">
+                            <div style="width:100%; display:flex; justify-content:right;">
+                                Mật khẩu cũ:
+                                <input hidden id="mkcu2" value="@tk.Pass" />
+                                <input style="width: 60%; margin-left: 20px;" type="text" id="mkcu" name="mkcu" />
+                            </div><hr />
+                            <div style="width:100%; display:flex; justify-content:right;">
+                                Mật khẩu mới:
+                                <input style="width: 60%; margin-left: 20px;" type="text" id="mkmoi" name="mkmoi" />
+                            </div><hr />
+                            <div style="width:100%; display:flex; justify-content:right;">
+                                xác nhận mật khẩu mới:
+                                <input style="width:60%; margin-left:20px;" type="text" id="xacnhanmkmoi" name="xacnhanmkmoi" />
+                            </div><hr />
+                            <div style="width:100%; display:flex; justify-content:right; justify-items:center; text-align:center;">
+                                <input onclick="
+                                                var mkcu = document.getElementById('mkcu').value;
+                                                var mkcu2 = document.getElementById('mkcu2').value;
+                                                if (mkcu != mkcu2) {
+                                                    alert('Mật khẩu cũ không đúng');
+                                                    event.preventDefault();
+                                                }
+                                               " type="submit" value="Xác nhận" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div style="width:100%; height:300px;">
+
+            </div>
+        </div>
+    </div>
+</div>
+

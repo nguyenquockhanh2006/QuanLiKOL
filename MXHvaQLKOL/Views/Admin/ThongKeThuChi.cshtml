@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "ThongKeThuChi";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    int nam = DateTime.Now.Year;
+    MXHvaQLKOL.Context.supportClass.BieuDoDuong BDDuong = new MXHvaQLKOL.Context.supportClass.BieuDoDuong(nam);
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    var result = db.HopDongs.Where(x=>x.TrangThai == 4).ToList();
+    var result2 = db.RutTienKOLs.Where(x => x.TinhTrang == 1).ToList();
+    int coin = 0;
+    foreach(var c in result)
+    {
+        coin += c.TriGia.Value;
+    }
+    foreach(var c in result2)
+    {
+        coin -= c.SoTien.Value;
+    }
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<h2 style="width:100%; text-align:center;">THỐNG KÊ THU CHI NĂM @DateTime.Now.Year</h2>
+<div>
+    <canvas id="myChart" style="width:100%;max-width:100%;"></canvas>
+    <script>
+        var xValues = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+        new Chart("myChart", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    data: [@BDDuong.getChi()[0] , @BDDuong.getChi()[1], @BDDuong.getChi()[2], @BDDuong.getChi()[3], @BDDuong.getChi()[4], @BDDuong.getChi()[5], @BDDuong.getChi()[6], @BDDuong.getChi()[7], @BDDuong.getChi()[8], @BDDuong.getChi()[9], @BDDuong.getChi()[10], @BDDuong.getChi()[11]],
+                    borderColor: "red",
+                    fill: true
+                }, {
+                    data: [@BDDuong.getThuThucTe()[0] , @BDDuong.getThuThucTe()[1], @BDDuong.getThuThucTe()[2], @BDDuong.getThuThucTe()[3], @BDDuong.getThuThucTe()[4], @BDDuong.getThuThucTe()[5], @BDDuong.getThuThucTe()[6], @BDDuong.getThuThucTe()[7], @BDDuong.getThuThucTe()[8], @BDDuong.getThuThucTe()[9], @BDDuong.getThuThucTe()[10], @BDDuong.getThuThucTe()[11]],
+                    borderColor: "green",
+                    fill: true
+                }, {
+                    data: [@BDDuong.getThu()[0] , @BDDuong.getThu()[1], @BDDuong.getThu()[2], @BDDuong.getThu()[3], @BDDuong.getThu()[4], @BDDuong.getThu()[5], @BDDuong.getThu()[6], @BDDuong.getThu()[7], @BDDuong.getThu()[8], @BDDuong.getThu()[9], @BDDuong.getThu()[10], @BDDuong.getThu()[11]],
+                    borderColor: "blue",
+                    fill: true
+                }]
+            },
+            options: {
+                legend: { display: false }
+            }
+        });
+    </script>
+    <div style="width:100%; display:flow;">
+        <div style="width:100%; padding:10px; display:flex;">
+            <div style="width:30px; height:20px; background-color:blue">
+
+            </div>
+            <div style="height:10px;">
+                Trị giá thu vào (Trị giá hợp đồng)
+            </div>
+        </div>
+        <div style="width: 100%; padding: 10px; display: flex;">
+            <div style="width:30px; height:20px; background-color:forestgreen">
+
+            </div>
+            <div style="height:10px;">
+                Trị giá thu vào thực tế (lợi nhuận)
+            </div>
+        </div>
+        <div style="width: 100%; padding: 10px; display: flex;">
+            <div style="width:30px; height:20px; background-color:red">
+
+            </div>
+            <div style="height:10px;">
+                Chi ra (Số tiền KOL rút)
+            </div>
+        </div>
+    </div>
+    <div style="width: 100%; font-size:25px; text-align:center;">
+        @{ 
+            int tongthu = 0; int tongloi = 0; int tongchi = 0;
+            for(int i = 0; i < 12; i++)
+            {
+                tongthu = tongthu + BDDuong.getThu()[i];
+                tongloi = tongloi + BDDuong.getThuThucTe()[i];
+                tongchi = tongchi + BDDuong.getChi()[i];
+            }
+        }
+        Tổng thu: @tongthu VNĐ - 
+        Tổng lợi nhuận: @tongloi VNĐ - 
+        Tổng chi: @tongchi VNĐ
+    </div>
+    <div style="width: 100%; font-size:30px; text-align:center;">
+        Vốn lưu động: @coin VNĐ
+    </div>
+</div>
+

@@ -1,0 +1,80 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccKOL>
+@{
+    ViewBag.Title = "LoadAllKolTieuBieu";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+}
+
+<link href="~/Context/css/Admin/QuanLiKOL.css" rel="stylesheet" />
+<link href="~/Context/css/Admin/Bang.css" rel="stylesheet" />
+
+<div id="trangdong">
+    <div id="dulieu">
+        <table class="bang">
+            <tr class="dongdau">
+                <th>
+                    Avatar
+                </th>
+                <th>
+                    Tên đăng nhập
+                </th>
+                <th>
+                    Tên tài khoản
+                </th>
+                <th>
+                    Tên
+                </th>
+                <th>
+                    Giới tính
+                </th>
+                <th>
+                    Ngày sinh
+                </th>
+                <th>
+                    Số lượt Follow
+                </th>
+                <th>
+                    Xem trang cá nhân
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr class="dongthu">
+                    <td>
+                        <img height="70" width="70" src="https://i.imgur.com/bRJdUtb.jpg" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GioiTinh)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDay)
+                    </td>
+                    <td>
+                        @{
+                            int a = 5;
+                        }
+                        @a
+                    </td>
+
+                    <td>
+                        <a href="~/KOL/HoSoKOLtheoid?idkol=@item.AccName">Xem chi tiết</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+

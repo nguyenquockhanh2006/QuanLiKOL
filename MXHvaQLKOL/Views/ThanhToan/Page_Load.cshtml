@@ -1,0 +1,42 @@
+﻿@using MXHvaQLKOL.Models;
+@{
+    ViewBag.Title = "Page_Load";
+    Layout = "~/Views/Layout/_LayoutKH.cshtml";
+}
+
+@{
+    String ma = Session["HopDongTT"].ToString();
+    String ketqua = Session["ketqua"].ToString();
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    HopDong hd = db.HopDongs.Where(x => x.MaHopDong == ma).FirstOrDefault();
+}
+<link href="~/Context/css/ketquathanhtoan.css" rel="stylesheet" />
+<div id="baongoai">
+    <div id="baotrong">
+        <div id="tieudeketqua">
+            @if (ketqua.Contains("00") == true)
+            {
+                <img class="icontt" src="https://i.imgur.com/VYrOt1U.jpg" /><br />
+                <h1 class="tnkq">Thanh toán thành công</h1>
+            }
+            else
+            {
+
+                <img class="icontt" src="https://i.imgur.com/gJrGFAM.png" /><br />
+                <h1 class="tnkq">Thanh toán thành công</h1>
+            }
+        </div>
+        <div id="noidung">
+            <hr />
+            <div class="tt"><h3>Mã thanh toán: @Session["matt"].ToString()</h3></div>
+            <div class="tt"><h3>Mã hợp đồng: @Session["HopDongTT"].ToString()</h3></div>
+            <div class="tt"><h3>Trị giá: @hd.TriGia</h3></div>
+            <div class="tt"><h3>Thời gian thanh toán: @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year</h3></div>
+            <div class="tt" style=" text-align: center;">
+                <div id="btnclick" ><button onclick="document.getElementById('nutve').click();"><i id="icon" class="bi bi-house"></i> Trởi lại</button></div>
+            </div>
+            <a id="nutve" style="display:none" href="~/KhachHang/TaiHopDong">a</a>
+        </div>
+    </div>
+</div>
+

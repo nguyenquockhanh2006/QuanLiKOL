@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_LayoutKH.cshtml";
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>VNPAY DEMO</title>
+    <link href="Styles/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    @{ 
+        String mahd = Session["HopDongTT"].ToString();
+        MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+        MXHvaQLKOL.Models.HopDong hopdong = db.HopDongs.Where(x => x.MaHopDong == mahd).FirstOrDefault();
+    }
+    <div class="container">
+        <div class="header clearfix">
+
+            <h3 class="text-muted">VNPAY THANH TOÁN</h3>
+        </div>
+        <div class="table-responsive">
+            <form id="form1" method="post" action="~/ThanhToan/Index">
+                <h1>THÔNG TIN THANH TOÁN</h1><br />
+                <h3>Loại thanh toán: Thanh toán Hợp Đồng Quản bá sản phẩm</h3><br />
+                <h3>Mã hợp đồng: @Session["HopDongTT"].ToString()</h3><br />
+                <h3>Tài khoản thụ hưởng: Website MXH và quản lí KOL</h3><br />
+                <h3>Hạn thanh toán: @hopdong.NgayKi.Value.AddDays(5)</h3><br />
+                <div style="display:flex;"><h3>Trị giá (VNĐ):</h3> <input style="font-size: 20px; width: 500px; border: none; font-size: 30px;" type="text" value="@hopdong.TriGia" name="trigia"/><br /><br /></div>
+                <button style="margin-left:200px;" onclick="document.getElementById('btnPay').click();"><h3>Thanh toán</h3></button>
+                <Button id="btnPay" style="display:none;"  Text="Thanh toán (Redirect)" class="btn btn-default" OnClick="btnPay_Click"/>
+            </form>
+
+            <Label id="lblMessage" ForeColor="#FF3300"></Label>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+

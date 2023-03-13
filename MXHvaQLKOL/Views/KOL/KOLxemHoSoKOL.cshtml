@@ -1,0 +1,106 @@
+﻿@model MXHvaQLKOL.Models.AccKOL
+
+@*@if (Session["PQ"].ToString() == "KOL"){
+    ViewBag.Title = "KOLxemHoSoKOL";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+}
+else
+{
+    ViewBag.Title = "AdminXemHoSoKOL";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+}*@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+<script src="https://smtpjs.com/v3/smtp.js" defer></script>
+<link href="~/Context/css/kolxemkol.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "HoSoKOLtheoid";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+    String accname = Session["id"].ToString();
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    MXHvaQLKOL.Models.AccKOL akol = Model;
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    List<MXHvaQLKOL.Models.AnhDang> lad = db.AnhDangs.Where(x => x.AccName == Model.AccName).ToList();
+    MXHvaQLKOL.Models.Follow fl = db.Follows.Where(x => x.AccDuocFl == Model.AccName && x.AccFl == accname).FirstOrDefault();
+    List<MXHvaQLKOL.Models.BaiDangKOL> lbd = db.BaiDangKOLs.Where(x => x.AccName == akol.AccName).OrderByDescending(x=>x.ngaydang).ToList();
+
+}
+
+<div id="khungngoai">
+    <div id="avt">
+        @if (akol.Avatar == null)
+        {
+            <img id="anhavt" src="https://i.imgur.com/oi2ioQW.jpg" />
+        }
+        else
+        {
+            String srcanhavt = bbi.ByteToString(akol.Avatar);
+            <img id="anhavt" src="@srcanhavt" />
+        }
+        <p style="font-weight: bold; font-size: 2em; text-align: center;">@akol.UserName</p>
+        <p style="font-size: 2em; text-align: center;">@akol.Name</p>
+    </div>
+    <div style="width:1px; height:100%;"></div>
+    <div id="khungconlai">
+        <div id="tab" style="width:100%; display:flex; justify-content:center;">
+            <button class="button-64" role="button" onclick="
+                                document.getElementById('content').style.display = 'block';
+                                document.getElementById('anh').style.display = 'none';
+                                document.getElementById('baivietkol').style.display = 'none';
+                            ">Thông tin</button>
+            <button class="button-64" role="button" onclick="
+                                document.getElementById('content').style.display = 'none';
+                                document.getElementById('anh').style.display = 'block';
+                                document.getElementById('baivietkol').style.display = 'none';
+                            ">Hình ảnh</button>
+            <button class="button-64" role="button" onclick="
+                                document.getElementById('content').style.display = 'none';
+                                document.getElementById('anh').style.display = 'none';
+                                document.getElementById('baivietkol').style.display = 'block';       
+                            ">Bài đăng</button>
+        </div>
+        <div id="khungnoidung" style="width:100%; height:auto; display:block;">
+            <div id="content" >
+                <span>Họ tên: @akol.Name</span>
+                <br />
+                <span>Ngày sinh: @akol.BirthDay.Value.Day/@akol.BirthDay.Value.Month/@akol.BirthDay.Value.Year</span>
+                <br />
+                <span>Giới tính: @akol.GioiTinh</span>
+                <br />
+                <span>Địa chỉ: @akol.Address</span>
+                <br />
+                <span>Số điện thoại: @akol.PhoneNumber</span>
+                <br />
+                <span>Gmail: @akol.Gmail</span>
+            </div>
+            <div id="anh" style="display: none;">
+                <span>Ảnh đã đăng</span>
+                <div id="listanh" style="padding:20px;">
+                    @foreach (var c in lad)
+                    {
+                        String srctem = bbi.ByteToString(c.Anh);
+                        <img style="width:100px; height:100px;" src="@srctem" class="khunganh"/>
+                    }
+                </div>
+            </div>
+            <div id="baivietkol" style="display: none;">
+                <span style="margin-left:30px; font-weight:bold; font-size:30px;">Bài viết đã đăng</span>
+                <div id="noidungbv" style="padding:20px;">
+                    @foreach(var c in lbd)
+                    {
+                    
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

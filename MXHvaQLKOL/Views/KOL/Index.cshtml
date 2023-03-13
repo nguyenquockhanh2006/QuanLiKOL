@@ -1,0 +1,526 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.BaiDangKOL>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+    //Session["id"] = "nthien.truong.qk206@gmail.com";
+    String accname = Session["id"].ToString();
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    MXHvaQLKOL.Models.AccKOL kolavr = db.AccKOLs.Where(x => x.AccName == accname).FirstOrDefault();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+}
+<link href="~/Context/css/danganh.css" rel="stylesheet" />
+<script src="~/Context/js/danganh.js"></script>
+
+<div style="width: 100%; position: relative; overflow: auto; ">
+    <div style="width:100%; display:flex;">
+        <div id="noidung">
+            <div id="thembv">
+                <div id="div_ip">
+                    <form id="fr_addbv" style="display: flex; width: 100%; justify-content: space-between; align-items: center; " method="post" action="~/KOL/Index">
+                        @if (kolavr.Avatar == null)
+                        {
+                            <img style="width:70px; height:70px; border-radius:50%;" src="https://i.imgur.com/bRJdUtb.jpg" />
+                        }
+                        else
+                        {
+                            String srcanhavt = bbi.ByteToString(kolavr.Avatar);
+                            <img style="width:70px; height:70px; border-radius:50%;" src="@srcanhavt" />
+                        }
+                        <input type="text" placeholder="Hãy viết cảm xúc cho hôm nay nào!" id="ip_bv" name="noidungbv" />
+
+                        <div style="width:100%; justify-content:center; display:none;">
+                            <img style="margin-top:3px;" id="anhdangsr" />
+                        </div>
+                        <input type="text" id="anhsrc" name="anhdayne" />
+                        <div style="width:10%; justify-content:right; display:flex;">
+                            <input id="btn_dang" value="Đăng" type="submit" />
+                        </div>
+                    </form>
+                </div>
+                <div id="gr_btn">
+                    <input type="file" accept="image/*" id="chooseimg" onchange="chooseFileAnh(this);" />
+                    <button id="themanh"><i class="bi bi-image" onclick="document.getElementById('chooseimg').click();"></i>Ảnh</button>
+                    <button id="themcx"><i class="bi bi-emoji-wink" onclick=""></i>Cảm xúc</button>
+                </div>
+            </div>
+
+            <div id="baiviet">
+                @foreach (var c in Model)
+                {
+                    String acc = c.AccName;
+                    MXHvaQLKOL.Models.AccKOL kol = db.AccKOLs.Where(x => x.AccName == acc).FirstOrDefault();
+                    <div class="khungdang" style="padding: 3%; margin-bottom: 1em;">
+                        <div class="khungttnd">
+                            @if (kol.Avatar != null)
+                            {
+                                String srcanhavt = bbi.ByteToString(kol.Avatar);
+                                <img style="width:70px; height:70px; border-radius:50%;" src="@srcanhavt" />
+                            }
+                            <div class="tennguoidang" style="display: flex; align-items: center;">@kol.UserName</div>
+                        </div>
+                        <div class="khungtt" style=" margin-top: 1em;">
+                            <div class="khungnoidung" style="width: 100%; padding-left: 5%; padding-right: 5%;">
+                                @c.Noidung
+                            </div>
+                            <div class="khunganh">
+                                @if (c.anh != null)
+                                {
+                                    String srcanh = bbi.ByteToString(c.anh);
+                                    <img height="350" width="350" style="width:350px; height:350px; margin-top:20px;" src="@srcanh" />
+                                }
+                            </div>
+                        </div>
+                        <div class="khungbutton" style="background-color: white; border-radius: 0.3em; padding: 0.3em; ">
+                            @{
+                                int l_like = db.LuotThichBvKOLs.Where(x => x.MaBaiDang == c.MaBaiDang).ToList().Count;
+                                int l_follow = db.Follows.Where(x => x.AccDuocFl == c.AccName).ToList().Count;
+                            }
+                            <button class="button-60" role="button">@l_like Like</button>
+                            <button class="button-60" role="button">@l_follow Lượt theo dõi</button>
+                            <button onclick="document.getElementById('khung_report').style.display = 'block';" class="button-60" role="button">Báo cáo KOL</button>
+                            <button onclick="document.getElementById('click_@c.AccName').click();" class="button-60" role="button"> Xem trang cá nhân</button>
+                            <a id="click_@c.AccName" href="~/KOL/KOLxemHoSoKOL?idkol=@c.AccName"></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div style="width:35%; background-color:antiquewhite; height:100%; display:flow; margin-right:40px; overflow: auto;">
+            @{ 
+                List<MXHvaQLKOL.Models.BaiDangCu> l_an = db.BaiDangCus.Where(x => x.LinhVuc == "AN").ToList();
+                List<MXHvaQLKOL.Models.BaiDangCu> l_at = db.BaiDangCus.Where(x => x.LinhVuc == "AT").ToList();
+                List<MXHvaQLKOL.Models.BaiDangCu> l_mp = db.BaiDangCus.Where(x => x.LinhVuc == "MP").ToList();
+                List<MXHvaQLKOL.Models.BaiDangCu> l_tm = db.BaiDangCus.Where(x => x.LinhVuc == "TM").ToList();
+                List<MXHvaQLKOL.Models.BaiDangCu> l_tt = db.BaiDangCus.Where(x => x.LinhVuc == "TT").ToList();
+                List<MXHvaQLKOL.Models.BaiDangCu> l_ttr = db.BaiDangCus.Where(x => x.LinhVuc == "TTr").ToList();
+             }
+            <div style="margin-top:10px ;width: 100%; display: flex; justify-content: center; justify-items: center; text-align: center; font-size: 20px; font-weight: bold;">
+                HỢP ĐỒNG TÌM KOL
+            </div>
+            <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center; font-size:17px; font-weight:bold;">
+                Lĩnh vực: 
+                <select onchange="
+    var lv = this.value;
+    document.getElementById('bdAN').style.display = 'none';
+    document.getElementById('bdAT').style.display = 'none';
+    document.getElementById('bdMP').style.display = 'none';
+    document.getElementById('bdTM').style.display = 'none';
+    document.getElementById('bdTT').style.display = 'none';
+    document.getElementById('bdTTR').style.display = 'none';
+    document.getElementById(lv).style.display = 'block';
+                                    ">
+                    <option  value="bdAN">Âm nhạc</option>
+                    <option  value="bdAT">Ẩm thực</option>
+                    <option  value="bdMP">Mỹ phẩm</option>
+                    <option  value="bdTM">Thương mại</option>
+                    <option  value="bdTT">Thể thao</option>
+                    <option  value="bdTTR">Thời trang</option>
+                </select>
+            </div>
+            <div style="width:100%; ">
+                <div style="width:100%; display:none;" id="bdTTR">
+                    @foreach (var c in l_ttr)
+                    {
+                        <div style="width: 350px; display: flow; background-color: aliceblue; margin-top: 20px; margin-right: 20px; margin-left: 20px; padding:20px;">
+                            <div style="width:100%; background-color:white;">
+                                <div style="width:100%; font-size:18px;">
+                                    @c.AccCustomer.UseName
+                                </div>
+                                <div style="width:100%; font-size:13px; display:flex; text-align:right; font-weight:bold; justify-content:right; justify-items:right;">
+                                    @c.NgayDang.Value.Day/@c.NgayDang.Value.Month/@c.NgayDang.Value.Year
+                                </div>
+                                <div>
+                                    @{ String srcabdk = bbi.ByteToString(c.anh);}
+                                    <img style="width:100%; height:250px; " src="@srcabdk" />
+
+                                </div>
+                                <div style="width:100%; padding-left:5%; padding-right:5%; justify-content:center; justify-items:center; text-align:center;">
+                                    <div style="width:100%;">
+                                        @c.NoiDung
+                                    </div>
+                                </div>
+                                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center; font-weight:bold;">
+                                    @c.UngTuyenBvCus.Count() Ứng tuyển
+                                </div>
+                                <div style="width:100%; justify-content:right; justify-items:right; text-align:right; display:flex;">
+                                    @{ MXHvaQLKOL.Models.UngTuyenBvCu ut_cus = c.UngTuyenBvCus.Where(x => x.AccName == accname).FirstOrDefault();}
+                                    @if (ut_cus == null)
+                                    {
+
+
+                                        <button onclick="document.getElementById('ungtuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: limegreen; color: white;">
+                                            Ứng tuyển
+                                        </button>
+                                        <a id="ungtuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                    else
+                                    {
+                                        <button onclick="document.getElementById('huytuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: orangered; color: white;">
+                                            Hủy
+                                        </button>
+                                        <a id="huytuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                </div>
+                                <hr />
+                                <div style="width:100%; height: 40px; overflow:auto; padding-top:1px; padding-left:20px; padding-right:20px;">
+                                    @{
+                                        List<MXHvaQLKOL.Models.UngTuyenBvCu> l_ungtuyen = c.UngTuyenBvCus.ToList();
+                                    }
+                                    @foreach (var b in l_ungtuyen)
+                                    {
+                                        String avtnut = bbi.ByteToString(b.AccKOL.Avatar);
+                                        <div style="border:1px solid black; width:100%; margin-bottom:2px; display:flex; justify-content:center; justify-items:center; text-align:center; ">
+                                            <img style="width:30px; height:30px; border-radius:50%; " src="@avtnut" />
+                                            <div style="padding-top:5px; font-weight:bold; margin-left:10px; ">@b.AccKOL.UserName</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div style="width:100%; display:none;" id="bdTT">
+                    @foreach (var c in l_tt)
+                    {
+                        <div style="width: 350px; display: flow; background-color: aliceblue; margin-top: 20px; margin-right: 20px; margin-left: 20px; padding:20px;">
+                            <div style="width:100%; background-color:white;">
+                                <div style="width:100%; font-size:18px;">
+                                    @c.AccCustomer.UseName
+                                </div>
+                                <div style="width:100%; font-size:13px; display:flex; text-align:right; font-weight:bold; justify-content:right; justify-items:right;">
+                                    @c.NgayDang.Value.Day/@c.NgayDang.Value.Month/@c.NgayDang.Value.Year
+                                </div>
+                                <div>
+                                    @{ String srcabdk = bbi.ByteToString(c.anh);}
+                                    <img style="width:100%; height:250px; " src="@srcabdk" />
+
+                                </div>
+                                <div style="width:100%; padding-left:5%; padding-right:5%; justify-content:center; justify-items:center; text-align:center;">
+                                    <div style="width:100%;">
+                                        @c.NoiDung
+                                    </div>
+                                </div>
+                                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center; font-weight:bold;">
+                                    @c.UngTuyenBvCus.Count() Ứng tuyển
+                                </div>
+                                <div style="width:100%; justify-content:right; justify-items:right; text-align:right; display:flex;">
+                                    @{ MXHvaQLKOL.Models.UngTuyenBvCu ut_cus = c.UngTuyenBvCus.Where(x => x.AccName == accname).FirstOrDefault();}
+                                    @if (ut_cus == null)
+                                    {
+
+
+                                        <button onclick="document.getElementById('ungtuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: limegreen; color: white;">
+                                            Ứng tuyển
+                                        </button>
+                                        <a id="ungtuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                    else
+                                    {
+                                        <button onclick="document.getElementById('huytuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: orangered; color: white;">
+                                            Hủy
+                                        </button>
+                                        <a id="huytuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                </div>
+                                <hr />
+                                <div style="width:100%; height: 40px; overflow:auto; padding-top:1px; padding-left:20px; padding-right:20px;">
+                                    @{
+                                        List<MXHvaQLKOL.Models.UngTuyenBvCu> l_ungtuyen = c.UngTuyenBvCus.ToList();
+                                    }
+                                    @foreach (var b in l_ungtuyen)
+                                    {
+                                        String avtnut = bbi.ByteToString(b.AccKOL.Avatar);
+                                        <div style="border:1px solid black; width:100%; margin-bottom:2px; display:flex; justify-content:center; justify-items:center; text-align:center; ">
+                                            <img style="width:30px; height:30px; border-radius:50%; " src="@avtnut" />
+                                            <div style="padding-top:5px; font-weight:bold; margin-left:10px; ">@b.AccKOL.UserName</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div style="width:100%; display:none;" id="bdTM">
+                    @foreach (var c in l_tm)
+                    {
+                        <div style="width: 350px; display: flow; background-color: aliceblue; margin-top: 20px; margin-right: 20px; margin-left: 20px; padding:20px;">
+                            <div style="width:100%; background-color:white;">
+                                <div style="width:100%; font-size:18px;">
+                                    @c.AccCustomer.UseName
+                                </div>
+                                <div style="width:100%; font-size:13px; display:flex; text-align:right; font-weight:bold; justify-content:right; justify-items:right;">
+                                    @c.NgayDang.Value.Day/@c.NgayDang.Value.Month/@c.NgayDang.Value.Year
+                                </div>
+                                <div>
+                                    @{ String srcabdk = bbi.ByteToString(c.anh);}
+                                    <img style="width:100%; height:250px; " src="@srcabdk" />
+
+                                </div>
+                                <div style="width:100%; padding-left:5%; padding-right:5%; justify-content:center; justify-items:center; text-align:center;">
+                                    <div style="width:100%;">
+                                        @c.NoiDung
+                                    </div>
+                                </div>
+                                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center; font-weight:bold;">
+                                    @c.UngTuyenBvCus.Count() Ứng tuyển
+                                </div>
+                                <div style="width:100%; justify-content:right; justify-items:right; text-align:right; display:flex;">
+                                    @{ MXHvaQLKOL.Models.UngTuyenBvCu ut_cus = c.UngTuyenBvCus.Where(x => x.AccName == accname).FirstOrDefault();}
+                                    @if (ut_cus == null)
+                                    {
+
+
+                                        <button onclick="document.getElementById('ungtuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: limegreen; color: white;">
+                                            Ứng tuyển
+                                        </button>
+                                        <a id="ungtuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                    else
+                                    {
+                                        <button onclick="document.getElementById('huytuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: orangered; color: white;">
+                                            Hủy
+                                        </button>
+                                        <a id="huytuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                </div>
+                                <hr />
+                                <div style="width:100%; height: 40px; overflow:auto; padding-top:1px; padding-left:20px; padding-right:20px;">
+                                    @{
+                                        List<MXHvaQLKOL.Models.UngTuyenBvCu> l_ungtuyen = c.UngTuyenBvCus.ToList();
+                                    }
+                                    @foreach (var b in l_ungtuyen)
+                                    {
+                                        String avtnut = bbi.ByteToString(b.AccKOL.Avatar);
+                                        <div style="border:1px solid black; width:100%; margin-bottom:2px; display:flex; justify-content:center; justify-items:center; text-align:center; ">
+                                            <img style="width:30px; height:30px; border-radius:50%; " src="@avtnut" />
+                                            <div style="padding-top:5px; font-weight:bold; margin-left:10px; ">@b.AccKOL.UserName</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div style="width:100%; display:none;" id="bdAT">
+                    @foreach (var c in l_at)
+                    {
+                        <div style="width: 350px; display: flow; background-color: aliceblue; margin-top: 20px; margin-right: 20px; margin-left: 20px; padding:20px;">
+                            <div style="width:100%; background-color:white;">
+                                <div style="width:100%; font-size:18px;">
+                                    @c.AccCustomer.UseName
+                                </div>
+                                <div style="width:100%; font-size:13px; display:flex; text-align:right; font-weight:bold; justify-content:right; justify-items:right;">
+                                    @c.NgayDang.Value.Day/@c.NgayDang.Value.Month/@c.NgayDang.Value.Year
+                                </div>
+                                <div>
+                                    @{ String srcabdk = bbi.ByteToString(c.anh);}
+                                    <img style="width:100%; height:250px; " src="@srcabdk" />
+
+                                </div>
+                                <div style="width:100%; padding-left:5%; padding-right:5%; justify-content:center; justify-items:center; text-align:center;">
+                                    <div style="width:100%;">
+                                        @c.NoiDung
+                                    </div>
+                                </div>
+                                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center; font-weight:bold;">
+                                    @c.UngTuyenBvCus.Count() Ứng tuyển
+                                </div>
+                                <div style="width:100%; justify-content:right; justify-items:right; text-align:right; display:flex;">
+                                    @{ MXHvaQLKOL.Models.UngTuyenBvCu ut_cus = c.UngTuyenBvCus.Where(x => x.AccName == accname).FirstOrDefault();}
+                                    @if (ut_cus == null)
+                                    {
+
+
+                                        <button onclick="document.getElementById('ungtuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: limegreen; color: white;">
+                                            Ứng tuyển
+                                        </button>
+                                        <a id="ungtuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                    else
+                                    {
+                                        <button onclick="document.getElementById('huytuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: orangered; color: white;">
+                                            Hủy
+                                        </button>
+                                        <a id="huytuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                </div>
+                                <hr />
+                                <div style="width:100%; height: 40px; overflow:auto; padding-top:1px; padding-left:20px; padding-right:20px;">
+                                    @{
+                                        List<MXHvaQLKOL.Models.UngTuyenBvCu> l_ungtuyen = c.UngTuyenBvCus.ToList();
+                                    }
+                                    @foreach (var b in l_ungtuyen)
+                                    {
+                                        String avtnut = bbi.ByteToString(b.AccKOL.Avatar);
+                                        <div style="border:1px solid black; width:100%; margin-bottom:2px; display:flex; justify-content:center; justify-items:center; text-align:center; ">
+                                            <img style="width:30px; height:30px; border-radius:50%; " src="@avtnut" />
+                                            <div style="padding-top:5px; font-weight:bold; margin-left:10px; ">@b.AccKOL.UserName</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div style="width:100%; display:block;" id="bdAN">
+                    @foreach (var c in l_an)
+                    {
+                        <div style="width: 350px; display: flow; background-color: aliceblue; margin-top: 20px; margin-right: 20px; margin-left: 20px; padding:20px;">
+                            <div style="width:100%; background-color:white;">
+                                <div style="width:100%; font-size:18px;">
+                                    @c.AccCustomer.UseName
+                                </div>
+                                <div style="width:100%; font-size:13px; display:flex; text-align:right; font-weight:bold; justify-content:right; justify-items:right;">
+                                    @c.NgayDang.Value.Day/@c.NgayDang.Value.Month/@c.NgayDang.Value.Year
+                                </div>
+                                <div>
+                                    @{ String srcabdk = bbi.ByteToString(c.anh);}
+                                    <img style="width:100%; height:250px; " src="@srcabdk" />
+
+                                </div>
+                                <div style="width:100%; padding-left:5%; padding-right:5%; justify-content:center; justify-items:center; text-align:center;">
+                                    <div style="width:100%;">
+                                        @c.NoiDung
+                                    </div>
+                                </div>
+                                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center; font-weight:bold;">
+                                    @c.UngTuyenBvCus.Count() Ứng tuyển
+                                </div>
+                                <div style="width:100%; justify-content:right; justify-items:right; text-align:right; display:flex;">
+                                    @{ MXHvaQLKOL.Models.UngTuyenBvCu ut_cus = c.UngTuyenBvCus.Where(x => x.AccName == accname).FirstOrDefault();}
+                                    @if (ut_cus == null)
+                                    {
+
+
+                                        <button onclick="document.getElementById('ungtuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: limegreen; color: white;">
+                                            Ứng tuyển
+                                        </button>
+                                        <a id="ungtuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                    else
+                                    {
+                                        <button onclick="document.getElementById('huytuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: orangered; color: white;">
+                                            Hủy
+                                        </button>
+                                        <a id="huytuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                </div>
+                                <hr />
+                                <div style="width:100%; height: 40px; overflow:auto; padding-top:1px; padding-left:20px; padding-right:20px;">
+                                    @{
+                                        List<MXHvaQLKOL.Models.UngTuyenBvCu> l_ungtuyen = c.UngTuyenBvCus.ToList();
+                                    }
+                                    @foreach (var b in l_ungtuyen)
+                                    {
+                                        String avtnut = bbi.ByteToString(b.AccKOL.Avatar);
+                                        <div style="border:1px solid black; width:100%; margin-bottom:2px; display:flex; justify-content:center; justify-items:center; text-align:center; ">
+                                            <img style="width:30px; height:30px; border-radius:50%; " src="@avtnut" />
+                                            <div style="padding-top:5px; font-weight:bold; margin-left:10px; ">@b.AccKOL.UserName</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div style="width:100%; display:none;" id="bdMP">
+                    @foreach (var c in l_mp)
+                    {
+                        <div style="width: 350px; display: flow; background-color: aliceblue; margin-top: 20px; margin-right: 20px; margin-left: 20px; padding:20px;">
+                            <div style="width:100%; background-color:white;">
+                                <div style="width:100%; font-size:18px;">
+                                    @c.AccCustomer.UseName
+                                </div>
+                                <div style="width:100%; font-size:13px; display:flex; text-align:right; font-weight:bold; justify-content:right; justify-items:right;">
+                                    @c.NgayDang.Value.Day/@c.NgayDang.Value.Month/@c.NgayDang.Value.Year
+                                </div>
+                                <div>
+                                    @{ String srcabdk = bbi.ByteToString(c.anh);}
+                                    <img style="width:100%; height:250px; " src="@srcabdk" />
+
+                                </div>
+                                <div style="width:100%; padding-left:5%; padding-right:5%; justify-content:center; justify-items:center; text-align:center;">
+                                    <div style="width:100%;">
+                                        @c.NoiDung
+                                    </div>
+                                </div>
+                                <div style="width:100%; display:flex; justify-content:center; justify-items:center; text-align:center; font-weight:bold;">
+                                    @c.UngTuyenBvCus.Count() Ứng tuyển
+                                </div>
+                                <div style="width:100%; justify-content:right; justify-items:right; text-align:right; display:flex;">
+                                    @{ MXHvaQLKOL.Models.UngTuyenBvCu ut_cus = c.UngTuyenBvCus.Where(x => x.AccName == accname).FirstOrDefault();}
+                                    @if (ut_cus == null)
+                                    {
+
+
+                                        <button onclick="document.getElementById('ungtuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: limegreen; color: white;">
+                                            Ứng tuyển
+                                        </button>
+                                        <a id="ungtuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                    else
+                                    {
+                                        <button onclick="document.getElementById('huytuyen_@c.MaBaiDang').click();" style="width: 110px; background-color: orangered; color: white;">
+                                            Hủy
+                                        </button>
+                                        <a id="huytuyen_@c.MaBaiDang" href="~/KOL/UngTuyen?id=@c.MaBaiDang"></a>
+                                    }
+                                </div>
+                                <hr />
+                                <div style="width:100%; height: 40px; overflow:auto; padding-top:1px; padding-left:20px; padding-right:20px;">
+                                    @{
+                                        List<MXHvaQLKOL.Models.UngTuyenBvCu> l_ungtuyen = c.UngTuyenBvCus.ToList();
+                                    }
+                                    @foreach (var b in l_ungtuyen)
+                                    {
+                                        String avtnut = bbi.ByteToString(b.AccKOL.Avatar);
+                                        <div style="border:1px solid black; width:100%; margin-bottom:2px; display:flex; justify-content:center; justify-items:center; text-align:center; ">
+                                            <img style="width:30px; height:30px; border-radius:50%; " src="@avtnut" />
+                                            <div style="padding-top:5px; font-weight:bold; margin-left:10px; ">@b.AccKOL.UserName</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="khung_report" style="display:none ;width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.2); position: absolute; top: 0; left: 0; ">
+    <div style="margin-top:100px; margin-left:250px; width:60%; height:500px; background-color:white;">
+        <div style="width:100%; text-align:center; display:flex; justify-content:center; font-size:25px; font-weight:bold;">
+            BÁO CÁO KOL
+        </div>
+        <div style="width:100%; height:10px;">
+        </div>
+        
+        <form style="width:100%;">
+            <input style="width:100%;" type="text" id="acckol" />
+            <div style="width:100%; padding:15px; display:flex; justify-content:left; font-size:25px;font-weight:bold;">
+                Lí do tố cáo:
+            </div>
+            <div style="width:100%; padding-right:50px; display:flex; justify-content:left; font-size:20px;">
+                <input type="radio" name="lido" value="LD1" /> Sử dụng hình ảnh không hợp lệ
+            </div>
+            <div style="width:100%; padding-right:50px; display:flex; justify-content:left; font-size:20px;">
+                <input type="radio" name="lido" value="LD1" /> Nội dung không phù hợp
+            </div>
+            <div style="width:100%; padding-right:50px; display:flex; justify-content:left; font-size:20px;">
+                <input type="radio" name="lido" value="LD1" /> Sử dụng ảnh đại diện là ảnh của bạn
+            </div>
+            <div style="width:100%; padding:15px; display:flex; justify-content:center; font-size:20px;">
+                <button style="width:150px;">Tố cáo</button>
+                <div style="width:20px;"></div>
+                <button style="width:150px;" onclick="document.getElementById('khung_report').style.display = 'none'; event.preventDefault();">Hủy</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+

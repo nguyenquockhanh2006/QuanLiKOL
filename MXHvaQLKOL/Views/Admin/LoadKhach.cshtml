@@ -1,0 +1,75 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccCustomer>
+@{
+    ViewBag.Title = "LoadKhach";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+}
+
+<link href="~/Context/css/Admin/QuanLiKOL.css" rel="stylesheet" />
+<link href="~/Context/css/Admin/Bang.css" rel="stylesheet" />
+
+<div id="trangdong">
+    <div id="dulieu">
+        <table class="bang">
+            <tr class="dongdau">
+                <th>
+                    Avatar
+                </th>
+                <th>
+                    Tên đăng nhập
+                </th>
+                <th>
+                    Tên tài khoản
+                </th>
+                <th>
+                    Tên
+                </th>
+                <th>
+                    Ngày sinh
+                </th>
+                <th>
+                    Trạng thái
+                </th>
+                <th>
+                    Xem trang cá nhân
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr class="dongthu">
+                    <td>
+                        <img height="70" width="70" src="https://i.imgur.com/bRJdUtb.jpg" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UseName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDay)
+                    </td>
+                    <td>
+                        @{
+                            MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+                            MXHvaQLKOL.Models.TaiKhoan tk = db.TaiKhoans.Where(x => x.AccName == item.AccName).FirstOrDefault();
+                        }
+                        @tk.TinhTrangHD
+                    </td>
+
+                    <td>
+                        <a href="#####">Xem chi tiết</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+
+
+

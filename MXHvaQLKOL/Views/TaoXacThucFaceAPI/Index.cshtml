@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Snapshot Face</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="~/Context/css/TaoXacThuc.css" rel="stylesheet" />
+    <script type="text/javascript" defer src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="~/Context/js/face-api.js" defer></script>
+    <script src="~/Context/js/SnapshotCam.js" defer></script>
+</head>
+<body>
+    <form method="post" action="/TaoXacThucFaceAPI/Index">
+        <div id="duoi">
+            <h1 id="Tiu">Xác thực Face ID</h1>
+            <div id="luuy">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <p>Nên nhấn chụp ảnh khi độ tin cậy đạt trên 0.8</p>
+                <p>Nên lưu khoảng 4 ảnh để có mô hình đạt độ tinh cậy cao</p>
+            </div>
+        </div>
+        <div id="tren">
+            <div id="bao">
+                <div id="traitren">
+                    <video src="" id="videoElm" controls muted autoplay></video>
+                </div>
+                <div id="phaitren">
+                    <canvas name="anh" id="canvas1"></canvas>
+                    <input type="image" id="copycanvas" name="anhcopy" src="" />
+                    <input type="text" id="srcanh" name="srcanh" style="display:none;" />
+                </div>
+                <div id="giua">
+                    <button id="btn_chupanh" class="button-87" role="button"> <span class="text"> Chụp ảnh</span> </button>
+                    <button type="submit" id="btn_xacnhan" class="button-87" role="button"> <span class="text"> Xác nhận ảnh</span> </button>
+                    <button style="float:right;" id="btn_save" class="button-87" role="button"> <span class="text"> Xác thực</span> </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form action="/TaoXacThucFaceAPI/GoxacThuc" method="post" style="width: 100%; justify-items: center; justify-content: center; align-items: center; display: none;">
+        <div style="width: 100%;display: flex;justify-content: center;">
+           
+        </div>
+        <input type="submit" id="rederict_xacthuc" style="display:none;" />
+    </form>
+</body>
+</html>
+
+

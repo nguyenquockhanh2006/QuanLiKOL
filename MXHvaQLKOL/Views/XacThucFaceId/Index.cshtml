@@ -1,0 +1,48 @@
+﻿@using MXHvaQLKOL.Models
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link href="~/Context/css/XacThucFaceId.css" rel="stylesheet" />
+</head>
+<body style="background-color:dimgrey">
+    <div style="height:auto; width:auto; display:none">
+        @{
+            String AccName = Session["id"].ToString();
+
+            int i = -1;
+            MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi =
+                new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+            MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+            List<FaceId> faceid = db.FaceIds.Where(x => x.AccName == AccName).ToList();
+
+            foreach (var c in faceid)
+            {
+                byte[] temp = c.Anh;
+
+                string s = bbi.ByteToString(temp);
+                i++;
+
+                <input class="ip_anhtao" type="image" id="@i" src="@s" />
+                <input type="text" id="AccName" value="@AccName" />
+                <input type="number" id="solan" value="@i" />
+
+            }
+        }
+        <form method="post" action="/XacThucFaceId/DieuHuong">
+            <input name="AccName" value="@AccName" />
+            <input type="submit" id="dentrangchu" />
+        </form>
+    </div>
+    <div id="container"></div>
+    <video src="" id="videoElm" controls muted autoplay></video>
+</body>
+</html>
+<script src="~/Context/js/face-api.js" defer></script>
+<script type="text/javascript" defer src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="~/Context/js/XacThucFaceId.js" defer></script>

@@ -1,0 +1,32 @@
+﻿#baongoai {
+    width: 100%;
+    height: 100%;
+    background-color: #d1f0ff;
+    justify-content: center;
+    justify-content: center;
+    justify-items: center;
+    display: flex;
+}
+#baotrong {
+    height: 500px;
+    width: 500px;
+    background-color: #f4ffff;
+    justify-content: center;
+    justify-items: center;
+}
+#tieudeketqua {
+    text-align: center;
+}
+.icontt {
+    width: 150px;
+    height: 150px;
+}
+.tnkq{
+
+}
+#noidung{
+
+}
+.tt{
+
+}

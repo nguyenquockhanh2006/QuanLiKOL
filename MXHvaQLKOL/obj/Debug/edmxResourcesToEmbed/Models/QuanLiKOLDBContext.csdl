@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuanLiKOLModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AccAdmin">
+    <Key>
+      <PropertyRef Name="AccName" />
+    </Key>
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BirthDay" Type="DateTime" Precision="0" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Avatar" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="CCCD" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="CCCDback" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="SoCM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BaiDangAdmins" Relationship="Self.FK_BaiDangAdmin_AccAdmins" FromRole="AccAdmins" ToRole="BaiDangAdmin" />
+    <NavigationProperty Name="HoiDaps" Relationship="Self.FK_HoiDap_AccAdmins" FromRole="AccAdmins" ToRole="HoiDap" />
+    <NavigationProperty Name="HopDongs" Relationship="Self.FK_HopDong_AccAdmin" FromRole="AccAdmins" ToRole="HopDongs" />
+  </EntityType>
+  <EntityType Name="AccCustomer">
+    <Key>
+      <PropertyRef Name="AccName" />
+    </Key>
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UseName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BirthDay" Type="DateTime" Precision="0" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Avatar" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="CCCD" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="CCCDback" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Gmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoCM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AnhKhaches" Relationship="Self.FK_AnhKhach_AccCustomers" FromRole="AccCustomers" ToRole="AnhKhach" />
+    <NavigationProperty Name="BaiDangCus" Relationship="Self.FK_BaiDangCus_AccCustomer" FromRole="AccCustomers" ToRole="BaiDangCus" />
+    <NavigationProperty Name="Follows" Relationship="Self.FK_Follow_AccCustomer" FromRole="AccCustomers" ToRole="Follows" />
+    <NavigationProperty Name="HopDongs" Relationship="Self.FK_HopDong_AccCustomer" FromRole="AccCustomers" ToRole="HopDongs" />
+    <NavigationProperty Name="LuotThichBvKOLs" Relationship="Self.FK_LuotThichBvKOL_AccCustomer" FromRole="AccCustomers" ToRole="LuotThichBvKOLs" />
+    <NavigationProperty Name="LVKHs" Relationship="Self.FK_LVKH_AccCustomers" FromRole="AccCustomers" ToRole="LVKH" />
+    <NavigationProperty Name="reports" Relationship="Self.FK_report_AccCustomer" FromRole="AccCustomers" ToRole="reports" />
+  </EntityType>
+  <EntityType Name="AccKOL">
+    <Key>
+      <PropertyRef Name="AccName" />
+    </Key>
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BirthDay" Type="DateTime" Precision="0" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Avatar" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="CCCD" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="CCCDback" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Gmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="GioiTinh" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="SoCM" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AnhDangs" Relationship="Self.FK_AnhDang_AccKOLs" FromRole="AccKOLs" ToRole="AnhDang" />
+    <NavigationProperty Name="BaiDangKOLs" Relationship="Self.FK_BaiDangKOL_AccKOL" FromRole="AccKOLs" ToRole="BaiDangKOLs" />
+    <NavigationProperty Name="Follows" Relationship="Self.FK_Follow_AccKOL" FromRole="AccKOLs" ToRole="Follows" />
+    <NavigationProperty Name="HopDongs" Relationship="Self.FK_HopDong_AccKOL" FromRole="AccKOLs" ToRole="HopDongs" />
+    <NavigationProperty Name="LVKOLs" Relationship="Self.FK_LVKOL_AccKOLs" FromRole="AccKOLs" ToRole="LVKOL" />
+    <NavigationProperty Name="reports" Relationship="Self.FK_report_AccKOL" FromRole="AccKOLs" ToRole="reports" />
+    <NavigationProperty Name="ThoiGianBieux" Relationship="Self.FK_ThoiGianBieu_AccKOL" FromRole="AccKOLs" ToRole="ThoiGianBieux" />
+    <NavigationProperty Name="UngTuyenBvCus" Relationship="Self.FK_UngTuyenBvCus_AccKOL" FromRole="AccKOLs" ToRole="UngTuyenBvCus" />
+    <Property Name="SoDu" Type="Int32" />
+    <NavigationProperty Name="RutTienKOLs" Relationship="QuanLiKOLModel.FK_RutTienKOL_AccKOLs" FromRole="AccKOL" ToRole="RutTienKOL" />
+  </EntityType>
+  <EntityType Name="AnhDang">
+    <Key>
+      <PropertyRef Name="ma" />
+    </Key>
+    <Property Name="ma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Anh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="AccKOL" Relationship="Self.FK_AnhDang_AccKOLs" FromRole="AnhDang" ToRole="AccKOLs" />
+  </EntityType>
+  <EntityType Name="AnhKhach">
+    <Key>
+      <PropertyRef Name="ma" />
+    </Key>
+    <Property Name="ma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Anh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="AccCustomer" Relationship="Self.FK_AnhKhach_AccCustomers" FromRole="AnhKhach" ToRole="AccCustomers" />
+  </EntityType>
+  <EntityType Name="BaiDangAdmin">
+    <Key>
+      <PropertyRef Name="MaBaiDang" />
+    </Key>
+    <Property Name="MaBaiDang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TieuDe" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NoiDung" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="Anh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="NguoiDang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AccAdmin" Relationship="Self.FK_BaiDangAdmin_AccAdmins" FromRole="BaiDangAdmin" ToRole="AccAdmins" />
+  </EntityType>
+  <EntityType Name="BaiDangCu">
+    <Key>
+      <PropertyRef Name="MaBaiDang" />
+    </Key>
+    <Property Name="MaBaiDang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NoiDung" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LinhVuc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NgayDang" Type="DateTime" Precision="3" />
+    <Property Name="anh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="AccCustomer" Relationship="Self.FK_BaiDangCus_AccCustomer" FromRole="BaiDangCus" ToRole="AccCustomers" />
+    <NavigationProperty Name="TTLinhVuc" Relationship="Self.FK_BaiDangCus_TTLinhVuc" FromRole="BaiDangCus" ToRole="TTLinhVucs" />
+    <NavigationProperty Name="UngTuyenBvCus" Relationship="Self.FK_UngTuyenBvCus_BaiDangCus" FromRole="BaiDangCus" ToRole="UngTuyenBvCus" />
+  </EntityType>
+  <EntityType Name="BaiDangKOL">
+    <Key>
+      <PropertyRef Name="MaBaiDang" />
+    </Key>
+    <Property Name="MaBaiDang" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Noidung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="anh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ngaydang" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AccKOL" Relationship="Self.FK_BaiDangKOL_AccKOL" FromRole="BaiDangKOLs" ToRole="AccKOLs" />
+    <NavigationProperty Name="LuotThichBvKOLs" Relationship="Self.FK_LuotThichBvKOL_BaiDangKOL" FromRole="BaiDangKOLs" ToRole="LuotThichBvKOLs" />
+  </EntityType>
+  <EntityType Name="FaceId">
+    <Key>
+      <PropertyRef Name="stt" />
+    </Key>
+    <Property Name="stt" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Anh" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="TaiKhoan" Relationship="Self.FK_FaceId_TaiKhoans" FromRole="FaceId" ToRole="TaiKhoans" />
+  </EntityType>
+  <EntityType Name="Follow">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccDuocFl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AccFl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AccCustomer" Relationship="Self.FK_Follow_AccCustomer" FromRole="Follows" ToRole="AccCustomers" />
+    <NavigationProperty Name="AccKOL" Relationship="Self.FK_Follow_AccKOL" FromRole="Follows" ToRole="AccKOLs" />
+  </EntityType>
+  <EntityType Name="HoiDap">
+    <Key>
+      <PropertyRef Name="Ma" />
+    </Key>
+    <Property Name="Ma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Gmail" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="NoiDung" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+    <Property Name="TrangThai" Type="Int32" />
+    <Property Name="IdGiaiQuyet" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AccAdmin" Relationship="Self.FK_HoiDap_AccAdmins" FromRole="HoiDap" ToRole="AccAdmins" />
+  </EntityType>
+  <EntityType Name="HopDong">
+    <Key>
+      <PropertyRef Name="MaHopDong" />
+    </Key>
+    <Property Name="MaHopDong" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TenHopDong" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MaLV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BenA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BenB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BenC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NgayKi" Type="DateTime" Precision="0" />
+    <Property Name="NoiDung" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TrangThai" Type="Int32" />
+    <Property Name="TriGia" Type="Int32" />
+    <Property Name="NgayKT" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="AccAdmin" Relationship="Self.FK_HopDong_AccAdmin" FromRole="HopDongs" ToRole="AccAdmins" />
+    <NavigationProperty Name="AccCustomer" Relationship="Self.FK_HopDong_AccCustomer" FromRole="HopDongs" ToRole="AccCustomers" />
+    <NavigationProperty Name="AccKOL" Relationship="Self.FK_HopDong_AccKOL" FromRole="HopDongs" ToRole="AccKOLs" />
+    <NavigationProperty Name="LichSuGiaoDiches" Relationship="QuanLiKOLModel.FK_LichSuGiaoDich_HopDongs" FromRole="HopDong" ToRole="LichSuGiaoDich" />
+    <Property Name="XacNhanHoanThanh" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="LuotThichBvKOL">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaBaiDang" Type="Int32" />
+    <Property Name="AccLiked" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AccCustomer" Relationship="Self.FK_LuotThichBvKOL_AccCustomer" FromRole="LuotThichBvKOLs" ToRole="AccCustomers" />
+    <NavigationProperty Name="BaiDangKOL" Relationship="Self.FK_LuotThichBvKOL_BaiDangKOL" FromRole="LuotThichBvKOLs" ToRole="BaiDangKOLs" />
+  </EntityType>
+  <EntityType Name="LVKH">
+    <Key>
+      <PropertyRef Name="ma" />
+    </Key>
+    <Property Name="ma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="accname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="malv" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AccCustomer" Relationship="Self.FK_LVKH_AccCustomers" FromRole="LVKH" ToRole="AccCustomers" />
+    <NavigationProperty Name="TTLinhVuc" Relationship="Self.FK_LVKH_TTLinhVucs" FromRole="LVKH" ToRole="TTLinhVucs" />
+  </EntityType>
+  <EntityType Name="LVKOL">
+    <Key>
+      <PropertyRef Name="ma" />
+    </Key>
+    <Property Name="ma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MaLV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AccKOL" Relationship="Self.FK_LVKOL_AccKOLs" FromRole="LVKOL" ToRole="AccKOLs" />
+    <NavigationProperty Name="TTLinhVuc" Relationship="Self.FK_LVKOL_TTLinhVucs" FromRole="LVKOL" ToRole="TTLinhVucs" />
+  </EntityType>
+  <EntityType Name="minitask">
+    <Key>
+      <PropertyRef Name="ma" />
+    </Key>
+    <Property Name="ma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="mavc" Type="Int32" />
+    <Property Name="Noidung" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="trangthai" Type="Int32" />
+    <NavigationProperty Name="ThoiGianBieu" Relationship="Self.FK_minitask_ThoiGianBieux" FromRole="minitask" ToRole="ThoiGianBieux" />
+  </EntityType>
+  <EntityType Name="report">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccBiToCao" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="AccToCao" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LiDo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ThoiGian" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AccCustomer" Relationship="Self.FK_report_AccCustomer" FromRole="reports" ToRole="AccCustomers" />
+    <NavigationProperty Name="AccKOL" Relationship="Self.FK_report_AccKOL" FromRole="reports" ToRole="AccKOLs" />
+    <Property Name="Trangthai" Type="Int32" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TaiKhoan">
+    <Key>
+      <PropertyRef Name="AccName" />
+    </Key>
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PQ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TinhTrangXT" Type="Int32" />
+    <Property Name="TinhTrangHD" Type="Int32" />
+    <Property Name="HoanThanhHS" Type="Int32" />
+    <Property Name="XacThuc2YT" Type="Int32" />
+    <NavigationProperty Name="FaceIds" Relationship="Self.FK_FaceId_TaiKhoans" FromRole="TaiKhoans" ToRole="FaceId" />
+  </EntityType>
+  <EntityType Name="ThoiGianBieu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="TieuDePhu" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="WorkName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Ghichu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ThoiGian" Type="DateTime" Precision="0" />
+    <Property Name="TrangThai" Type="Int32" />
+    <NavigationProperty Name="AccKOL" Relationship="Self.FK_ThoiGianBieu_AccKOL" FromRole="ThoiGianBieux" ToRole="AccKOLs" />
+    <NavigationProperty Name="minitasks" Relationship="Self.FK_minitask_ThoiGianBieux" FromRole="ThoiGianBieux" ToRole="minitask" />
+  </EntityType>
+  <EntityType Name="TTLinhVuc">
+    <Key>
+      <PropertyRef Name="MaLV" />
+    </Key>
+    <Property Name="MaLV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TenLV" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MoTa" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="BaiDangCus" Relationship="Self.FK_BaiDangCus_TTLinhVuc" FromRole="TTLinhVucs" ToRole="BaiDangCus" />
+    <NavigationProperty Name="LVKHs" Relationship="Self.FK_LVKH_TTLinhVucs" FromRole="TTLinhVucs" ToRole="LVKH" />
+    <NavigationProperty Name="LVKOLs" Relationship="Self.FK_LVKOL_TTLinhVucs" FromRole="TTLinhVucs" ToRole="LVKOL" />
+  </EntityType>
+  <EntityType Name="UngTuyenBvCu">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MaBaiDang" Type="Int32" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ThoiGian" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AccKOL" Relationship="Self.FK_UngTuyenBvCus_AccKOL" FromRole="UngTuyenBvCus" ToRole="AccKOLs" />
+    <NavigationProperty Name="BaiDangCu" Relationship="Self.FK_UngTuyenBvCus_BaiDangCus" FromRole="UngTuyenBvCus" ToRole="BaiDangCus" />
+  </EntityType>
+  <Association Name="FK_BaiDangAdmin_AccAdmins">
+    <End Role="AccAdmins" Type="Self.AccAdmin" Multiplicity="0..1" />
+    <End Role="BaiDangAdmin" Type="Self.BaiDangAdmin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccAdmins">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="BaiDangAdmin">
+        <PropertyRef Name="NguoiDang" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HoiDap_AccAdmins">
+    <End Role="AccAdmins" Type="Self.AccAdmin" Multiplicity="0..1" />
+    <End Role="HoiDap" Type="Self.HoiDap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccAdmins">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="HoiDap">
+        <PropertyRef Name="IdGiaiQuyet" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HopDong_AccAdmin">
+    <End Role="AccAdmins" Type="Self.AccAdmin" Multiplicity="0..1" />
+    <End Role="HopDongs" Type="Self.HopDong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccAdmins">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="HopDongs">
+        <PropertyRef Name="BenC" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AnhKhach_AccCustomers">
+    <End Role="AccCustomers" Type="Self.AccCustomer" Multiplicity="0..1" />
+    <End Role="AnhKhach" Type="Self.AnhKhach" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccCustomers">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="AnhKhach">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BaiDangCus_AccCustomer">
+    <End Role="AccCustomers" Type="Self.AccCustomer" Multiplicity="0..1" />
+    <End Role="BaiDangCus" Type="Self.BaiDangCu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccCustomers">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="BaiDangCus">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Follow_AccCustomer">
+    <End Role="AccCustomers" Type="Self.AccCustomer" Multiplicity="0..1" />
+    <End Role="Follows" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccCustomers">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="Follows">
+        <PropertyRef Name="AccFl" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HopDong_AccCustomer">
+    <End Role="AccCustomers" Type="Self.AccCustomer" Multiplicity="0..1" />
+    <End Role="HopDongs" Type="Self.HopDong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccCustomers">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="HopDongs">
+        <PropertyRef Name="BenB" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LuotThichBvKOL_AccCustomer">
+    <End Role="AccCustomers" Type="Self.AccCustomer" Multiplicity="0..1" />
+    <End Role="LuotThichBvKOLs" Type="Self.LuotThichBvKOL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccCustomers">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="LuotThichBvKOLs">
+        <PropertyRef Name="AccLiked" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LVKH_AccCustomers">
+    <End Role="AccCustomers" Type="Self.AccCustomer" Multiplicity="0..1" />
+    <End Role="LVKH" Type="Self.LVKH" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccCustomers">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="LVKH">
+        <PropertyRef Name="accname" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_report_AccCustomer">
+    <End Role="AccCustomers" Type="Self.AccCustomer" Multiplicity="0..1" />
+    <End Role="reports" Type="Self.report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccCustomers">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="reports">
+        <PropertyRef Name="AccToCao" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AnhDang_AccKOLs">
+    <End Role="AccKOLs" Type="Self.AccKOL" Multiplicity="0..1" />
+    <End Role="AnhDang" Type="Self.AnhDang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOLs">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="AnhDang">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BaiDangKOL_AccKOL">
+    <End Role="AccKOLs" Type="Self.AccKOL" Multiplicity="0..1" />
+    <End Role="BaiDangKOLs" Type="Self.BaiDangKOL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOLs">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="BaiDangKOLs">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Follow_AccKOL">
+    <End Role="AccKOLs" Type="Self.AccKOL" Multiplicity="0..1" />
+    <End Role="Follows" Type="Self.Follow" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOLs">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="Follows">
+        <PropertyRef Name="AccDuocFl" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HopDong_AccKOL">
+    <End Role="AccKOLs" Type="Self.AccKOL" Multiplicity="0..1" />
+    <End Role="HopDongs" Type="Self.HopDong" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOLs">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="HopDongs">
+        <PropertyRef Name="BenA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LVKOL_AccKOLs">
+    <End Role="AccKOLs" Type="Self.AccKOL" Multiplicity="0..1" />
+    <End Role="LVKOL" Type="Self.LVKOL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOLs">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="LVKOL">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_report_AccKOL">
+    <End Role="AccKOLs" Type="Self.AccKOL" Multiplicity="0..1" />
+    <End Role="reports" Type="Self.report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOLs">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="reports">
+        <PropertyRef Name="AccBiToCao" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ThoiGianBieu_AccKOL">
+    <End Role="AccKOLs" Type="Self.AccKOL" Multiplicity="0..1" />
+    <End Role="ThoiGianBieux" Type="Self.ThoiGianBieu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOLs">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="ThoiGianBieux">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UngTuyenBvCus_AccKOL">
+    <End Role="AccKOLs" Type="Self.AccKOL" Multiplicity="0..1" />
+    <End Role="UngTuyenBvCus" Type="Self.UngTuyenBvCu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOLs">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="UngTuyenBvCus">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BaiDangCus_TTLinhVuc">
+    <End Role="TTLinhVucs" Type="Self.TTLinhVuc" Multiplicity="0..1" />
+    <End Role="BaiDangCus" Type="Self.BaiDangCu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TTLinhVucs">
+        <PropertyRef Name="MaLV" />
+      </Principal>
+      <Dependent Role="BaiDangCus">
+        <PropertyRef Name="LinhVuc" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UngTuyenBvCus_BaiDangCus">
+    <End Role="BaiDangCus" Type="Self.BaiDangCu" Multiplicity="0..1" />
+    <End Role="UngTuyenBvCus" Type="Self.UngTuyenBvCu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BaiDangCus">
+        <PropertyRef Name="MaBaiDang" />
+      </Principal>
+      <Dependent Role="UngTuyenBvCus">
+        <PropertyRef Name="MaBaiDang" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LuotThichBvKOL_BaiDangKOL">
+    <End Role="BaiDangKOLs" Type="Self.BaiDangKOL" Multiplicity="0..1" />
+    <End Role="LuotThichBvKOLs" Type="Self.LuotThichBvKOL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BaiDangKOLs">
+        <PropertyRef Name="MaBaiDang" />
+      </Principal>
+      <Dependent Role="LuotThichBvKOLs">
+        <PropertyRef Name="MaBaiDang" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FaceId_TaiKhoans">
+    <End Role="TaiKhoans" Type="Self.TaiKhoan" Multiplicity="0..1" />
+    <End Role="FaceId" Type="Self.FaceId" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TaiKhoans">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="FaceId">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LVKH_TTLinhVucs">
+    <End Role="TTLinhVucs" Type="Self.TTLinhVuc" Multiplicity="0..1" />
+    <End Role="LVKH" Type="Self.LVKH" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TTLinhVucs">
+        <PropertyRef Name="MaLV" />
+      </Principal>
+      <Dependent Role="LVKH">
+        <PropertyRef Name="malv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LVKOL_TTLinhVucs">
+    <End Role="TTLinhVucs" Type="Self.TTLinhVuc" Multiplicity="0..1" />
+    <End Role="LVKOL" Type="Self.LVKOL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TTLinhVucs">
+        <PropertyRef Name="MaLV" />
+      </Principal>
+      <Dependent Role="LVKOL">
+        <PropertyRef Name="MaLV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_minitask_ThoiGianBieux">
+    <End Role="ThoiGianBieux" Type="Self.ThoiGianBieu" Multiplicity="0..1" />
+    <End Role="minitask" Type="Self.minitask" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ThoiGianBieux">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="minitask">
+        <PropertyRef Name="mavc" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuanLiKOLEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AccAdmins" EntityType="Self.AccAdmin" />
+    <EntitySet Name="AccCustomers" EntityType="Self.AccCustomer" />
+    <EntitySet Name="AccKOLs" EntityType="Self.AccKOL" />
+    <EntitySet Name="AnhDangs" EntityType="Self.AnhDang" />
+    <EntitySet Name="AnhKhaches" EntityType="Self.AnhKhach" />
+    <EntitySet Name="BaiDangAdmins" EntityType="Self.BaiDangAdmin" />
+    <EntitySet Name="BaiDangCus" EntityType="Self.BaiDangCu" />
+    <EntitySet Name="BaiDangKOLs" EntityType="Self.BaiDangKOL" />
+    <EntitySet Name="FaceIds" EntityType="Self.FaceId" />
+    <EntitySet Name="Follows" EntityType="Self.Follow" />
+    <EntitySet Name="HoiDaps" EntityType="Self.HoiDap" />
+    <EntitySet Name="HopDongs" EntityType="Self.HopDong" />
+    <EntitySet Name="LuotThichBvKOLs" EntityType="Self.LuotThichBvKOL" />
+    <EntitySet Name="LVKHs" EntityType="Self.LVKH" />
+    <EntitySet Name="LVKOLs" EntityType="Self.LVKOL" />
+    <EntitySet Name="minitasks" EntityType="Self.minitask" />
+    <EntitySet Name="reports" EntityType="Self.report" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="TaiKhoans" EntityType="Self.TaiKhoan" />
+    <EntitySet Name="ThoiGianBieux" EntityType="Self.ThoiGianBieu" />
+    <EntitySet Name="TTLinhVucs" EntityType="Self.TTLinhVuc" />
+    <EntitySet Name="UngTuyenBvCus" EntityType="Self.UngTuyenBvCu" />
+    <AssociationSet Name="FK_BaiDangAdmin_AccAdmins" Association="Self.FK_BaiDangAdmin_AccAdmins">
+      <End Role="AccAdmins" EntitySet="AccAdmins" />
+      <End Role="BaiDangAdmin" EntitySet="BaiDangAdmins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HoiDap_AccAdmins" Association="Self.FK_HoiDap_AccAdmins">
+      <End Role="AccAdmins" EntitySet="AccAdmins" />
+      <End Role="HoiDap" EntitySet="HoiDaps" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HopDong_AccAdmin" Association="Self.FK_HopDong_AccAdmin">
+      <End Role="AccAdmins" EntitySet="AccAdmins" />
+      <End Role="HopDongs" EntitySet="HopDongs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AnhKhach_AccCustomers" Association="Self.FK_AnhKhach_AccCustomers">
+      <End Role="AccCustomers" EntitySet="AccCustomers" />
+      <End Role="AnhKhach" EntitySet="AnhKhaches" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BaiDangCus_AccCustomer" Association="Self.FK_BaiDangCus_AccCustomer">
+      <End Role="AccCustomers" EntitySet="AccCustomers" />
+      <End Role="BaiDangCus" EntitySet="BaiDangCus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Follow_AccCustomer" Association="Self.FK_Follow_AccCustomer">
+      <End Role="AccCustomers" EntitySet="AccCustomers" />
+      <End Role="Follows" EntitySet="Follows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HopDong_AccCustomer" Association="Self.FK_HopDong_AccCustomer">
+      <End Role="AccCustomers" EntitySet="AccCustomers" />
+      <End Role="HopDongs" EntitySet="HopDongs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LuotThichBvKOL_AccCustomer" Association="Self.FK_LuotThichBvKOL_AccCustomer">
+      <End Role="AccCustomers" EntitySet="AccCustomers" />
+      <End Role="LuotThichBvKOLs" EntitySet="LuotThichBvKOLs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LVKH_AccCustomers" Association="Self.FK_LVKH_AccCustomers">
+      <End Role="AccCustomers" EntitySet="AccCustomers" />
+      <End Role="LVKH" EntitySet="LVKHs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_report_AccCustomer" Association="Self.FK_report_AccCustomer">
+      <End Role="AccCustomers" EntitySet="AccCustomers" />
+      <End Role="reports" EntitySet="reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AnhDang_AccKOLs" Association="Self.FK_AnhDang_AccKOLs">
+      <End Role="AccKOLs" EntitySet="AccKOLs" />
+      <End Role="AnhDang" EntitySet="AnhDangs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BaiDangKOL_AccKOL" Association="Self.FK_BaiDangKOL_AccKOL">
+      <End Role="AccKOLs" EntitySet="AccKOLs" />
+      <End Role="BaiDangKOLs" EntitySet="BaiDangKOLs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Follow_AccKOL" Association="Self.FK_Follow_AccKOL">
+      <End Role="AccKOLs" EntitySet="AccKOLs" />
+      <End Role="Follows" EntitySet="Follows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HopDong_AccKOL" Association="Self.FK_HopDong_AccKOL">
+      <End Role="AccKOLs" EntitySet="AccKOLs" />
+      <End Role="HopDongs" EntitySet="HopDongs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LVKOL_AccKOLs" Association="Self.FK_LVKOL_AccKOLs">
+      <End Role="AccKOLs" EntitySet="AccKOLs" />
+      <End Role="LVKOL" EntitySet="LVKOLs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_report_AccKOL" Association="Self.FK_report_AccKOL">
+      <End Role="AccKOLs" EntitySet="AccKOLs" />
+      <End Role="reports" EntitySet="reports" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ThoiGianBieu_AccKOL" Association="Self.FK_ThoiGianBieu_AccKOL">
+      <End Role="AccKOLs" EntitySet="AccKOLs" />
+      <End Role="ThoiGianBieux" EntitySet="ThoiGianBieux" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UngTuyenBvCus_AccKOL" Association="Self.FK_UngTuyenBvCus_AccKOL">
+      <End Role="AccKOLs" EntitySet="AccKOLs" />
+      <End Role="UngTuyenBvCus" EntitySet="UngTuyenBvCus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BaiDangCus_TTLinhVuc" Association="Self.FK_BaiDangCus_TTLinhVuc">
+      <End Role="TTLinhVucs" EntitySet="TTLinhVucs" />
+      <End Role="BaiDangCus" EntitySet="BaiDangCus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UngTuyenBvCus_BaiDangCus" Association="Self.FK_UngTuyenBvCus_BaiDangCus">
+      <End Role="BaiDangCus" EntitySet="BaiDangCus" />
+      <End Role="UngTuyenBvCus" EntitySet="UngTuyenBvCus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LuotThichBvKOL_BaiDangKOL" Association="Self.FK_LuotThichBvKOL_BaiDangKOL">
+      <End Role="BaiDangKOLs" EntitySet="BaiDangKOLs" />
+      <End Role="LuotThichBvKOLs" EntitySet="LuotThichBvKOLs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FaceId_TaiKhoans" Association="Self.FK_FaceId_TaiKhoans">
+      <End Role="TaiKhoans" EntitySet="TaiKhoans" />
+      <End Role="FaceId" EntitySet="FaceIds" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LVKH_TTLinhVucs" Association="Self.FK_LVKH_TTLinhVucs">
+      <End Role="TTLinhVucs" EntitySet="TTLinhVucs" />
+      <End Role="LVKH" EntitySet="LVKHs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LVKOL_TTLinhVucs" Association="Self.FK_LVKOL_TTLinhVucs">
+      <End Role="TTLinhVucs" EntitySet="TTLinhVucs" />
+      <End Role="LVKOL" EntitySet="LVKOLs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_minitask_ThoiGianBieux" Association="Self.FK_minitask_ThoiGianBieux">
+      <End Role="ThoiGianBieux" EntitySet="ThoiGianBieux" />
+      <End Role="minitask" EntitySet="minitasks" />
+    </AssociationSet>
+    <EntitySet Name="LichSuGiaoDiches" EntityType="QuanLiKOLModel.LichSuGiaoDich" />
+    <EntitySet Name="RutTienKOLs" EntityType="QuanLiKOLModel.RutTienKOL" />
+    <AssociationSet Name="FK_RutTienKOL_AccKOLs" Association="QuanLiKOLModel.FK_RutTienKOL_AccKOLs">
+      <End Role="AccKOL" EntitySet="AccKOLs" />
+      <End Role="RutTienKOL" EntitySet="RutTienKOLs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_LichSuGiaoDich_HopDongs" Association="QuanLiKOLModel.FK_LichSuGiaoDich_HopDongs">
+      <End Role="HopDong" EntitySet="HopDongs" />
+      <End Role="LichSuGiaoDich" EntitySet="LichSuGiaoDiches" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="LichSuGiaoDich">
+    <Key>
+      <PropertyRef Name="MaTT" />
+    </Key>
+    <Property Name="MaTT" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="MaHD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ThoiGianGD" Type="DateTime" Precision="3" />
+    <Property Name="TriGia" Type="Int32" />
+    <NavigationProperty Name="HopDong" Relationship="QuanLiKOLModel.FK_LichSuGiaoDich_HopDongs" FromRole="LichSuGiaoDich" ToRole="HopDong" />
+  </EntityType>
+  <EntityType Name="RutTienKOL">
+    <Key>
+      <PropertyRef Name="ma" />
+    </Key>
+    <Property Name="ma" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoTK" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="NganHang" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SoTien" Type="Int32" />
+    <Property Name="TinhTrang" Type="Int32" />
+    <NavigationProperty Name="AccKOL" Relationship="QuanLiKOLModel.FK_RutTienKOL_AccKOLs" FromRole="RutTienKOL" ToRole="AccKOL" />
+    <Property Name="ThoiGian" Type="DateTime" Precision="0" />
+    <Property Name="TenChuThe" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK_RutTienKOL_AccKOLs">
+    <End Type="QuanLiKOLModel.AccKOL" Role="AccKOL" Multiplicity="0..1" />
+    <End Type="QuanLiKOLModel.RutTienKOL" Role="RutTienKOL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccKOL">
+        <PropertyRef Name="AccName" />
+      </Principal>
+      <Dependent Role="RutTienKOL">
+        <PropertyRef Name="AccName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_LichSuGiaoDich_HopDongs">
+    <End Type="QuanLiKOLModel.HopDong" Role="HopDong" Multiplicity="0..1" />
+    <End Type="QuanLiKOLModel.LichSuGiaoDich" Role="LichSuGiaoDich" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HopDong">
+        <PropertyRef Name="MaHopDong" />
+      </Principal>
+      <Dependent Role="LichSuGiaoDich">
+        <PropertyRef Name="MaHD" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

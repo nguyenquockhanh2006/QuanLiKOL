@@ -1,0 +1,268 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Trang chủ KT-KOL</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="~/Context/css/Home.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- <div id="popup">
+        <div>
+
+        </div>
+    </div> -->
+    <div id="menu">
+        <div id="container">
+            <div class="list"><a href="~/Home/Index">TRANG CHỦ</a></div>
+            <div class="list"><a href="~/Home/BangXepHang">BẢNG XẾP HẠNG</a></div>
+            <div class="list"><a href="#div13">LIÊN HỆ</a></div>
+            <div class="list"><a href="~/Login/Index">ĐĂNG NHẬP</a></div>
+            <div class="list"><a href="~/Register/Index">ĐĂNG KÝ</a></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="bg-rotate"></div>
+        <div class="list-img">
+            <div class="item" id="item_0"><img src="https://i.imgur.com/edcV7YD.png" /></div>
+            <div class="item" id="item_1"><img src="https://i.imgur.com/zarBmzK.png" /></div>
+            <div class="item" id="item_2"><img src="https://i.imgur.com/9XMQyaA.png" /></div>
+            <div class="item" id="item_3"><img src="https://i.imgur.com/l6mhqS2.png" /></div>
+            <div class="item" id="item_4"><img src="https://i.imgur.com/HfmjStx.png" /></div>
+        </div>
+        <div class="content">
+            <div class="item" id="content_0">
+                <h1>TOP 5</h1>
+                <p>KỲ NAM</p>
+                <p>
+                    <button class="booking">Booking</button>
+                </p>
+            </div>
+
+            <div class="item" id="content_1">
+                <h1>TOP 1</h1>
+                <p>YẾN TRINH</p>
+                <p>
+                    <button class="booking">Booking</button>
+                </p>
+            </div>
+
+            <div class="item" id="content_2">
+                <h1>TOP 2</h1>
+                <p>QUỐC KHÁNH</p>
+                <p>
+                    <button class="booking">Booking</button>
+                </p>
+            </div>
+
+            <div class="item" id="content_3">
+                <h1>TOP 3</h1>
+                <p>LƯU VĂN HÒA</p>
+                <p>
+                    <button class="booking">Booking</button>
+                </p>
+            </div>
+
+            <div class="item" id="content_4">
+                <h1>TOP 4</h1>
+                <p>CHIN CHIN</p>
+                <p>
+                    <button class="booking">Booking</button>
+                </p>
+            </div>
+        </div>
+        <div class="next">
+            <button id="prev"><i class="bi bi-caret-left-fill"></i></button>
+            <button id="next"><i class="bi bi-caret-right-fill"></i></button>
+        </div>
+        <div class="dot">
+            <div id="dot_0"></div>
+            <div id="dot_1"></div>
+            <div id="dot_2"></div>
+            <div id="dot_3"></div>
+            <div id="dot_4"></div>
+        </div>
+    </div>
+    <div id="noidung">
+        <label id="question">KOL là gì ?</label>
+        <p id="p1">KOL (Key Opinion Leader) là “người tư vấn quan điểm chính”, có sức ảnh hưởng đến một cộng đồng nhất định. Họ là những người có chuyên môn về một lĩnh vực nào đó và thông qua những kiến thức hoặc chia sẻ nhận được sự yêu thích và tín nhiệm của nhiều người.</p>
+        <div id="loai">
+            <div id="cot1">
+                <img src="https://i.imgur.com/oFeo4Z7.png" />
+                <p class="p2">Celebrity</p>
+                <p>Celebrity thường là những người nổi tiếng, có sức ảnh hưởng lớn đến cộng đồng như ca sĩ, diễn viên, ngôi sao hạng A,... Họ thường có vai trò là hình ảnh đại diện cho các nhãn hàng, đại sứ thương hiệu,..</p>
+            </div>
+            <div id="cot2">
+                <img src="https://i.imgur.com/oFeo4Z7.png" />
+                <p class="p2">Influencer</p>
+                <p>Influencer còn gọi là những người truyền cảm hứng. Người mang những thông điệp, thông tin bổ ích về một lĩnh vực nào đó đến xã hội. Nhóm KOL này có thể là bất cứ ai trong bất kì ngành nghề (Streamer, Vlogger,...), lĩnh vực nào.</p>
+            </div>
+            <div id="cot3">
+                <img src="https://i.imgur.com/b7lkT51.png" />
+                <p class="p2">Mass Seeder</p>
+                <p>Mass Seeder có sức ảnh hưởng trong một phạm vi nhỏ hơn. Công việc của Mass Seeder là chia sẻ những thông tin từ nhóm Celebrity và Influencer với mục đích quảng bá sản phẩm, thương hiệu đến nhóm khách hàng nhỏ của mình.</p>
+            </div>
+        </div>
+    </div>
+    <div id="company">
+        <img src="https://i.imgur.com/LU4PNpC.jpg" />
+        <div id="d1">
+            <label id="lb1">Lợi ích của KOL đối với doanh nghiệp</label>
+            <p><i class="bi bi-check-lg"></i>Tăng nhận diện thương hiệu</p>
+            <p><i class="bi bi-check-lg"></i>Tiếp cận sâu rộng với khách hàng mục tiêu</p>
+            <p><i class="bi bi-check-lg"></i>Tăng độ uy tín cho sản phẩm/ dịch vụ</p>
+            <p><i class="bi bi-check-lg"></i>Thúc đẩy tiêu thụ sản phẩm/ dịch vụ</p>
+            <p><i class="bi bi-check-lg"></i>Cải thiện thứ hạng từ khóa khi làm SEO</p>
+            <button class="xemthem">Xem thêm</button>
+        </div>
+    </div>
+    <div id="company">
+        <div id="d2">
+            <label id="lb1">Trở thành KOL chuyên nghiệp</label>
+            <p><i class="bi bi-check-lg"></i>Hiểu thế mạnh bản thân</p>
+            <p><i class="bi bi-check-lg"></i>Xác định nhóm khách hàng mục tiêu</p>
+            <p><i class="bi bi-check-lg"></i>Đầu tư xây dựng content hiệu quả</p>
+            <p><i class="bi bi-check-lg"></i>Tiếp thu các ý kiến đóng góp tích cực</p>
+            <p><i class="bi bi-check-lg"></i>Chấp nhận những ý kiến trái chiều</p>
+            <p><i class="bi bi-check-lg"></i>Liên tục sáng tạo, làm mới nội dung</p>
+            <p><i class="bi bi-check-lg"></i>Tăng cường mở rộng các mối quan hệ</p>
+            <button class="xemthem">Xem thêm</button>
+        </div>
+        <img src="https://i.imgur.com/JYITk92.jpg" />
+    </div>
+    <div id="kt">
+        <div id="container">
+            <div class="d3">
+                <label class="lb2">02+</label>
+                <p>Năm phát triển</p>
+            </div>
+            <div class="d3">
+                <label class="lb2">15000+</label>
+                <p>Người dùng</p>
+            </div>
+            <div class="d3">
+                <label class="lb2">20tr</label>
+                <p>Giao dịch</p>
+            </div>
+            <div class="d3">
+                <label class="lb2">4+</label>
+                <p>Đối tác thanh toán</p>
+            </div>
+            <div class="d4">
+                <div class="img">
+                    <img src="https://i.imgur.com/C2GWhqE.png" />
+                    <img src="https://i.imgur.com/piXrE1s.png" />
+                </div>
+                <div class="img">
+                    <img src="https://i.imgur.com/rrBNuMU.png" />
+                    <img src="https://i.imgur.com/nuMtDGb.png" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="div13">
+        <div id="container10">
+            <div id="div14">
+                <label style="font-size: 2.375em;">Bạn còn thắc mắc ? Liên hệ với chúng tôi để được tư vấn miễn phí nhé </label>
+                <p id="menu_p1" style="margin-top:1.5em;color:#9497A1;margin-bottom: 3em;">Chúng tôi luôn sẵn sàng tiếp nhận câu hỏi và góp ý của các bạn !</p>
+                <p style="color:#9497A1;margin-top: 1.2em;">Email</p>
+                <p style="font-weight: bold;">ktkol@gmail.com</p>
+                <p style="color:#9497A1;margin-top: 1.5em;">Số điện thoại</p>
+                <p style="font-weight: bold;">070.123.4567</p>
+                <p style="color:#9497A1;margin-top: 1.5em;">Địa chỉ</p>
+                <p style="font-weight: bold;">Đại học Công nghệ Tp.HCM</p>
+                <!-- <button id="menu_btn3">Contact Us</button> -->
+            </div>
+            <div id="div15">
+                <label style="font-size: 1.875em;margin-bottom: 2em;">Liên hệ</label>
+                <p class="pp">Name</p>
+                <input class="input" type="text"/> 
+                <p class="pp">Email</p>
+                <input class="input" type="text"/>
+                <!-- <p class="pp">Theme</p>
+                <input class="input" type="text" placeholder="job"></input> -->
+                <p class="pp">Câu hỏi</p>
+                <input class="input" type="text"/> 
+                <br/>
+                <div id="div_send">
+                    <button id="send">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="fter">
+        <p>Copyright - Nguyễn Quốc Khánh - Hoàng Thị Yến Trinh</p>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(".booking").click(function () {
+        location.assign("/Login/Login.html")
+    })
+    $(document).ready(function () {
+        var count_group = $(".list-img div").length;
+        var list_color = ['#40BCBB', '#B58CD4', '#BADEC0', '#9BD5E9', '#BADEC0'];
+        // if(count_group < 5){
+        //   alert('Demo này chỉ chạy tốt khi có 5 hình trở lên! hay cân nhắc hoạc custom lại!');
+        // }
+        var active = 1;
+        function RemoveAllClass($id) {
+            $('#item_' + $id).removeClass('item');
+            $('#item_' + $id).removeClass('item_0');
+            $('#item_' + $id).removeClass('item_1');
+            $('#item_' + $id).removeClass('item_2');
+            $('#item_' + $id).removeClass('item_3');
+            $('#item_' + $id).removeClass('item_4');
+        }
+        function Laod() {
+            var item_none = active - 2 == -1 ? count_group - 1 : active - 2 == -2 ? count_group - 2 : active - 2;
+            var item_0 = active - 1 < 0 ? count_group - 1 : active - 1;
+            var item_2 = active + 1 >= count_group ? 0 : active + 1;
+            var item_3 = active + 2 == count_group + 1 ? 1 : active + 2 == count_group ? 0 : active + 2;
+            var item_none_2 = active + 3 == count_group + 2 ? 2 : active + 3 == count_group + 1 ? 1 : active + 3 == count_group ? 0 : active + 3;
+
+            $('.bg-rotate').css('background-color', list_color[active]);
+            $('.content .item').hide();
+            $('#content_' + active).show();
+            $('.dot div').removeClass('active');
+            $('#dot_' + active).addClass('active');
+
+            RemoveAllClass(active);
+            $('#item_' + active).addClass('item_1');
+            RemoveAllClass(item_0);
+            $('#item_' + item_0).addClass('item_0');
+
+            RemoveAllClass(item_none);
+            $('#item_' + item_none).addClass('item');
+
+            RemoveAllClass(item_2);
+            $('#item_' + item_2).addClass('item_2');
+
+            RemoveAllClass(item_3);
+            $('#item_' + item_3).addClass('item_3');
+
+            RemoveAllClass(item_none_2);
+            $('#item_' + item_none_2).addClass('item_none_2');
+
+        }
+        Laod();
+        $('#next').on('click', function () {
+            active = active + 1 >= count_group ? 0 : active + 1;
+            Laod();
+        })
+        $('#prev').on('click', function () {
+            active = active - 1 < 0 ? count_group - 1 : active - 1;
+            Laod();
+        })
+        // setInterval(Laod, 2500);
+    });
+</script>

@@ -1,0 +1,124 @@
+﻿@using MXHvaQLKOL.Models
+@using MXHvaQLKOL.Context.supportClass 
+@{
+    //Session["id"] = "nthien.truong.qk206@gmail.com";
+    String accname = Session["id"].ToString();
+    ViewBag.Title = "Thongke";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    AccKOL kol = db.AccKOLs.Where(x => x.AccName == accname).FirstOrDefault();
+    int nam = DateTime.Now.Year;
+    List<HopDong> hd = db.HopDongs.Where(x => x.AccKOL.AccName == accname && x.NgayKi.Value.Year == nam).ToList();
+    BieuDoCotThang bd = new BieuDoCotThang(hd);
+    BieuDoCotLV bdclv = new BieuDoCotLV(hd);
+    BieuDoTronSL bdtsl = new BieuDoTronSL(hd);
+    RutTien rt = new RutTien(db.RutTienKOLs.Where(x => x.AccName == accname && x.ThoiGian.Value.Year == nam).ToList());
+}
+<link href="~/Context/css/ThongKeKOL.css" rel="stylesheet" />
+<script src="https://www.gstatic.com/charts/loader.js" defer>
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js" defer></script>
+<script src="~/Context/js/ThongKeKOL.js" defer></script>
+
+<div id="khungphu">
+    <div style="width:100%; text-align:center;">
+    </div>
+    <div style="width:100%; display:none;">
+        <input id="th1" type="text" value="@bd.Thang1" />
+        <input id="th2" type="text" value="@bd.Thang2" />
+        <input id="th3" type="text" value="@bd.Thang3" />
+        <input id="th4" type="text" value="@bd.Thang4" />
+        <input id="th5" type="text" value="@bd.Thang5" />
+        <input id="th6" type="text" value="@bd.Thang6" />
+        <input id="th7" type="text" value="@bd.Thang7" />
+        <input id="th8" type="text" value="@bd.Thang8" />
+        <input id="th9" type="text" value="@bd.Thang9" />
+        <input id="th10" type="text" value="@bd.Thang10" />
+        <input id="th11" type="text" value="@bd.Thang11" />
+        <input id="th12" type="text" value="@bd.Thang12" />
+
+        <input id="bdclvan" type="text" value="@bdclv.LvAN" />
+        <input id="bdclvat" type="text" value="@bdclv.LvAT" />
+        <input id="bdclvmp" type="text" value="@bdclv.LvMP" />
+        <input id="bdclvtm" type="text" value="@bdclv.LvTM" />
+        <input id="bdclvtt" type="text" value="@bdclv.LvTT" />
+        <input id="bdclvttr" type="text" value="@bdclv.LvTTr" />
+
+        <input id="bdtlvan" type="text" value="@bdtsl.SoAN" />
+        <input id="bdtlvat" type="text" value="@bdtsl.SoAT" />
+        <input id="bdtlvmp" type="text" value="@bdtsl.SoMP" />
+        <input id="bdtlvtm" type="text" value="@bdtsl.SoTM" />
+        <input id="bdtlvtt" type="text" value="@bdtsl.SoTT" />
+        <input id="bdtlvttr" type="text" value="@bdtsl.SoTTr" />
+
+        <input id="rt1" type="text" value="@rt.Thang1" />
+        <input id="rt2" type="text" value="@rt.Thang2" />
+        <input id="rt3" type="text" value="@rt.Thang3" />
+        <input id="rt4" type="text" value="@rt.Thang4" />
+        <input id="rt5" type="text" value="@rt.Thang5" />
+        <input id="rt6" type="text" value="@rt.Thang6" />
+        <input id="rt7" type="text" value="@rt.Thang7" />
+        <input id="rt8" type="text" value="@rt.Thang8" />
+        <input id="rt9" type="text" value="@rt.Thang9" />
+        <input id="rt10" type="text" value="@rt.Thang10" />
+        <input id="rt11" type="text" value="@rt.Thang11" />
+        <input id="rt12" type="text" value="@rt.Thang12" />
+    </div>
+    <div id="tkDoanhThu" style="width:100%; height:auto;">
+        <div style="width: 100%; text-align: center; font-size: 30px; font-weight: bold;">Trị giá hợp đồng theo tháng trong năm @nam (Nghìn VNĐ)</div>
+
+        <div id="myChartDT" style="max-width:100%; height:500px">
+        </div>
+    </div>
+    <hr />
+    <div style="width:100%; height:auto; display:flex">
+        <div style="width:50%; border: 1px solid black; display:flow;">
+            <div style="width: 100%; text-align: center; font-size: 30px; font-weight: bold;">Trị giá hợp đồng theo lĩnh vực trong năm @nam (Nghìn VNĐ)</div>
+            <canvas id="myChartLV" style="max-width:100%;"></canvas>
+        </div>
+        <div style="width:50%; border: 1px solid black;">
+            <div style="width: 100%; text-align: center; font-size: 30px; font-weight: bold;">Số lượng hợn đồng theo lĩnh vực năm @nam</div>
+            <canvas id="myChartTLV" style="max-width:100%;"></canvas>
+        </div>
+    </div>
+    <hr />
+    <div style="width:100%; height:auto; display:flow;">
+        <div style="width: 100%; text-align: center; font-size:30px; font-weight:bold;">
+            Biểu đồ biến động số dư (Nghìn VNĐ)
+        </div>
+        <canvas id="myChartBDSD" style="width:100%;max-width:100%"></canvas>
+    </div>
+    <div style="width:100%; display:flex;">
+        <div style="width:50%; justify-content:right; justify-items:right; text-align:right; display:flow; margin-left:30px;">
+            <div style="width:100%; height:20px;">
+                <div style="width:50px; height:15px; background-color:forestgreen; float:right;">
+
+                </div>
+            </div>
+            <div style="width:100%; height: 20px;">
+                <div style="width:50px; height:15px; background-color:red; float:right;">
+
+                </div>
+            </div>
+        </div>
+        <div style="width:50%; justify-content:left; justify-items:left; text-align:left; display:flow;">
+            <div style="width:100%; height:20px; margin-left:50px;">
+                Thu vào
+            </div>
+            <div style="width:100%; height:20px; margin-left:50px;">
+                Rút ra
+            </div>
+        </div>
+    </div>
+    <div style="width:100%; font-size:20px; font-weight:bold; justify-content:center; justify-items:center; text-align:center;">
+        Số dư còn: @kol.SoDu VNĐ
+    </div>
+    <div style="width:100%; height:15%;">
+
+    </div>
+</div>
+    <script type="text/javascript">
+
+    </script>
+

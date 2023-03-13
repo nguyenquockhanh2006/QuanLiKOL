@@ -1,0 +1,116 @@
+﻿@model MXHvaQLKOL.Models.AccKOL
+
+@{
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    ViewBag.Title = "KhachXemKOL";
+    Layout = "~/Views/Layout/_LayoutKH.cshtml";
+    MXHvaQLKOL.Models.AccKOL kol = new MXHvaQLKOL.Models.AccKOL();
+    kol = db.AccKOLs.Where(x => x.AccName == "nthien.truong.qk206@gmail.com").FirstOrDefault();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    String accfl = Session["id"].ToString();
+    MXHvaQLKOL.Models.Follow fl = db.Follows.Where(x => x.AccDuocFl == Model.AccName && x.AccFl == accfl).FirstOrDefault();
+    MXHvaQLKOL.Models.TaiKhoan tk = db.TaiKhoans.Where(x => x.AccName == Model.AccName).FirstOrDefault();
+    List<MXHvaQLKOL.Models.AnhDang> l_ad = db.AnhDangs.Where(x => x.AccName == Model.AccName).ToList();
+    List<MXHvaQLKOL.Models.BaiDangKOL> l_bd = db.BaiDangKOLs.Where(x => x.AccName == Model.AccName).ToList();
+    MXHvaQLKOL.Context.supportClass.tinhtien tt = new MXHvaQLKOL.Context.supportClass.tinhtien(kol);
+}
+<div style="width:100%; display:flow; padding:25px;">
+    <div style="width:100%; display:flex; justify-content:center">
+        @if (Model.Avatar == null)
+        {
+            <img style="width:250px; height:250px; border-radius:50%; " src="https://i.imgur.com/bRJdUtb.jpg" />
+        }
+        else
+        {
+            String srcanhavt = bbi.ByteToString(Model.Avatar);
+            <img style="width: 250px; height: 250px; border-radius: 50%; " src="@srcanhavt" />
+        }
+    </div>
+    <div style="width:100%; display:flex; justify-content:center; font-size:50px; font-weight:bold;">
+        @Model.UserName
+    </div>
+    <div style="width:100%; display:flex; justify-content:center; font-size:25px; font-weight:bold;">
+        @Model.Name
+    </div>
+    <div style="width:100%; display:flex; justify-content:center; font-size:25px; font-weight:bold;">
+        @tt.Tien VNĐ
+    </div>
+    <div style="width:100%; display:flex; justify-content:center; padding:20px;">
+        @if (fl == null)
+        {
+            <button style="background-color:red; width:50px;"><a>Theo dõi</a></button>
+        }
+        else
+        {
+            <button style="background-color:green; width:150px;"><a>Đang theo dõi</a></button>
+        }
+    </div>
+    <div style="width:100%; display:flex;">
+        <div style="width: 33%; height: 600px; margin: 10px; border: 1px solid black; overflow: auto;">
+            <div style="width:100%; text-align:center; font-weight:bold; font-size:20px;">Thông tin cá nhân</div>
+            <div style="width:100%; padding:10px; display:flex;justify-content:right;">
+                <div style="margin-right:10px;">Ngày sinh:</div><div style="width:70%;justify-content:left;">@Model.BirthDay.Value.Day/@Model.BirthDay.Value.Month/@Model.BirthDay.Value.Year</div>
+            </div>
+            <div style="width:100%; padding:10px; display:flex;justify-content:right;">
+                <div style="margin-right:10px;">Giới tính:</div><div style="width:70%;justify-content:left;">@Model.GioiTinh</div>
+            </div>
+            <div style="width:100%; padding:10px; display:flex;justify-content:right;">
+                <div style="margin-right:10px;">Số điện thoại:</div><div style="width:70%;justify-content:left;">@Model.PhoneNumber</div>
+            </div>
+            <div style="width:100%; padding:10px; display:flex;justify-content:right;">
+                <div style="margin-right:10px;">Gmail:</div><div style="width:70%;justify-content:left;">@Model.Gmail</div>
+            </div>
+            <div style="width:100%; padding:10px; display:flex;justify-content:right;">
+                <div style="margin-right:10px;">Địa chỉ:</div><div style="width:70%;justify-content:left;">@Model.Address</div>
+            </div>
+            <div style="width:100%; padding:10px; display:flex;justify-content:right;">
+                <div style="margin-right:10px;">Xác thực:</div>
+                @if (tk.TinhTrangHD.Value == 1)
+                {
+                    <div style="width: 70%; justify-content: left; font-weight: bold;">Đã xác thực</div>
+                }
+                else
+                {
+                    <div style="width: 70%; justify-content: left; font-weight: bold;">Chưa xác thực</div>
+                }
+            </div>
+        </div>
+        <div style="width: 33%;height:600px; margin: 10px; border: 1px solid black; overflow: auto;">
+            <div style="width:100%; text-align:center; font-weight:bold; font-size:20px;">Ảnh đã đăng</div>
+            @foreach (var c in l_ad)
+            {
+                String srcanhdang = bbi.ByteToString(c.Anh);
+                <img style="width:200px; height: 200px; margin:10px;" src="@srcanhdang" />
+            }
+        </div>
+        <div style="width: 33%; height: 600px; display:flow; margin: 10px; border: 1px solid black; overflow: auto;">
+            <div style="width:100%; text-align:center; font-weight:bold; font-size:20px;">Bài viết đã đăng</div>
+            @foreach (var c in l_bd)
+            {
+                <div style="width: 100%; margin: 5px; display:flex;">
+                    <div style="width:230px; height:250px; display:flow;">
+                        <div style="width:200px; height:230px; ">
+                            @if (c.anh == null)
+                            {
+                                <img style="width:100%; height: 230px; " src="https://i.imgur.com/tg865Ao.jpg" />
+                            }
+                            else
+                            {
+                                String srcanhdang = bbi.ByteToString(c.anh);
+                                <img style="width:100%; height: 230px; " src="@srcanhdang" />
+                            }
+                        </div>
+                        <div style="width:200px; height:20px;overflow:auto; background-color:antiquewhite; ">
+                            @c.LuotThichBvKOLs.Count Lượt thích
+                        </div>
+                    </div>
+                    <div style="padding-top:30px; height: 250px; overflow:auto;">
+                        @c.Noidung
+                    </div>
+                </div>
+                <hr />
+            }
+        </div>
+    </div>
+</div>
+

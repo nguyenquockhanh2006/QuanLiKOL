@@ -1,0 +1,528 @@
+﻿@using MXHvaQLKOL.Models
+@{
+    ViewBag.Title = "TaiHopDong";
+    Layout = "~/Views/Layout/_LayoutKH.cshtml";
+    //Session["id"] = "KhachHangTest1";
+    String accname = Session["id"].ToString();
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    List<Follow> listfl = db.Follows.Where(x => x.AccFl == accname).ToList();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    List<AccKOL> listkol = db.AccKOLs.ToList();
+    AccCustomer acckhach = db.AccCustomers.Where(x => x.AccName == accname).FirstOrDefault();
+    List<HopDong> choxacnhan = db.HopDongs.Where(x => x.BenB == accname && (x.TrangThai == 1 || x.TrangThai == 2)).ToList();
+    int cxn = 0;
+    List<HopDong> chothanhtoan = db.HopDongs.Where(x => x.BenB == accname && x.TrangThai == 3).ToList();
+    int ctt = 0;
+    List<HopDong> dangthuchien = db.HopDongs.Where(x => x.BenB == accname && x.TrangThai == 4).ToList();
+    int dth = 0;
+    List<HopDong> dahoanthanh = db.HopDongs.Where(x => x.BenB == accname && x.TrangThai == 5).ToList();
+    int dht = 0;
+}
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" defer></script>
+
+<div id="content">
+    <div id="popup">
+        <div id="hd1">
+            <div id="bao">
+                <p><i class="bi bi-exclamation-triangle"></i>Đây là phần thông tin để điền vào hợp đồng. Quý khách vui lòng điền đầy đủ và chính xác để tránh xảy ra sai sót</p>
+            </div>
+            <div class="canh">
+                <p>Lĩnh vực: </p>
+                <select id="chon">
+                    <option value="null">Chọn</option>
+                    <option value="AN">Âm nhạc</option>
+                    <option value="AT">Ẩm thực</option>
+                    <option value="MP">Mỹ phẩm</option>
+                    <option value="TM">Thương mại điện tử</option>
+                    <option value="TT">Thể thao</option>
+                    <option value="TTR">Thời trang</option>
+                </select>
+            </div>
+            <div class="canh">
+                <p>Tên sản phẩm</p>
+                <input name="tensp" />
+            </div>
+            <div class="canh">
+                <p>Ngày bắt đầu</p>
+                <input type="date" name="ngaybd" />
+            </div>
+            <div class="canh">
+                <p>Ngày kết thúc</p>
+                <input type="date" name="ngaykt" />
+            </div>
+            <div class="canh">
+                <p>Yêu cầu</p>
+                <textarea id="yc"></textarea>
+            </div>
+            <div class="canh2">
+                <button id="tao2">TẠO</button>
+                <button id="huy">HỦY</button>
+            </div>
+        </div>
+    </div>
+    <div id="popup2">
+        <div id="tb">
+            <img src="https://i.imgur.com/VYrOt1U.jpg" />
+            <p>GỬI HỢP ĐỒNG THÀNH CÔNG</p>
+        </div>
+    </div>
+    <div id="popup3">
+        <div id="filehd">
+            <div id="div_cl">
+                <button id="cl"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div id="noidungHD">
+                nội dung hợp đồng
+            </div>
+        </div>
+    </div>
+    <div id="thongke">
+        <div class="hang">
+            <div class="trangthai" id="cot1">
+                <p>CHỜ XÁC NHẬN</p>
+            </div>
+            <div class="trangthai" id="cot2">
+                <p>CHƯA THANH TOÁN</p>
+            </div>
+        </div>
+        <div class="hang">
+            <div class="trangthai" id="cot3">
+                ĐANG THỰC HIỆN
+            </div>
+            <div class="trangthai" id="cot4">
+                ĐÃ HOÀN THÀNH
+            </div>
+        </div>
+        <div>
+            <button id="tao">Tạo hợp đồng mới</button>
+        </div>
+        <div style="display:none;">
+            @{
+                int nam = DateTime.Now.Year;
+                MXHvaQLKOL.Context.supportClass.BieuDoTronSL bdt = new MXHvaQLKOL.Context.supportClass.BieuDoTronSL(db.HopDongs.Where(x => x.NgayKi.Value.Year == nam && x.AccCustomer.AccName == accname).ToList());
+            }
+            <input id="lvan" type="text" value="@bdt.SoAN" />
+            <input id="lvat" type="text" value="@bdt.SoAT" />
+            <input id="lvmp" type="text" value="@bdt.SoMP" />
+            <input id="lvtm" type="text" value="@bdt.SoTM" />
+            <input id="lvtt" type="text" value="@bdt.SoTT" />
+            <input id="lvttr" type="text" value="@bdt.SoTTr" />
+        </div>
+        <div id="chart">
+            <div id="myPlot" style="width:100%;max-width:700px"></div>
+        </div>
+    </div>
+    <div id="danhsach">
+        <div id="dsKOL">
+            @foreach (var c in listfl)
+            {
+                AccKOL kol = db.AccKOLs.Where(x => x.AccName == c.AccDuocFl).FirstOrDefault();
+                int flp = kol.Follows.Count();
+                int max = 800000;
+                int min = 400000;
+                int daodonggia = max - min;
+                int dkflmax = 5000;
+                int dkflmamin = 0;
+                int daodongfl = dkflmax - dkflmamin;
+                int gia1f = daodonggia / daodongfl;
+                int trigia = min + gia1f;
+                String aaab = trigia.ToString();
+                MXHvaQLKOL.Context.supportClass.tinhtien tt = new MXHvaQLKOL.Context.supportClass.tinhtien(kol);
+                <div class="items" style="padding:10px;">
+                    @if (kol.Avatar != null)
+                    {
+                        String srcanh = bbi.ByteToString(kol.Avatar);
+
+                        <img src="@srcanh" />
+                    }
+                    else
+                    {
+                        <img src="https://i.imgur.com/bRJdUtb.jpg" />
+                    }
+                    <div style="display:none">
+                        <input type="text" id="tenkol_@kol.AccName" value="@kol.Name" />
+                        <input type="text" id="ngaysinhkol_@kol.AccName" value="@kol.BirthDay.Value.Day/@kol.BirthDay.Value.Month/@kol.BirthDay.Value.Year" />
+                        <input type="text" id="cmndkol_@kol.AccName" value="@kol.SoCM" />
+                        <input type="text" id="sdtkol_@kol.AccName" value="@kol.PhoneNumber" />
+                        <input type="text" id="acckol_@kol.AccName" value="@kol.AccName" />
+                    </div>
+                    <div>
+                        <a href="~/KOL/HoSoKOLtheoid?idkol=@kol.AccName">@kol.UserName</a>
+                    </div>
+                    <div style="width:100%; font-weight:bold; text-align:center;">
+                        @tt.Tien VNĐ
+                    </div>
+                    <button onclick="
+                    document.getElementById('TriGiaG').value = @aaab;
+                    document.getElementById('tenkol').innerHTML = document.getElementById('tenkol_@kol.AccName').value;
+                    document.getElementById('kolsinh').innerHTML = document.getElementById('ngaysinhkol_@kol.AccName').value;
+                    document.getElementById('CMNDkol').innerHTML = document.getElementById('cmndkol_@kol.AccName').value;
+                    document.getElementById('sdtkol').innerHTML = document.getElementById('sdtkol_@kol.AccName').value;
+                    document.getElementById('BENBB').value = document.getElementById('acckol_@kol.AccName').value;
+                    document.getElementById('giahdtaiday').innerHTML = @trigia ;
+                      " class="booking">
+                        Booking<i class="bi bi-arrow-right"></i>
+                    </button>
+                </div>
+            }
+        </div>
+
+        <div id="dsHD">
+            <div id="d2">
+                <table>
+                    <tr>
+                        <th style="height:3em;">STT</th>
+                        <th>Mã HD</th>
+                        <th>Tên KOL</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trị giá</th>
+                        <th>Trạng thái</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                    @foreach (var c in choxacnhan)
+                    {
+                        cxn++;
+                        <tr>
+                            <td style="height:3em;">@cxn</td>
+                            <td>@c.MaHopDong</td>
+                            <td>
+                                <form style="display:block;" method="post" action="~/KOL/HoSoKOLtheoid">
+                                    <input type="text" value="@c.AccKOL.AccName" name="accname" id="txtacc" style="display:none;" />
+                                    <input style="background-color:white; border:none;" class="ten" type="submit" id="xemkol" value="@c.AccKOL.Name" />
+                                </form>
+                            </td>
+                            <td>@c.NgayKi.Value.Day/@c.NgayKi.Value.Month/@c.NgayKi.Value.Year</td>
+                            <td>@c.NgayKT.Value.Day/@c.NgayKT.Value.Month/@c.NgayKT.Value.Year</td>
+                            <td>@c.TriGia</td>
+                            <td>Chờ xác nhận <a href="~/KhachHang/DeleteHopDong?idhd=@c.MaHopDong">Hủy hợp đồng</a></td>
+                            <td>
+                                <input hidden id="file_@c.MaHopDong" type="text" value="@c.NoiDung" /><button onclick="
+                                                                                        var noidunghd = $('#file_@c.MaHopDong').val();
+                                                                                        var fileDownload = document.createElement('a');
+                                                                                        document.body.appendChild(fileDownload);
+                                                                                        fileDownload.href = noidunghd;
+                                                                                        fileDownload.download = 'HopDong.doc';
+                                                                                        fileDownload.click();
+                                                                                        document.body.removeChild(fileDownload);
+                                                                                        ">
+                                    file
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div id="d3">
+                <table>
+                    <tr>
+                        <th style="height:3em;">STT</th>
+                        <th>Mã HD</th>
+                        <th>Tên KOL</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trị giá</th>
+                        <th>Trạng thái</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                    @foreach (var c in chothanhtoan)
+                    {
+                        ctt++;
+                        <tr>
+                            <td style="height:3em;">@ctt</td>
+                            <td>@c.MaHopDong</td>
+                            <td>
+                                <form style="display:block;" method="post" action="~/KOL/HoSoKOLtheoid">
+                                    <input type="text" value="@c.AccKOL.AccName" name="accname" id="txtacc" style="display:none;" />
+                                    <input style="background-color:white; border:none;" class="ten" type="submit" id="xemkol" value="@c.AccKOL.Name" />
+                                </form>
+                            </td>
+                            <td>@c.NgayKi.Value.Day/@c.NgayKi.Value.Month/@c.NgayKi.Value.Year</td>
+                            <td>@c.NgayKT.Value.Day/@c.NgayKT.Value.Month/@c.NgayKT.Value.Year</td>
+                            <td>@c.TriGia</td>
+                            @{ 
+                                Session["hanhdong"] = "thanhtoan";
+                            }
+                            <td>Chưa thanh toán<a href="~/KhachHang/DeleteHopDong?idhd=@c.MaHopDong">Hủy hợp đồng</a> <form method="post" action="~/XacThucFaceId/Index"> <input type="text" name="mahd" value="@c.MaHopDong" hidden/> <input type="submit" value="Thanh toán" /> </form></td>
+                            <td>
+                                <input hidden id="file_@c.MaHopDong" type="text" value="@c.NoiDung" /><button onclick="
+                                                                                        var noidunghd = $('#file_@c.MaHopDong').val();
+                                                                                        var fileDownload = document.createElement('a');
+                                                                                        document.body.appendChild(fileDownload);
+                                                                                        fileDownload.href = noidunghd;
+                                                                                        fileDownload.download = 'HopDong.doc';
+                                                                                        fileDownload.click();
+                                                                                        document.body.removeChild(fileDownload);
+                                                                                        ">
+                                    file
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div id="d4">
+                <table>
+                    <tr>
+                        <th style="height:3em;">STT</th>
+                        <th>Mã HD</th>
+                        <th>Tên KOL</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trị giá</th>
+                        <th>Trạng thái</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                    @foreach (var c in dangthuchien)
+                    {
+                        dth++;
+                        <tr>
+                            <td style="height:3em;">@dth</td>
+                            <td>@c.MaHopDong</td>
+                            <td>
+                                <form style="display:block;" method="post" action="~/KOL/HoSoKOLtheoid">
+                                    <input type="text" value="@c.AccKOL.AccName" name="accname" id="txtacc" style="display:none;" />
+                                    <input style="background-color:white; border:none;" class="ten" type="submit" id="xemkol" value="@c.AccKOL.Name" />
+                                </form>
+                            </td>
+                            <td>@c.NgayKi.Value.Day/@c.NgayKi.Value.Month/@c.NgayKi.Value.Year</td>
+                            <td>@c.NgayKT.Value.Day/@c.NgayKT.Value.Month/@c.NgayKT.Value.Year</td>
+                            <td>@c.TriGia</td>
+                            <td>Đang hiệu lực</td>
+                            <td>
+                                <input hidden id="file_@c.MaHopDong" type="text" value="@c.NoiDung" /><button onclick="
+                                                                                        var noidunghd = $('#file_@c.MaHopDong').val();
+                                                                                        var fileDownload = document.createElement('a');
+                                                                                        document.body.appendChild(fileDownload);
+                                                                                        fileDownload.href = noidunghd;
+                                                                                        fileDownload.download = 'HopDong.doc';
+                                                                                        fileDownload.click();
+                                                                                        document.body.removeChild(fileDownload);
+                                                                                        ">
+                                    file
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+            <div id="d5">
+                <table>
+                    <tr>
+                        <th style="height:3em;">STT</th>
+                        <th>Mã HD</th>
+                        <th>Tên KOL</th>
+                        <th>Ngày bắt đầu</th>
+                        <th>Ngày kết thúc</th>
+                        <th>Trị giá</th>
+                        <th>Trạng thái</th>
+                        <th>Chi tiết</th>
+                    </tr>
+                    @foreach (var c in dahoanthanh)
+                    {
+                        dht++;
+                        <tr>
+                            <td style="height:3em;">@dht</td>
+                            <td>@c.MaHopDong</td>
+                            <td>
+                                <form style="display:block;" method="post" action="~/KOL/HoSoKOLtheoid">
+                                    <input type="text" value="@c.AccKOL.AccName" name="accname" id="txtacc" style="display:none;" />
+                                    <input style="background-color:white; border:none;" class="ten" type="submit" id="xemkol" value="@c.AccKOL.Name" />
+                                </form>
+                            </td>
+                            <td>@c.NgayKi.Value.Day/@c.NgayKi.Value.Month/@c.NgayKi.Value.Year</td>
+                            <td>@c.NgayKT.Value.Day/@c.NgayKT.Value.Month/@c.NgayKT.Value.Year</td>
+                            <td>@c.TriGia</td>
+                            <td>Đã hoàn thành: @c.XacNhanHoanThanh</td>
+                            <td>
+                                <input hidden id="file_@c.MaHopDong" type="text" value="@c.NoiDung" /><button onclick="
+                                                                                        var noidunghd = $('#file_@c.MaHopDong').val();
+                                                                                        var fileDownload = document.createElement('a');
+                                                                                        document.body.appendChild(fileDownload);
+                                                                                        fileDownload.href = noidunghd;
+                                                                                        fileDownload.download = 'HopDong.doc';
+                                                                                        fileDownload.click();
+                                                                                        document.body.removeChild(fileDownload);
+                                                                                        ">
+                                    file
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div id="hopdong">
+            <div id="vanban">
+                <center>
+                    <p class="giua" id="in">
+                        CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                    </p>
+                    <p class="giua">
+                        Độc lập – Tự do – Hạnh phúc
+                    </p>
+                    <p class="giua">———-o0o———–</p>
+                    <p class="giua" >HỢP ĐỒNG QUẢNG BÁ SẢN PHẨM</p>
+                </center>
+                <p>
+                    Căn cứ Bộ Luật Dân sự 2015;<br>
+                    Căn cứ Luật Thương mại 2005;<br>
+                    Căn cứ Luật Quảng cáo 2012;<br><div id="popup">
+                        <div id="filehd">
+                            <div id="div_cl">
+                                <button id="cl"><i class="bi bi-x-lg"></i></button>
+                            </div>
+                            <div id="noidungHD">
+                                Nội dung hợp đồng:
+                            </div>
+                        </div>
+                    </div>
+                <p>
+                    Hôm nay, gày <span id="ngay"></span> tháng <span id="thang"></span> năm <span id="nam"></span>
+                </p><br />
+                <p>
+                    Căn cứ nhu cầu và khả năng của hai bên:
+                </p><br>
+                <left>
+
+                </left>
+                <p>
+                    <strong>Chúng tôi gồm có:</strong><br>
+                    <strong>BÊN A: Khách hàng:</strong><br />
+                    Tên: <span id="tenkhach">@acckhach.Name</span> Ngày sinh: <span id="khachsinh">@acckhach.BirthDay.Value.Day/@acckhach.BirthDay.Value.Month/@acckhach.BirthDay.Value.Year</span><br />
+                    Số CCCD: <span id="CMNDk">@acckhach.SoCM</span><br />
+                    Thông tin liên lạc: <span id="sdtkh">@acckhach.PhoneNumber</span><br />
+                    Cùng với thông tin sản phẩm/dự án<br>
+                    Tên sản phẩm: <span id="sp"></span><br />
+                    Loại sản phẩm: <span id="loai"> </span><br />
+                    Yêu cầu: <br>
+                    <span id="yc2"></span><br />
+                    <strong>BÊN B:KOL</strong><br />
+                    Tên: <span id="tenkol">Tên kol</span> Ngày sinh: <span id="kolsinh">1999</span><br />
+                    Số CCCD: <span id="CMNDkol">CM</span><br />
+                    Thông tin liên lạc: <span id="sdtkol"></span><br />
+                    Cùng với thông tin:<br>
+                    Tên sản phẩm: <span id="sp"></span><br />
+                    <strong>BÊN C:</strong><br />
+                    Công ty TNHH Quản lý KOL <br />
+                    Website: Mạng xã hội và Quản lý KOL<br />
+                    Sau khi bàn bạc, thỏa thuận các bên thống nhất các nội dung sau:<br />
+                </p>
+                <p>
+                    <span id="in">
+                        ĐIỀU 1: NỘI DUNG CỦA HỢP ĐỒNG
+                    </span> <br />
+                    Bên A thuê Bên B hạng mục sau:<br />
+                    – Bên A chịu trách nhiệm đưa ý tưởng kịch bản và các thông tin về sản phẩm cần quảng cáo cho bên B.<br />
+                    – Bên B chịu trách nhiệm đưa thông tin review sản phẩm của bên A dưới hình thức tranh ảnh và video và đăng sản phẩm đã sản xuất trên kênh fanpage cá nhân của Bên B<br />
+                </p>
+                <p>
+                    <span id="in">
+                        ĐIỀU 2: GIÁ TRỊ HỢP ĐỒNG
+                    </span><br />
+                    2.1 Giá trị hợp đồng<br />
+                    Chi phí cho việc thực hiện nội dung công việc nêu tại Điều 1 của Hợp đồng này là: <span id="giahdtaiday">1.000.000</span> VNĐ.<br />
+                    Bao gồm:<br />
+                    + 10% phí duy trì và quản lí Website<br />
+                    + 10% phí pháp lí và các phí khác<br />
+                    + 80% giá trị thanh toán cho KOL<br />
+                    2.2. Phương thức thanh toán<br />
+                    Bên A sẽ thanh toán trước cho Bên C 100% trị giá hợp đồng bằng phương thức chuyển khoản theo thông tin bên dưới.<br />
+                    Thông tin tài khoản:<br />
+                    STK: 123456789<br />
+                    Chủ tài khoản: QUAN LY KOL<br />
+                    Bên B nhận được 90% trị giá từ bên C.
+                </p>
+                <p>
+                    <span id="in">
+                        ĐIỀU 3: THỜI HẠN CỦA HỢP ĐỒNG
+                    </span><br />
+                    Hợp đồng có hiệu lực từ ngày:<span id="ngayngaybd"></span> và hiệu lực đến hết ngày: <span id="ngayngaykt"></span> <br>
+                    Trong thời hạn hợp đồng, bên B phải đăng tải và cho hiển thị hình ảnh và video review sản phẩm của bên A trên fanpage cá nhân của Bên B. Trong mọi trường hợp Bên B không được xóa bài review sản phẩm của Bên A, trừ trường hợp bên A hoặc sản phẩm của bên A vi phạm pháp luật hay quy định khác.<br>
+                </p>
+                <p>
+                    <span id="in">
+                        ĐIỀU 4: QUYỀN VÀ TRÁCH NHIỆM CỦA BÊN A
+                    </span><br />
+                    Trách nhiệm của Bên A.<br />
+                    – Thanh toán đúng thời hạn và đầy đủ giá trị Hợp đồng theo Điều 2 của Hợp đồng này.<br />
+                    – Cung cấp thông tin trung thực, chính xác về thông tin của sản phẩm và chịu trách nhiệm về các thông tin do mình cung cấp cho bên B. Nếu có bất kỳ thông tin sai lệch nào làm ảnh hưởng trực tiếp đến bên B thì phải hoàn toàn chịu trách nhiệm.<br />
+                    – Nếu có tranh chấp về nhãn hiệu, bản quyền sản phẩm của bên A thì bên A phải hoàn toàn tự chịu trách nhiệm.<br />
+                    – Kịp thời thông báo những thay đổi trong nội dung sản phẩm, trong những bài review cho bên B. Nếu vi phạm thì bên B không chịu trách nhiệm.<br />
+                    – Bồi thường thiệt hại cho Bên B nếu vi phạm các thỏa thuận trong Hợp đồng.<br />
+                    Quyền của Bên A.<br>
+                    – Có quyền sở hữu hình ảnh và video review sản phẩm mà bên B đã sản xuất cho Bên A bao gồm việc đăng lại trên trang fanpage cá nhân của Bên A.<br />
+                    – Có quyền kiểm tra, giám sát việc thực hiện hợp đồng của bên B theo các thỏa thuận đã ký kết.<br />
+                    – Có quyền yêu cầu bên B báo cáo tiến độ thực hiện nội dung thỏa thuận đã ký kết.<br />
+                    – Có quyền yêu cầu Bên B bồi thường thiệt hại nếu bên B vi phạm thỏa thuận của hợp đồng.<br />
+                </p>
+                <p>
+                    <span id="in">
+                        ĐIỀU 5: QUYỀN VÀ TRÁCH NHIỆM CỦA BÊN B
+                    </span><br />
+                    Trách nhiệm của Bên B.<br />
+                    - Đảm bảo giao sản phẩm trước ngày <span id="ngaygiaosp"></span> <br />
+                    – Không sử dụng hình ảnh và video review sản phẩm thuộc quyền sở hữu của Bên A khi chưa được Bên A đồng ý bằng văn bản.<br />
+                    – Bên B cam kết không xóa bài viết review trên fanpage cá nhân trong suốt thời gian thực hiện hợp đồng. (Trừ trường hợp bất khả kháng do sản phẩm hoặc bên A có hành vi vi phạm pháp luật, gây ảnh hưởng tới hình ảnh và tên tuổi của bên B).<br />
+                    – Bồi thường thiệt hại cho Bên A nếu vi phạm các thỏa thuận trong Hợp đồng.<br />
+                    – Báo cáo cho bên A tiến độ công việc mà bên B đang thực hiện.<br />
+                    Quyền của Bên B.<br />
+                    – Yêu cầu Bên A thanh toán đúng hạn theo quy định tại Điều 2 Hợp đồng.<br />
+                    – Được nhận chi phí sử dụng hình ảnh mà Bên A đã sử dụng đăng trên fanpage cá nhân của Bên A với mức phí thỏa thuận cố định nêu trên.<br />
+                    – Yêu cầu bên A cung cấp đầy đủ giấy tờ pháp lý của sản phẩm trước khi thực hiện sản xuất hình ảnh, video review. Nếu nội dung của bên A yêu cầu vi phạm pháp luật hoặc thông tin về sản phẩm vi phạm bản quyền, nhãn hiệu… thì bên B được quyền từ chối thực hiện theo thỏa thuận.<br />
+                    – Được bên A hỗ trợ về truyền thông và cùng khắc phục những scandal liên quan tới sản phẩm hoặc Công ty gây ảnh hưởng đến hình ảnh và danh dự của cả 2 bên (nếu có).<br />
+                </p>
+                <p>
+                    <span id="in">
+                        ĐIỀU 6: PHẠT HỢP ĐỒNG
+                    </span><br />
+                    Bên A: Không thực hiện thanh toán đúng hạn cho bên B như cam kết sẽ phải trả lãi suất quá hạn cho phần vi phạm theo quy định về lãi suất của Ngân hàng thương mại cổ phần Ngoại thương Việt Nam (Vietcombank), và chịu trách nhiệm trước pháp luật.<br />
+                    Bên B: Không đảm bảo việc đăng hình ảnh, video trên fanpage cá nhân thì chịu phạt 50% giá trị Hợp đồng. Trong trường hợp bên B không hoàn thành hợp đồng có thể sẽ bị khóa vĩnh viễn tài khoản.<br />
+                    <span id="in">
+                        ĐIỀU 7: CÁC TRƯỜNG HỢP ĐƠN PHƯƠNG CHẤM DỨT HỢP ĐỒNG
+                    </span><br />
+                    Bên A: Không thực hiện thanh toán đúng hạn cho Bên B theo quy định tại Điều 2 khoảng 2 Hợp đồng này thì Bên B có quyền đơn phương chấm dứt Hợp đồng đồng thời có quyền yêu cầu Bên A phải thực hiện nghĩa vụ trả tiền theo đúng quy định tại Điều 2.2 Hợp đồng.<br />
+                    Bên B: Trừ trường hợp bất khả kháng như: Fanpage cá nhân bị mất hoặc bị hack, hình ảnh, video gây ảnh hưởng tới việc bảo đảm về thuần phong mỹ tục của Việt Nam, gây ảnh hưởng xấu tới cộng đồng, video hoặc fanpage cá nhân bị hacker report …<br />
+                    Nếu bên B không đảm bảo việc đăng hình ảnh, video lên fanpage cá nhân theo cam kết thì Bên A có quyền đơn phương chấm dứt Hợp đồng đồng thời yêu cầu Bên B chịu phạt vi phạm và Bồi thường thiệt hại theo các thỏa thuận trong Hợp đồng.<br />
+                    <span id="in">
+                        ĐIỀU 8: ĐIỀU KHOẢN CUỐI CÙNG
+                    </span><br />
+                    1. Hợp đồng này có hiệu lực kể từ thời điểm các bên ký kết. Mọi sửa đổi bổ sung phải được cả hai bên lập thành văn bản;<br />
+                    2. Trong quá trình thực hiện Hợp đồng mà phát sinh tranh chấp, các bên cùng nhau thương lượng giải quyết trên nguyên tắc tôn trọng quyền lợi của nhau; Trong trường hợp không giải quyết được, thì một trong hai bên có quyền khởi kiện để yêu cầu Tòa án có thẩm quyền giải quyết theo quy định của pháp luật.<br />
+                    3. Hai bên đều đã tự đọc lại toàn bộ nội dung của Hợp đồng này, đã hiểu và đồng ý với toàn bộ nội dung ghi trong Hợp đồng, không có điều gì vướng mắc. Bên A, bên B đã tự nguyện ký tên/đóng dấu/điểm chỉ vào Hợp đồng này.<br />
+                    Hợp đồng được bên C lưu trữ điện làm bằng chứng.
+                </p>
+            </div>
+            <div id="gr_btn">
+                <button onclick="document.getElementById('guihd').click();" id="gui">Gửi hợp đồng</button>
+                <button id="luu" onclick="exportHTML();"><i class="bi bi-box-arrow-in-down"></i>Lưu bản sao</button>
+            </div>
+        </div>
+    </div>
+</div>
+<form style="display:none;" method="post" action="~/KhachHang/GuiHD">
+    <input type="text" id="BENAA" name="benA" value="@acckhach.AccName" />
+    <input type="text" id="BENBB" name="benB" />
+    <input type="text" id="BENCC" name="benC" />
+    <input type="text" id="LVu" name="LinhVuc" />
+    <input type="text" id="TENHD" name="TenHD" />
+    <input type="text" id="NgayKi" name="NgayKi" />
+    <input type="text" id="NdungHD" name="NdungHD" />
+    <input type="text" id="TriGiaG" name="TriGia" />
+    <input type="text" id="NgayKT" name="NgayKT" />
+    <input type="text" id="htmlsource" name="htmlsorcedoc" />
+    <input type="submit" id="guihd" />
+</form>
+<script type="text/javascript">
+    var lvan = document.getElementById('lvan');
+    var lvat = document.getElementById('lvat');
+    var lvmp = document.getElementById('lvmp');
+    var lvtm = document.getElementById('lvtm');
+    var lvtt = document.getElementById('lvtt');
+    var lvttr = document.getElementById('lvttr');
+    var xArray = ["Âm nhạc", "Ẩm thực", "Mỹ phẩm", "Thể thao", "Thương mại", "Thời trang"];
+    var yArray = [4, 4, 2, 1, 7, 3];
+    var layout = { title: "Hợp đồng trong lĩnh vực" };
+    var data = [{ labels: xArray, values: yArray, hole: .4, type: "pie" }];
+    Plotly.newPlot("myPlot", data, layout);
+</script>

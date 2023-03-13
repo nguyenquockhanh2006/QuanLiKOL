@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bc36a834e6f64b659c77b6931740dbae" Name="Diagram1">
+        <EntityTypeShape EntityType="QuanLiKOLModel.AccAdmin" Width="1.5" PointX="3.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.AccCustomer" Width="1.5" PointX="1.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.AccKOL" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.AnhDang" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.AnhKhach" Width="1.5" PointX="3.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.BaiDangAdmin" Width="1.5" PointX="6" PointY="21.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.BaiDangCu" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.BaiDangKOL" Width="1.5" PointX="3" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.FaceId" Width="1.5" PointX="8" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.Follow" Width="1.5" PointX="3" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.HoiDap" Width="1.5" PointX="6" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.HopDong" Width="1.5" PointX="6" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.LuotThichBvKOL" Width="1.5" PointX="5.25" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.LVKH" Width="1.5" PointX="5.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.LVKOL" Width="1.5" PointX="6" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.minitask" Width="1.5" PointX="5.25" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.report" Width="1.5" PointX="8" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.sysdiagram" Width="1.5" PointX="7.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.TaiKhoan" Width="1.5" PointX="5.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.ThoiGianBieu" Width="1.5" PointX="3" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.TTLinhVuc" Width="1.5" PointX="1.5" PointY="20" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.UngTuyenBvCu" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_BaiDangAdmin_AccAdmins" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_HoiDap_AccAdmins" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_HopDong_AccAdmin" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_AnhKhach_AccCustomers" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_BaiDangCus_AccCustomer" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_Follow_AccCustomer" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_HopDong_AccCustomer" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_LuotThichBvKOL_AccCustomer" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_LVKH_AccCustomers" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_report_AccCustomer" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_AnhDang_AccKOLs" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_BaiDangKOL_AccKOL" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_Follow_AccKOL" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_HopDong_AccKOL" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_LVKOL_AccKOLs" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_report_AccKOL" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_ThoiGianBieu_AccKOL" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_UngTuyenBvCus_AccKOL" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_BaiDangCus_TTLinhVuc" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_UngTuyenBvCus_BaiDangCus" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_LuotThichBvKOL_BaiDangKOL" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_FaceId_TaiKhoans" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_LVKH_TTLinhVucs" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_LVKOL_TTLinhVucs" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_minitask_ThoiGianBieux" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.LichSuGiaoDich" Width="1.5" PointX="8.25" PointY="17.625" />
+        <EntityTypeShape EntityType="QuanLiKOLModel.RutTienKOL" Width="1.5" PointX="3" PointY="24.5" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_RutTienKOL_AccKOLs" />
+        <AssociationConnector Association="QuanLiKOLModel.FK_LichSuGiaoDich_HopDongs" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

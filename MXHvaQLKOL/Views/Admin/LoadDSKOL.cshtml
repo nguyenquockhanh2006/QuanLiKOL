@@ -1,0 +1,87 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccKOL>
+
+@{
+    ViewBag.Title = "LoadDSKOL";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+}
+
+<h2>DANH SÁCH KOL</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Tên đăng nhập
+        </th>
+        <th>
+            Tên tài khoản
+        </th>
+        <th>
+            Tên
+        </th>
+        <th>
+            Ngày sinh
+        </th>
+        <th>
+            Giới tính
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Gmail
+        </th>
+        <th>
+            Số dư
+        </th>
+        <th>
+            Yêu cầu
+        </th>
+        <th>
+
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @item.BirthDay.Value.Day/@item.BirthDay.Value.Month/@item.BirthDay.Value.Year
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GioiTinh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SoDu)
+        </td>
+        <td>
+            @item.RutTienKOLs.Count
+        </td>
+        <td>
+            <a href="~/KOL/HoSoKOLtheoid?idkol=@item.AccName">Xem chi tiết</a>
+        </td>
+
+    </tr>
+}
+
+</table>

@@ -1,0 +1,92 @@
+﻿@using MXHvaQLKOL.Models
+@using MXHvaQLKOL.Context.supportClass
+@{
+    ViewBag.Title = "RePort";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    //String accname = Session["id"].ToString();
+    List<report> rp = db.reports.ToList();
+    List<RutTienKOL> rt = db.RutTienKOLs.ToList();
+}
+<link href="~/Context/css/Admin/Bang.css" rel="stylesheet" />
+<link href="~/Context/css/Admin/Report.css" rel="stylesheet" />
+<script src="~/Context/js/Admin/report.js"></script>
+<div id="khungdong" style="width:100%; display: flex;">
+    <div id="phantrai" style="width: 40%; border: 1px solid black; padding: 2px;">
+        <div style="width:100%; text-align: center; font-size:50px; font-weight:bold">
+            Tố Cáo<br />
+            @rp.Count
+        </div>
+        <div style="width:100%;">
+            <table style="width:100%;">
+                <tr>
+                    <th>Mã tố cáo</th>
+                    <th>Người tố cáo</th>
+                    <th>Bị cáo</th>
+                    <th>Lí do</th>
+                    <th>Trạng thái</th>
+                </tr>
+                @foreach (var c in rp)
+                {
+                    <tr>
+                        <td>@c.id</td>
+                        <td>@c.AccToCao</td>
+                        <td>@c.AccBiToCao</td>
+                        <td>@c.LiDo</td>
+                        @if (c.Trangthai == 0)
+                        {
+                            <td>Chưa xem <a style="border:2px solid black;" href="~/Admin/DuyetRp?id=@c.id">Duyệt</a></td>
+                            
+                        }
+                        else
+                        {
+                            <td>Đã duyệt</td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <div id="phanphai" style="width:60%; border:1px solid black; padding:2px;">
+        <div style="width:100%; text-align: center; font-size:50px; font-weight:bold">
+            Yêu cầu thanh toán<br />
+            @rt.Count
+        </div>
+        <div style="width:100%;">
+            <table style="width:100%;">
+                <tr>
+                    <th>Mã</th>
+                    <th>KOL</th>
+                    <th>Số TK</th>
+                    <th>Ngân hàng</th>
+                    <th>Tên chủ thẻ</th>
+                    <th>Số tiền</th>
+                    <th>Tiền còn</th>
+                    <th>Trạng thái</th>
+                </tr>
+                @foreach (var c in rt)
+                {
+                    <tr>
+                        <td>@c.ma</td>
+                        <td>@c.AccName</td>
+                        <td>@c.SoTK</td>
+                        <td>@c.NganHang</td>
+                        <td>@c.TenChuThe</td>
+                        <td>@c.SoTien VNĐ</td>
+                        <td>@c.AccKOL.SoDu VNĐ</td>
+                        @if (c.TinhTrang == 0)
+                        {
+                            <td>Chưa xem <a style="border:2px solid black;" href="~/Admin/DuyetYc?id=@c.ma">Duyệt</a></td>
+
+                        }
+                        else
+                        {
+                            <td>Đã duyệt</td>
+                        }
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+

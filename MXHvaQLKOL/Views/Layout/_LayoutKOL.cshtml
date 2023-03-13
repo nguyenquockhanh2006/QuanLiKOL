@@ -1,0 +1,82 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Trang chủ KOL</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="~/Context/css/LayoutTrangChuKOL.css" rel="stylesheet" />
+    <script src="~/Context/js/LayoutTrangChuKOL.js" defer></script>
+</head>
+<body>
+    @{ 
+        String accname = Session["id"].ToString();
+        MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+        MXHvaQLKOL.Models.AccKOL kol = db.AccKOLs.Where(x => x.AccName == accname).FirstOrDefault();
+        MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+        MXHvaQLKOL.Context.supportClass.XetMucHoanThanhHS xet = new MXHvaQLKOL.Context.supportClass.XetMucHoanThanhHS(kol);
+         
+}
+    <input hidden id="xethths" type="text" value="@xet.getht()" />
+    <div id="nentren" style="height:60px;">
+        <div id="nentren2">
+            <img style="margin: 15px;height:30px; width: 30px; border-radius: 50%" src="https://i.imgur.com/bRJdUtb.jpg"/>
+            <span style="margin:15px">@kol.UserName</span>
+            <span style="margin:15px">Số dư: @kol.SoDu VNĐ</span>
+        </div>
+    </div>
+    <div id="body">
+        <div id="khungtienich">
+            <div id="khungmenu">
+                <div class="the">
+                    <p class="p1"><i class="bi bi-house-fill"></i><a style="color:black;" href="~/KOL/Index">Trang chủ</a></p>
+                </div>
+                <div class="the">
+                    <p class="p1"><i class="bi bi-arrow-up-right"></i><a style="color: black;" href="~/KOL/LoadBXHkol">Bảng xếp hạng</a></p>
+                </div>
+                <div class="the">
+                    <p class="p1">
+                        <i class="bi bi-file-earmark-break"></i><a onclick="
+                                                    var ht = document.getElementById('xethths').value;
+                                                    if (ht == 0) {
+                                                        alert('Vui lòng cập nhật đầy đủ thông tin cho hồ sơ các nhân của bạn!');
+                                                        event.preventDefault();
+                                                    }
+                                                                          " style="color: black;" href="~/KOL/LoadHDKOL">Hợp đồng</a>
+                    </p>
+                </div>
+                <div class="the">
+                    <p class="p1"><i class="bi bi-person-fill"></i><a style="color: black;" href="~/KOL/HoSoKOL">Hồ sơ</a></p>
+                </div>
+                <div class="the">
+                    <p class="p1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-exchange" viewBox="0 0 16 16">
+    <path d="M0 5a5.002 5.002 0 0 0 4.027 4.905 6.46 6.46 0 0 1 .544-2.073C3.695 7.536 3.132 6.864 3 5.91h-.5v-.426h.466V5.05c0-.046 0-.093.004-.135H2.5v-.427h.511C3.236 3.24 4.213 2.5 5.681 2.5c.316 0 .59.031.819.085v.733a3.46 3.46 0 0 0-.815-.082c-.919 0-1.538.466-1.734 1.252h1.917v.427h-1.98c-.003.046-.003.097-.003.147v.422h1.983v.427H3.93c.118.602.468 1.03 1.005 1.229a6.5 6.5 0 0 1 4.97-3.113A5.002 5.002 0 0 0 0 5zm16 5.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0zm-7.75 1.322c.069.835.746 1.485 1.964 1.562V14h.54v-.62c1.259-.086 1.996-.74 1.996-1.69 0-.865-.563-1.31-1.57-1.54l-.426-.1V8.374c.54.06.884.347.966.745h.948c-.07-.804-.779-1.433-1.914-1.502V7h-.54v.629c-1.076.103-1.808.732-1.808 1.622 0 .787.544 1.288 1.45 1.493l.358.085v1.78c-.554-.08-.92-.376-1.003-.787H8.25zm1.96-1.895c-.532-.12-.82-.364-.82-.732 0-.41.311-.719.824-.809v1.54h-.005zm.622 1.044c.645.145.943.38.943.796 0 .474-.37.8-1.02.86v-1.674l.077.018z" />
+</svg><a style="color: black;" href="~/KOL/YeuCauRT">Yêu cầu rút tiền</a></p>
+                </div>
+                <div class="the">
+                    <p class="p1"><i class="bi bi-graph-up"></i><a style="color: black;" href="~/KOL/ThongKe">Thống kê</a></p>
+                </div>
+                <div class="the">
+                    <p class="p1"><i class="bi bi-file-earmark-richtext"></i><a style="color: black;" href="~/KOL/LoadQLBV">Quản lý bài viết</a></p>
+                </div>
+                <div class="the">
+                    <p class="p1"><i class="bi bi-grid-1x2"></i><a style="color: black" href="~/KOL/Trello">Trello</a></p>
+                </div>
+                <div class="the">
+                    <p class="p1"><i class="bi bi-box-arrow-left"></i><a style="color: black" href="~/Login/Logout">Đăng xuất</a></p>
+                </div>
+            </div>
+        </div>
+        <!---->
+        @RenderBody()
+        <!---->
+    </div>
+</body>
+</html>

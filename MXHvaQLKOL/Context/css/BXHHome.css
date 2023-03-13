@@ -1,0 +1,321 @@
+﻿#menu {
+    height: 4em;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    display: flex;
+    justify-content: center;
+    background-color: #002B4E;
+}
+
+#menu {
+    color: white;
+}
+
+#container {
+    width: 100%;
+    max-width: 1110px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+}
+
+.list {
+    width: 13%;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+    .list > a {
+        color: white;
+    }
+
+    .list:hover > a {
+        color: black;
+    }
+
+    .list:hover {
+        background-color: white;
+        color: black;
+    }
+
+#container2 {
+    width: 100%;
+    max-width: 1110px;
+    display: flex;
+    justify-content: space-around;
+}
+
+#bodycontent {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 20em;
+}
+/* #linhvuc{
+    background-color: red;
+} */
+.khunghinh > img {
+    width: 8em;
+    height: 8em;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.khunghinh {
+    width: 9em;
+    height: 9em;
+    /* background-color: #002B4E; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+#top1 .khunghinh {
+    background-color: #ffa200;
+}
+
+#top1 .ten {
+    background-color: #ffa200;
+    color: black;
+    font-size: 1.2em;
+    padding-top: 2%;
+}
+
+#top2 .khunghinh {
+    background-color: #f27059;
+}
+
+#top2 .ten {
+    background-color: #f27059;
+    color: black;
+    font-size: 1.2em;
+    padding-top: 2%;
+}
+
+#top3 .khunghinh {
+    background-color: #f27059;
+}
+
+#top3 .ten {
+    background-color: #f27059;
+    color: black;
+    font-size: 1.2em;
+    padding-top: 2%;
+}
+
+#top2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 7%;
+}
+
+#top1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#top3 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 7%;
+}
+
+.ten {
+    width: 70%;
+    color: white;
+    margin-top: -3%;
+    border-radius: 2em;
+    display: flex;
+    align-items: center;
+}
+
+.vuongmieng > img {
+    width: 6em;
+    height: 6em;
+    margin-bottom: -20%;
+}
+
+#topba {
+    width: 34%;
+}
+
+#tem > img {
+    width: 3em;
+    height: 4em;
+    margin-top: 25%;
+    margin-left: -5%;
+}
+
+.ten {
+    height: 2em;
+    font-weight: bold;
+}
+
+#tem {
+    width: 25%;
+}
+
+.ten > p {
+    width: 75%;
+}
+
+#lv1 {
+    background-color: #002B4E;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5em;
+    height: 2.5em;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.d1 {
+    width: 14%;
+    display: flex;
+    justify-content: center;
+}
+
+#btn2, #btn3, #btn4, #btn5, #btn6, #btn7 {
+    border: none;
+    width: 90%;
+    background-color: #002B4E;
+    height: 2.5em;
+}
+
+#btn1 {
+    border: none;
+    width: 90%;
+    background-color: #014f86;
+    height: 2.5em;
+}
+
+    #btn1:hover, #btn2:hover, #btn3:hover, #btn4:hover, #btn5:hover, #btn6:hover, #btn7:hover {
+        background-color: #014f86;
+    }
+
+    #btn1:focus, #btn2:focus, #btn3:focus, #btn4:focus, #btn5:focus, #btn6:focus, #btn7:focus {
+        outline: 0;
+    }
+
+#bang {
+    width: 100%;
+    margin-top: 2%;
+}
+
+#bang2 {
+    width: 100%;
+    display: flex;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-top: 1%;
+}
+
+#cothang {
+    width: 5%;
+}
+
+.stt {
+    height: 2em;
+    width: 2em;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+    background-image: linear-gradient(to bottom right, #52b788, #bfd200);
+}
+
+.thongtin {
+    width: 95%;
+    border-radius: 4em;
+    background-image: linear-gradient(to bottom right, #52b788, #bfd200);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail {
+    background-color: rgba(255, 255, 255, 0.0);
+    border: none;
+    border-radius: 50%;
+    width: 4%;
+    margin-right: 2%;
+}
+
+    .detail:focus {
+        outline: 0;
+    }
+
+.bi-three-dots {
+    font-size: 1.2em;
+}
+
+.detail:hover .bi-three-dots {
+    color: white;
+}
+
+.t1 {
+    width: 96%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#amnhac, #amthuc, #thoitrang, #mypham, #thethao, #thuongmai {
+    display: none;
+}
+
+.mau {
+    background-color: red;
+}
+
+#popup {
+    position: absolute;
+    z-index: 9999;
+    right: 0;
+    margin-top: 5%;
+    background-color: white;
+    width: 25%;
+    height: 5em;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    color: red;
+    font-weight: bold;
+    display: none;
+}
+
+#gachdoc {
+    background-color: red;
+    margin-left: 1%;
+    margin-right: 3%;
+}
+
+#thongbao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bi-exclamation-triangle {
+    font-size: 1.7em;
+    margin-right: 4%;
+}

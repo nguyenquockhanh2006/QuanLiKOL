@@ -1,0 +1,135 @@
+﻿@using MXHvaQLKOL.Models
+@model IEnumerable<MXHvaQLKOL.Models.HopDong>
+@{
+    ViewBag.Title = "LoadHDKOL";
+    Layout = "~/Views/Layout/_LayoutKOL.cshtml";
+    int dem = 1;
+    Session["hanhdong"] = "xacthuchd";
+}
+
+<link href="~/Context/css/HopDongKOL.css" rel="stylesheet" />
+<div id="noidung"style="background-color: #f2f0f0;">
+    <div id="popup">
+        <div id="filehd">
+            <div id="div_cl">
+                <button id="cl"><i class="bi bi-x-lg"></i></button>
+            </div>
+            <div id="noidungHD">
+                
+            </div>
+        </div>
+    </div>
+    <div id="d1" >
+        <div style="background-color: red; height: 5em; width: 16%; border: 0.7em; background-image: linear-gradient(135deg,#ccdbfd, #ffccd5); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <p><a href="~/KOL/LoadHDKOL">TỔNG</a></p>
+            <span class="s1">@Model.Count()</span>
+        </div>
+        <div style="background-color: red; height: 5em; width: 16%; border: 0.7em; background-image: linear-gradient(135deg,#ccdbfd, #ffccd5); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <p><a href="~/KOL/LoadHDKOL?id=1">CHỜ XÁC NHẬN</a></p>
+            <span class="s1">@Model.Where(x=>x.TrangThai == 1).Count()</span>
+        </div>
+        <div style="background-color: red; height: 5em; width: 16%; border: 0.7em; background-image: linear-gradient(135deg,#ccdbfd, #ffccd5); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <p><a href="~/KOL/LoadHDKOL?id=2">CHỜ DUYỆT</a></p>
+            <span class="s1">@Model.Where(x => x.TrangThai == 2).Count()</span>
+        </div>
+        <div style="background-color: red; height: 5em; width: 16%; border: 0.7em; background-image: linear-gradient(135deg,#ccdbfd, #ffccd5); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <p><a href="~/KOL/LoadHDKOL?id=3">CHỜ THANH TOÁN</a></p>
+            <span class="s1">@Model.Where(x => x.TrangThai == 3).Count()</span>
+        </div>
+        <div style="background-color: red; height: 5em; width: 16%; border: 0.7em; background-image: linear-gradient(135deg,#ccdbfd, #ffccd5); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <p><a  href="~/KOL/LoadHDKOL?id=4">ĐANG THỰC HIỆN</a></p>
+            <span class="s1">@Model.Where(x => x.TrangThai == 4).Count()</span>
+        </div>
+        <div style="background-color: red; height: 5em; width: 16%; border: 0.7em; background-image: linear-gradient(135deg,#ccdbfd, #ffccd5); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <p><a  href="~/KOL/LoadHDKOL?id=5">ĐÃ HOÀN THÀNH</a></p>
+            <span class="s1">@Model.Where(x => x.TrangThai == 5).Count()</span>
+        </div>
+    </div>
+    <div style="width:100%; display:flex; justify-content:center; margin-top:10px;">
+        <form style="width:100%;" method="post" action="~/KOL/LoadHDKOL">
+            <input style="width:100%;" value="" type="text" id="ip_loaihd" name="loaihd" />
+            <div style="margin-top:10px ;width: 100%; display: flex; justify-content: center;"><input type="submit" id="sub_loadhd" value="Tìm kiếm" /></div>
+        </form>
+    </div>
+    <div id="d2" style=" width: 95%; margin-top: 10px;">
+        <table style="background-color:white;">
+            <tr>
+                <th style="height:3em;">STT</th>
+                <th style="text-align:center;">Tên hợp đồng</th>
+                <th style="text-align:center;">Khách hàng</th>
+                <th style="text-align:center;">Ngày bắt đầu</th>
+                <th style="text-align:center;">Ngày kết thúc</th>
+                <th style="text-align:center;">Trị giá (VNĐ)</th>
+                <th style="text-align:center;">Trạng thái</th>
+                <th style="text-align:center;">Chi tiết</th>
+                <th></th>
+            </tr>
+            @foreach (var c in Model)
+            {
+                String noidungText = c.NoiDung;
+                <tr>
+                    <td style="height:3em; text-align:center;">@dem</td>
+                    <td>@c.TenHopDong</td>
+                    <td>@c.BenA</td>
+                    <td style="text-align:center;">@c.NgayKi.Value.Day/@c.NgayKi.Value.Month/@c.NgayKi.Value.Year</td>
+                    <td style="text-align:center;">@c.NgayKT.Value.Day/@c.NgayKT.Value.Month/@c.NgayKT.Value.Year</td>
+                    <th style="text-align:right;">@c.TriGia</th>
+                    @if (c.TrangThai == 1)
+                    {
+                        <td style="text-align:center;">Chờ KOL xác nhận <form method="post" action="~/XacThucFaceId/Index"> <input type="text" name="mahd" value="@c.MaHopDong" hidden /> <input type="submit" value="Xác nhận" /> </form></td>
+                    }
+                    else if (c.TrangThai == 2)
+                    {
+                        <td style="text-align:center;">Chờ Admin xác nhận</td>
+                    }
+                    else if (c.TrangThai == 3)
+                    {
+                        <td style="text-align:center;">Chờ thanh toán </td>
+                        
+                    }
+                    else if (c.TrangThai == 4)
+                    {
+                        <td style="text-align:center;">Đang thực hiện</td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center;">Kết thúc</td>
+                    }
+                    <td>
+                        <input id="file_@c.MaHopDong" type="text" value="@c.NoiDung" hidden/>
+                        <button style="text-align:center;" onclick="
+                                        var noidunghd = document.getElementById('file_@c.MaHopDong').value;
+                                        var fileDownload = document.createElement('a');
+                                        document.body.appendChild(fileDownload);
+                                        fileDownload.href = noidunghd;
+                                        fileDownload.download = 'HopDong.doc';
+                                        fileDownload.click();
+                                        document.body.removeChild(fileDownload);
+                                        " class="file">file</button>
+                    </td>
+                    <td>
+                        @if(c.TrangThai == 4 )
+                {
+                    <form style="display:flow;" method="post" action="~/KOL/CungCapMC">
+                        @if (c.XacNhanHoanThanh != null)
+                        {
+                            <input type="text" name="minhchung" value="@c.XacNhanHoanThanh" />
+                            
+                            <input type="submit" value="Xác nhận" />
+                        }else
+                        {
+                            <input type="text" name="mahd" hidden value="@c.MaHopDong" />
+                            <input type="text" name="minhchung" placeholder="Cung cấp minh chứng!" />
+                            <input type="submit" value="Xác nhận" />
+                        }
+
+                    </form>
+                }
+                    </td>
+                </tr>
+                dem++;
+          }
+        </table>
+    </div>
+</div>
+

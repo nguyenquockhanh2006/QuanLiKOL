@@ -1,0 +1,101 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccKOL>
+
+@{
+    ViewBag.Title = "BangXepHang";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    int dem = 0;
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+}
+<link href="~/Context/css/bxhKOL.css" rel="stylesheet" />
+<div id="khungchua">
+    <div id="khungtieude"><h1>BẢNG XẾP HẠNG</h1></div>
+    <div style="width:100%; display:flex; justify-content:center; padding: 20px;">
+        <button onclick="
+                        document.getElementById('chualinhvuc').style.display = 'block';
+                        document.getElementById('chualinhvuc2').style.display = 'none';
+                        " style="margin-right:15px;">
+            Xếp theo lượt follow
+        </button>
+        <button onclick="
+                        document.getElementById('chualinhvuc').style.display = 'none';
+                        document.getElementById('chualinhvuc2').style.display = 'block';
+    " style="margin-left:15px;">
+            Xếp theo số hợp đồng
+        </button>
+    </div>
+    <div id="chualinhvuc">
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=All">Bảng tổng</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=AN">Âm nhạc</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=AT">Ẩm thực</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=MP">Mỹ phẩm</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=TM">Thương mại</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=TT">Thể thao</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=TTr">Thời trang</a></button>
+    </div>
+    <div id="chualinhvuc2">
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=All&thoigian=shd">Bảng tổng</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=AN&thoigian=shd">Âm nhạc</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=AT&thoigian=shd">Ẩm thực</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=MP&thoigian=shd">Mỹ phẩm</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=TM&thoigian=shd">Thương mại</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=TT&thoigian=shd">Thể thao</a></button>
+        <button class="linhvuc"><a href="~/Admin/BangXepHang?linhvuc=TTr&thoigian=shd">Thời trang</a></button>
+    </div>
+    <div id="khungnoidung" style="width:100%;">
+        <table style="width:100%;">
+            <tr>
+                <th style="width: 50px;">Hạng</th>
+                <th style="width: 50px;">Avatar</th>
+                <th style="width: 50px;">Tên người dùng</th>
+                <th style="width: 50px;">Lượt follow</th>
+                <th style="width: 50px;">Giá thuê</th>
+                <th style="width: 50px;">Số hợp đồng</th>
+                <th style="width: 50px;"></th>
+            </tr>
+            @foreach (var c in Model)
+            {
+                dem++;
+                MXHvaQLKOL.Context.supportClass.tinhtien tit = new MXHvaQLKOL.Context.supportClass.tinhtien(c);
+                <tr>
+                    <td style="text-align:center;">
+                        @if (dem == 1)
+                        {
+                            <img class="anhhang" src="https://i.imgur.com/suOhc6w.png" />
+                        }
+                        else if (dem == 2)
+                        {
+                            <img class="anhhang" src="https://i.imgur.com/3d3MTt8.png" />
+                        }
+                        else if (dem == 3)
+                        {
+                            <img class="anhhang" src="https://i.imgur.com/UO8tv1R.png" />
+                        }
+                        else
+                        {
+                            <span>@dem</span>
+                        }
+                    </td>
+                    <td style="display:flex; justify-content:center; justify-items:center;">
+                        @if (c.Avatar == null)
+                        {
+                            <img class="avatar" src="https://i.imgur.com/bRJdUtb.jpg" />
+                        }
+                        else
+                        {
+                            String srcavt = bbi.ByteToString(c.Avatar);
+                            <img class="avatar" src="@srcavt" />
+                        }
+                    </td>
+                    <td>@c.UserName</td>
+                    <td style="text-align:center;">@c.Follows.Count</td>
+                    <td style="text-align:center;">@tit.Tien VNĐ</td>
+                    <td style="text-align:center;">@c.HopDongs.Count</td>
+                    <td style="text-align:center;"><a href="~/KOL/KOLxemHoSoKOL?idkol=@c.AccName">Xem chi tiết</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<script src="~/Context/js/bxhKOL.js"></script>

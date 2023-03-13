@@ -1,0 +1,105 @@
+﻿@using MXHvaQLKOL.Models;
+@{
+    ViewBag.Title = "XacNhanTaiKhoanKH";
+    Layout = "~/Views/Layout/_LayoutAdmin.cshtml";
+    QuanLiKOLEntities db = new QuanLiKOLEntities();
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    List<AccCustomer> l_kol = db.AccCustomers.Where(x => x.SoCM == null && x.CCCD != null & x.CCCDback != null).ToList();
+}
+<style type="text/css">
+    th {
+        padding: 10px;
+    }
+
+    td {
+        padding: 10px;
+    }
+</style>
+<div style="width:100%; height:630px; position:relative; justify-content:center; justify-items:center; text-align:center; overflow:auto;">
+    <div style="width:100%; justify-content:center; justify-items:center; text-align:center;">
+        <h2>
+            Xác nhận tài khoản KOL
+        </h2>
+    </div>
+    <div style="width:100%; justify-content:center; justify-items:center; text-align:center;">
+        <table style="border:1px solid black; margin-left:15%; margin-right:15%;">
+            <tr style="border:1px solid black;">
+                <th style="border:1px solid black;">Tên đăng nhập</th>
+                <th style="border:1px solid black;">Tên tài khoản</th>
+                <th style="border:1px solid black;">Tên tên</th>
+                <th style="border:1px solid black;">Ngày sinh</th>
+                
+                <th style="border:1px solid black;">Số điện thoại</th>
+                <th style="border:1px solid black;">Gmail</th>
+            </tr>
+            @foreach (var c in l_kol)
+            {
+                String srcCMNDmt = bbi.ByteToString(c.CCCD);
+                String srcCMNDms = bbi.ByteToString(c.CCCDback);
+                FaceId[] l_face = db.FaceIds.Where(x => x.AccName == c.AccName).ToArray();
+                String anh1 = bbi.ByteToString(l_face[0].Anh);
+                String anh2 = bbi.ByteToString(l_face[1].Anh);
+                String anh3 = bbi.ByteToString(l_face[2].Anh);
+                <tr style="border:1px solid black; background-color:white;" onclick="
+    var acckol = document.getElementById('makol_@c.AccName').value;
+    var cccd = document.getElementById('cccd_@c.AccName').value;
+    var cccdback = document.getElementById('cccdback_@c.AccName').value;
+    var anh1src = document.getElementById('anh1_@c.AccName').value;
+    var anh2src = document.getElementById('anh2_@c.AccName').value;
+    var anh3src = document.getElementById('anh3_@c.AccName').value;
+    document.getElementById('anh1ne').src = anh1src;
+    document.getElementById('anh2ne').src = anh2src;
+    document.getElementById('anh3ne').src = anh3src;
+    document.getElementById('cmmtne').src = cccd;
+    document.getElementById('cmmsne').src = cccdback;
+    document.getElementById('acnamenem').value = acckol;
+    document.getElementById('taphu').style.display = 'block';
+    ">
+                    <td style="border:1px solid black;">@c.AccName</td>
+                    <td style="border:1px solid black;">@c.UseName</td>
+                    <td style="border:1px solid black;">@c.Name</td>
+                    <td style="border:1px solid black;">@c.BirthDay.Value.Day/@c.BirthDay.Value.Month/@c.BirthDay.Value.Year</td>
+                    <td style="border:1px solid black;">@c.PhoneNumber</td>
+                    <td style="border:1px solid black;">
+                        @c.Gmail
+                        <input hidden type="text" id="makol_@c.AccName" value="@c.AccName" />
+                        <input hidden type="text" id="cccd_@c.AccName" value="@srcCMNDmt" />
+                        <input hidden type="text" id="cccdback_@c.AccName" value="@srcCMNDms" />
+                        <input hidden type="text" id="anh1_@c.AccName" value="@anh1" />
+                        <input hidden type="text" id="anh2_@c.AccName" value="@anh2" />
+                        <input hidden type="text" id="anh3_@c.AccName" value="@anh3" />
+                    </td>
+
+                </tr>
+            }
+        </table>
+    </div>
+    <div id="taphu" style="width: 100%; height: 670px; display:none ; position: absolute; background-color: rgba(0, 0, 0, 0.4); top: 0; left: 0; ">
+        <div style="width:70%; height:80%; margin-top:3%;margin-left:15%; background-color:white;">
+            <button style="float:right; margin-top:5px ;margin-right:5px;" onclick="document.getElementById('taphu').style.display = 'none';">Thoát</button>
+            <div style="width:100%;display:flex; justify-content:center; justify-items:center; text-align:center;">
+                <div style="width:80%; display:flex;">
+                    <div style="width: 50%; padding: 5%; justify-content: center; justify-items: center; text-align: center;">CCCD mặt trước<img id="cmmtne" style="width:100%; height:200px;" src="https://i.imgur.com/VYrOt1U.jpg" /></div>
+                    <div style="width: 50%; padding: 5%; justify-content: center; justify-items: center; text-align: center;">CCCD mặt sau<img id="cmmsne" style="width:100%; height:200px;" src="https://i.imgur.com/VYrOt1U.jpg" /></div>
+                </div>
+            </div>
+            <div style="width:100%;display:flex; justify-content:center; justify-items:center; text-align:center;">
+                <img id="anh1ne" style="width: 100px; height: 100px; margin-left: 5px; margin-right: 5px; " src="https://i.imgur.com/VYrOt1U.jpg" />
+                <img id="anh2ne" style="width: 100px; height: 100px; margin-left: 5px; margin-right: 5px; " src="https://i.imgur.com/VYrOt1U.jpg" />
+                <img id="anh3ne" style="width: 100px; height: 100px; margin-left: 5px; margin-right: 5px; " src="https://i.imgur.com/VYrOt1U.jpg" />
+            </div>
+            <form style="width:100%; margin-top:15px;" method="post" action="~/Admin/XacNhanTaiKhoanKH">
+                <div style="width: 100%; display: flex; justify-content: center; justify-items: center; text-align: center;">
+                    <input hidden id="acnamenem" type="text" name="accname" />
+                    <input style="width: 70%; justify-content: center; justify-items: center; text-align: center; " type="text" name="soCM" />
+                </div>
+                <div style="width: 100%; display: flex; justify-content: center; justify-items: center; text-align: center;">
+                    <input style="margin-top:15px;" type="submit" value="Lưu" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

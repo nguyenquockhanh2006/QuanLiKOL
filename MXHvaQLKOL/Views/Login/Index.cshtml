@@ -1,0 +1,59 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>BOOKING-KOL</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.0.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="~/Context/css/Login.css" rel="stylesheet" />
+    <link href="~/Context/css/khachhang.css" rel="stylesheet" />
+    <script src="~/Context/js/Login.js" defer></script>
+</head>
+<body style="background-color: #e9ecef;">
+    <div id="menu">
+        <div id="container">
+            <div class="list"><a href="~/Home/Index">TRANG CHỦ</a></div>
+            <div class="list"><a href="~/Home/BangXepHang">BẢNG XẾP HẠNG</a></div>
+            <div class="list"><a href="~/Register/Index">ĐĂNG KÍ</a></div>
+        </div>
+    </div>
+    <div id="frmDN">
+        <div class="frm">
+            <form action="Index" method="post" name="Login">
+
+                <div><img id="img_login" src="https://i.imgur.com/pKGy9sA.png" /></div>
+                <div style="display: flex; justify-content: space-around;">
+                </div>
+                <div class="form-group">
+                    <p id="p_mail">Tên tài khoản</p>
+                    <input type="text" id="mail" name="mail" class="ip" />
+                    <p id="erUsename"></p>
+                </div>
+                <div class="form-group">
+                    <p id="p_pass">Mật khẩu</p>
+                    <input type="password" class="ip" id="pass" name="pass" /><br />
+                    <p id="erPass"></p>
+                    <input type="button" id="quen" value="Quên mật khẩu" />
+
+                </div>
+                <div class="form-group">
+                    <input id="btnDangNhap" type="submit" value="Đăng nhập" class="btn" />
+                </div>
+                <div style="display: flex; justify-content: flex-start;">
+                    <p style="margin-top: 10px;">Bạn chưa có tài khoản ? </p>
+                    <a style="margin-top: 0.6em;margin-left:0.5em" href="~/Register/Index">Đăng ký</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
+

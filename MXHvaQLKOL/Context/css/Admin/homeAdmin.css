@@ -1,0 +1,90 @@
+﻿#trangdong{
+    padding-left:2.5%;
+    padding-right:2.5%;
+    padding-top:10px;
+    
+}
+.tieudethongke{
+    width:100%;
+    float:left; 
+}
+
+.thongke {
+    width: 100%;
+    height: auto;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+    display: flex;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.solieuthongke {
+    width: 20%;
+    height: auto;
+    border: 2px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    border-style: solid;
+    border-color: green;
+}
+
+.typethongke {
+    width: 100%;
+    font-size: 20px;
+    text-align: center;
+    margin: auto;
+}
+.solieuCT {
+    width: 100%;
+    font-size: 30px;
+    font-weight: bold;
+    text-align:center;
+    margin:auto;
+}
+
+#DangBai {
+    width: 49.5%;
+    margin-right:0.5%;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+}
+
+#DangThongBao {
+    width: 49.5%;
+    margin-left: 0.5%;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+}
+
+.frmdangad {
+    width:100%;
+    height:auto;
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+}
+.chude{
+    width:100%;
+    display:flex;
+}
+
+.tieude {
+    width: 20%;
+    float: left;
+    margin: 5px;
+}
+
+.ipnhap {
+    width: 80%;
+    margin-right: 0;
+    margin: 5px;
+}
+
+.ipnhapanh {
+    margin: 5px;
+}
+

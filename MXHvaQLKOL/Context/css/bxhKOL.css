@@ -1,0 +1,77 @@
+﻿#khungchua {
+    width: 100%;
+    height: auto;
+    display: flow;
+}
+#khungtieude{
+    float:left;
+    width:100%;
+    display:flex;
+    text-align:center;
+    height:auto;
+}
+h1{
+    text-align:center;
+    width:100%;
+}
+#chualinhvuc{
+    width:100%;
+    float:left;
+    display:flex;
+    align-items:center;
+    display:none;
+}
+#chualinhvuc2 {
+    width: 100%;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display:none;
+}
+.linhvuc{
+    width:13%;
+}
+table, th, td {
+    border: 1px solid black;
+    
+}
+tr {
+    background-color: white;
+    width: 100%;
+}th{
+     text-align:center;
+ }
+th, td {
+    padding:5px;
+}
+tr:hover {
+    background-color: #E8D3E3;
+    cursor: pointer;
+}
+
+.dongdau {
+    background-color: #2c2929;
+    color: white;
+}
+#khungnoidung {
+    width: 100%;
+    float: left;
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+    justify-items:center;
+    
+}
+.anhhang {
+    width: 50px;
+    height: 50px;
+}
+.avatar {
+    width: 50px;
+    height: 50px;
+}
+#cachxep{
+    width:100%;
+
+}

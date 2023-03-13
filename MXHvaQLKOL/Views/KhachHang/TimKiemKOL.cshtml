@@ -1,0 +1,113 @@
+﻿@model IEnumerable<MXHvaQLKOL.Models.AccKOL>
+
+@{
+    ViewBag.Title = "TimKiemKOL";
+    Layout = "~/Views/Layout/_LayoutKH.cshtml";
+    //Session["id"] = "KhachHangTest1";
+    MXHvaQLKOL.Context.supportClass.ByteBaseImage bbi = new MXHvaQLKOL.Context.supportClass.ByteBaseImage();
+    MXHvaQLKOL.Models.QuanLiKOLEntities db = new MXHvaQLKOL.Models.QuanLiKOLEntities();
+    String accname = Session["id"].ToString();
+}
+
+<div style="padding-right: 10%; padding-left: 10%; background-color: #f2f2f2;">
+    <h2 style="width:100%; text-align:center; font-size:50px;">Tìm KOL</h2>
+    <div style="width:100%;">
+        <form style="width: 100%; padding-left:20%; padding-right:20%;" method="post" action="TimKiemKOL">
+            <div style="width:100%;">
+                <input style="width:100%; text-align:center;" type="text" id="dieukientim" name="dieukien" placeholder="Tên KOL muốn tìm" />
+            </div>
+            <div style="width:100%; display: flex; justify-content:center; justify-items:center; text-align:center; margin:15px;">
+                Từ: <input type="number" name="sotienfrom" min="400000" style="margin-left:30px; margin-right:30px;" />
+                Đến: <input type="number" name="sotiento" min="400000" style="margin-left:30px; margin-right:30px;" />
+            </div>
+            <div style="width:100%; display: flex; justify-content:center; margin-bottom:15px;">
+                <input type="submit" value="Tìm kiếm KOL" />
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <tr>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.Avatar)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.Gmail)
+            </th>
+            <th style="text-align:center;">
+                @Html.DisplayNameFor(model => model.GioiTinh)
+            </th>
+
+            <th></th>
+            <th>Giá thuê</th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr style="background-color:white;">
+                <td style="padding:15px; display:flex; justify-content:center; justify-items:center;">
+                    @if (item.Avatar != null)
+                    {
+                        String srcanh = bbi.ByteToString(item.Avatar);
+                        <img style="width:100px; height:100px; border-radius:15%;" src="@srcanh" />
+                    }
+                    else
+                    {
+                        <img style="width: 100px; height: 100px; border-radius: 15%;" src="https://i.imgur.com/bRJdUtb.jpg" />
+                    }
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gmail)
+                </td>
+                <td style="text-align:center;">
+                    @Html.DisplayFor(modelItem => item.GioiTinh)
+                </td>
+                <td style="text-align:center; justify-content:center;">
+                    @if (db.Follows.Where(x=>x.AccDuocFl == item.AccName && x.AccFl == accname).FirstOrDefault() != null)
+                    {
+                        <button style="background-color: green; width: 130px; ">
+                            <a style="color: white;" href="~/KhachHang/FollowTim?id=@item.AccName">Đang theo dõi</a>
+                        </button>
+                    }
+                    else
+                    {
+                        <button style="background-color:red; width:130px;">
+                            <a style="color: white;" href="~/KhachHang/FollowTim?id=@item.AccName">Theo dõi</a>
+                        </button>
+                    }
+                </td>
+                <td style="text-align:center; justify-content:center;">
+                    @{ MXHvaQLKOL.Context.supportClass.tinhtien tt = new MXHvaQLKOL.Context.supportClass.tinhtien(item);
+                        
+                        }
+                    @tt.Tien VND
+                </td>
+                <td style="text-align:center; justify-content:center;">
+                    <button>
+                        <a href="~/KhachHang/KhachXemKOL?id=@item.AccName">Xem chi tiết</a>
+                    </button>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
